@@ -32,12 +32,7 @@
 	THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#include <iostream>
-#include <string>
-#include <boost/filesystem.hpp>
-
 #include "app.h"
-// #include "config.h"
 #include "commandline.h"
 #include "ui.h"
 
