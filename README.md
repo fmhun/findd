@@ -3,7 +3,7 @@
 
 ## Install Dependancies
 
-The project depends of the following libraries :
+The project depends on the following libraries :
 
 + [gflags 2.0](http://code.google.com/p/gflags)
 + [boost 1.52.0](http://www.boost.org/)
