@@ -35,20 +35,20 @@ INCLUDES =
 CFLAGS = $(INCLUDES) -W -Wall -ansi -pendic
 
 SRC_DIR = src
-SRCOBJS = file.o filelist.o duplicate.o filter.o scanner.o config.o app.o ui.o commandline.o main.o
+SRCOBJS = file.o filelist.o duplicate.o filter.o scanner.o config.o app.o ui.o commandline.o
 DEPS_LIB = -lgflags -lboost_system -lboost_filesystem
 
 TEST_SRCS_DIR = unittest
-TEST_OBJS = filetest.o filelisttest.o duplicatetest.o filtertest.o scannertest.o configtest.o apptest.o uitest.o commandlinetest.o testrunner.o
+TEST_OBJS = filetest.o filelisttest.o duplicatetest.o filtertest.o scannertest.o configtest.o apptest.o uitest.o commandlinetest.o
 TEST_LIB = -lcppunit
 
 all: findd clean
 
-findd: $(SRCOBJS)
+findd: $(SRCOBJS) main.o
 	$(CXX) $(CFLAGS) $^ -o $@ $(DEPS_LIB)
 
-test: $(TEST_OBJS)
-	$(CXX) $(CFLAGS) $^ -o $@ $(TEST_LIB)
+test: $(SRCOBJS) $(TEST_OBJS) testrunner.o
+	$(CXX) $(CFLAGS) $^ -o $@ $(DEPS_LIB) $(TEST_LIB)
 
 %.o: $(SRC_DIR)/%.cc
 	$(CXX) $(CFLAGS) -c $< -o $@
