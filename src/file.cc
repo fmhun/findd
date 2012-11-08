@@ -31,8 +31,47 @@
 	(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
 	THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
-	
+
+#include <string>	
+
 #include "file.h"
 
-File::File() {
+File::File () {
+	
+}
+
+bool File::drop () {
+	
+}
+
+std::string File::name () const {
+	return _name;
+}
+
+void File::set_name (std::string &name) {
+	_name = name;
+}
+
+std::string File::path () const {
+	return _path;
+}
+
+void File::set_path (std::string &path) {
+	_path = path;
+}
+
+std::string File::content_digest () const {
+	return _content_digest;
+}
+
+void File::set_content_digest (std::string &content_digest) {
+	_content_digest = content_digest;
+}
+
+int File::size () const {
+	return _size;
+}
+
+void File::set_size (int size) {
+	_size = size;
 }
