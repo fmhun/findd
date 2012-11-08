@@ -5,15 +5,23 @@
 #include <cppunit/extensions/HelperMacros.h>
 
 class ScannerTest : public CppUnit::TestFixture {
-  CPPUNIT_TEST_SUITE( ScannerTest );
-  //CPPUNIT_TEST( testSomething );
-  CPPUNIT_TEST_SUITE_END();
+	CPPUNIT_TEST_SUITE( ScannerTest );
+	CPPUNIT_TEST( testScan );
+	CPPUNIT_TEST_SUITE_END();
 
- public:
-  void setUp ();
-  void tearDown ();
+public:
+	void setUp ();
+	void tearDown ();
 
-  //void testSomething(void); 
+	void testScan ();
+
+	// void testScanWithDirectoryThatNotExisting ();
+	// void testScanWithManyDirectory ();
+	// void testRecursiveScan ();
+	// 
+	// // Test this kind of directories : /home /home/florian
+	// // It should only scan /home
+	// void testManyRecursiveScanWithManyDirectory ();
 };
 
 #endif // FINDD_SCANNERTEST_H_

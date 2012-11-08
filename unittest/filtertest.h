@@ -10,10 +10,14 @@ class FilterTest : public CppUnit::TestFixture {
   CPPUNIT_TEST_SUITE_END();
 
  public:
-  void setUp ();
-  void tearDown ();
+	void setUp ();
+	void tearDown ();
 
-  //void testSomething(void); 
+	// void testFilteringByName ();
+	// void testFilteringByNameAndSize ();
+	// void testFilteringByNameAndContent ();
+	// void testFilteringBySizeAndContent ();
+	// void testFilteringByNameAndSizeAndContent ();
 };
 
 #endif // FINDD_FILTERTEST_H_

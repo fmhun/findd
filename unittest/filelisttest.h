@@ -9,11 +9,13 @@ class FileListTest : public CppUnit::TestFixture {
   //CPPUNIT_TEST( testSomething );
   CPPUNIT_TEST_SUITE_END();
 
- public:
-  void setUp ();
-  void tearDown ();
+public:
+	void setUp ();
+	void tearDown ();
 
-  //void testSomething(void); 
+	// void testCreateFileListFromBackup ();
+	// void testCreateFileListFromInvalidBackup ();
+  
 };
 
 #endif // FINDD_FILELISTTEST_H_
