@@ -35,7 +35,7 @@ INCLUDES =
 CFLAGS = $(INCLUDES) -W -Wall -ansi -pendic
 
 SRC_DIR = src
-SRCOBJS = file.o filelist.o duplicate.o filter.o scanner.o config.o app.o ui.o commandline.o
+SRCOBJS = utils.o file.o filelist.o duplicate.o filter.o scanner.o config.o app.o ui.o commandline.o
 DEPS_LIB = -lgflags -lboost_system -lboost_filesystem
 
 TEST_SRCS_DIR = unittest
