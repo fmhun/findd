@@ -41,7 +41,7 @@ File::File () {
 }
 
 bool File::drop () {
-	
+	return true;
 }
 
 std::string File::name () const {
