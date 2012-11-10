@@ -35,8 +35,23 @@
 #ifndef FINDD_FILELIST_H
 #define FINDD_FILELIST_H
 
-class FileList
-{
+#include <exception>
+
+class FileListException : public std::exception {
+public:
+  virtual ~FileListException() throw();
+  
+  virtual const char* what() const throw();
+};
+
+class InvalidBackupException : public FileListException {
+public:
+  virtual ~InvalidBackupException() throw();
+
+  virtual const char* what() const throw();
+};
+
+class FileList {
 public:
 	FileList();
 };
