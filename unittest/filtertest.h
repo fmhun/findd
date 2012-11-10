@@ -12,12 +12,27 @@ class FilterTest : public CppUnit::TestFixture {
  public:
 	void setUp ();
 	void tearDown ();
-
-	// void testFilteringByName ();
-	// void testFilteringByNameAndSize ();
-	// void testFilteringByNameAndContent ();
-	// void testFilteringBySizeAndContent ();
-	// void testFilteringByNameAndSizeAndContent ();
+    
+  /**
+   * Filter mode to compare files :
+   *  - C : content
+   *  - S : size
+   *  - N : name
+   */
+  void testCompareDifferentFilesByTheirContent ();
+  void testCompareDifferentFilesByTheirContent ();
+  void testCompareDifferentFilesByTheirContent ();
+  void testCompareDifferentFilesByTheirContent ();
+  void testCompareDifferentFilesByTheirContent ();
+  void testCompareIdenticalFiles ();
+  
+  
+  // Test only filtering and not compare function. It doesn't make sense to test filtering for each combination of 
+  // filter modes because it's tested by testCompare* tests.
+	
+  void testFileListFilteringWithNoDuplicate ();
+	void testFileListFilteringWithDuplicates ();
+  
 };
 
 #endif // FINDD_FILTERTEST_H_

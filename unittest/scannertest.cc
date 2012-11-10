@@ -12,9 +12,3 @@ void ScannerTest::setUp () {
 void ScannerTest::tearDown () {
 	
 }
-
-void ScannerTest::testScan () {
-	Scanner scanner;
-	
-	scanner.scan("./unittest");
-}

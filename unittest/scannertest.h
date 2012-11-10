@@ -6,22 +6,18 @@
 
 class ScannerTest : public CppUnit::TestFixture {
 	CPPUNIT_TEST_SUITE( ScannerTest );
-	CPPUNIT_TEST( testScan );
 	CPPUNIT_TEST_SUITE_END();
 
 public:
 	void setUp ();
 	void tearDown ();
 
-	void testScan ();
-
-	// void testScanWithDirectoryThatNotExisting ();
-	// void testScanWithManyDirectory ();
-	// void testRecursiveScan ();
-	// 
-	// // Test this kind of directories : /home /home/florian
-	// // It should only scan /home
-	// void testManyRecursiveScanWithManyDirectory ();
+  void testScanWithDirectoryThatNotExists ();
+  void testScanWithManyDirectoryOneNotExists ();
+  
+  void testRecursiveScanWithOneDirectory ();
+  void testRecursiveScanWithManyDirectoriesNotChildOfAnOther ();    // /home and /usr
+  void testRecursiveScanWithManyDirectoriesOneIsAChildOfAnOther (); // /home and /home/foo
 };
 
 #endif // FINDD_SCANNERTEST_H_

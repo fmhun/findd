@@ -13,9 +13,11 @@ public:
 	void setUp ();
 	void tearDown ();
 
-	// void testCreateFileListFromBackup ();
-	// void testCreateFileListFromInvalidBackup ();
+	void testCreateFileListFromValidBackup ();
+	void testCreateFileListFromInvalidBackup ();
   
+  void testSaveWithValidPath ();
+  void testSaveWithInvalidPath ();
 };
 
 #endif // FINDD_FILELISTTEST_H_
