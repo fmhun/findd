@@ -35,11 +35,14 @@
 #ifndef FINDD_COMMANDLINE_H_
 #define FINDD_COMMANDLINE_H_
 
+#define STRIP_FLAG_HELP 1
+
 #include "ui.h"
 
-class CommandLine : Ui {
+class CommandLine : public Ui {
 public:
 	CommandLine ();
+  virtual ~CommandLine ();
 	void ParseArgs (int &argc, char **argv);
 };
 

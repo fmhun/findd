@@ -31,13 +31,17 @@
 	(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
 	THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
-	
+
 #include "commandline.h"
 
 #include <gflags/gflags.h>
-#include <iostream>
-		
+
+// define flags here :
+// DEFINE_bool( NAME, false, "Search duplicates with the file name criteria" );
+
 CommandLine::CommandLine () {}
+
+CommandLine::~CommandLine () {}
 
 void CommandLine::ParseArgs (int &argc, char **argv) {
 	google::ParseCommandLineFlags(&argc, &argv, true);
