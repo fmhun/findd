@@ -31,29 +31,39 @@
 # THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 CXX = g++
-INCLUDES = 
-CFLAGS = $(INCLUDES) -W -Wall -ansi -pendic
+CFLAGS = -W -Wall -ansi -pendic
 
 SRC_DIR = src
 SRCOBJS = utils.o file.o filelist.o duplicate.o filter.o scanner.o config.o app.o ui.o commandline.o
 DEPS_LIB = -lgflags -lboost_system -lboost_filesystem
+PROG_MAIN_SRC = main.cc
 
-TEST_SRCS_DIR = unittest
+TEST_DIR = unittest
 TEST_OBJS = filetest.o filelisttest.o duplicatetest.o filtertest.o scannertest.o configtest.o apptest.o uitest.o commandlinetest.o
 TEST_LIB = -lcppunit
+TEST_PROG_SRC = testrunner.cc
 
 all: findd clean
 
-findd: $(SRCOBJS) main.o
+findd: $(SRCOBJS) $(PROG_MAIN_SRC:.cc=.o)
 	$(CXX) $(CFLAGS) $^ -o $@ $(DEPS_LIB)
 
-test: $(SRCOBJS) $(TEST_OBJS) testrunner.o
+check: test
+	@./test
+
+test: $(SRCOBJS) $(TEST_OBJS) $(TEST_PROG_SRC:.cc=.o)
 	$(CXX) $(CFLAGS) $^ -o $@ $(DEPS_LIB) $(TEST_LIB)
 
-%.o: $(SRC_DIR)/%.cc
+$( PROG_MAIN_SRC:.cc=.o): $(SRC_DIR)/$(PROG_MAIN_SRC)
 	$(CXX) $(CFLAGS) -c $< -o $@
 
-%.o: $(TEST_SRCS_DIR)/%.cc
+$( TEST_PROG_SRC:.cc=.o): $(TEST_DIR)/$(TEST_PROG_SRC)
+	$(CXX) $(CFLAGS) -c $< -o $@
+
+%.o: $(SRC_DIR)/%.cc $(SRC_DIR)/%.h
+	$(CXX) $(CFLAGS) -c $< -o $@
+
+%.o: $(TEST_DIR)/%.cc $(TEST_DIR)/%.h
 	$(CXX) $(CFLAGS) -I$(SRC_DIR) -c $< -o $@
 
 .PHONY: clean
