@@ -32,35 +32,36 @@
 	THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-
-
 #ifndef FINDD_FILE_H
 #define FINDD_FILE_H
 
 #include <string> 
 
-class File {
-public:
-	File ();
-	bool drop ();
-	
-	std::string name () const;
-	void set_name (std::string &);
-	
-	std::string path () const;
-	void set_path (std::string &);
-	
-	std::string content_digest () const;
-	void set_content_digest (std::string &);
-	
-	int size () const;
-	void set_size (int);
+namespace findd {
 
-private:
-	std::string _name; 
-	std::string _path; 
-	std::string _content_digest;
-	int _size;
-};
+  class File {
+  public:
+  	File ();
+  	bool drop ();
+	
+  	std::string name () const;
+  	void set_name (std::string &);
+	
+  	std::string path () const;
+  	void set_path (std::string &);
+	
+  	std::string content_digest () const;
+  	void set_content_digest (std::string &);
+	
+  	int size () const;
+  	void set_size (int);
+  private:
+  	std::string _name; 
+  	std::string _path; 
+  	std::string _content_digest;
+  	int _size;
+  };
+    
+}
 
 #endif

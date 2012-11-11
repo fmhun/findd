@@ -32,20 +32,23 @@
 	THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#ifndef FINDD_APP_H
-#define FINDD_APP_H
+#ifndef FINDD_APP_H_
+#define FINDD_APP_H_
 
 #include "config.h"
 
-class App {
-public:
-	App();
-	
-	int execute ();
-	
-	Config &config();
-private:
-	Config _config;
-};
+namespace findd {
 
-#endif
+  class App {
+  public:
+  	App();
+	
+  	int execute ();
+	
+  	Config &config();
+  private:
+  	Config _config;
+  };
+
+}
+#endif // FINDD_APP_H_

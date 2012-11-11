@@ -31,22 +31,27 @@
 	(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
 	THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
-
+    
 #include "app.h"
 #include "commandline.h"
 #include "ui.h"
 
-int main (int argc, char ** argv) {
-	Ui* cmdline = (Ui*) new CommandLine();
-	
-	App* app = new App();
-	cmdline->bind(app);
-	
-	((CommandLine*) cmdline)->ParseArgs(argc, argv);
-	
-	int status = app->execute();
-	delete cmdline;
-	delete app;
+using findd::App;
+using findd::Ui;
+using findd::CommandLine;
 
-	return status;
+int main (int argc, char ** argv) {
+  Ui* cmdline = (Ui*) new CommandLine();
+  
+  App* app = new App();
+  cmdline->bind(app);
+  
+  ((CommandLine*) cmdline)->ParseArgs(argc, argv);
+  
+  int status = app->execute();
+  
+  delete cmdline;
+  delete app;
+
+  return status;
 }

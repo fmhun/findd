@@ -32,22 +32,21 @@
 	THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-
-//#include <gflags/gflags.h>
-
 #include "app.h"
 
-App::App () {}
+namespace findd {
+  App::App () {}
 
-int App::execute () {
-	// Filters::FILE | Filters::CONTENT
-	// 
-	// Analyzer *analyser = new Analyzer(filters());
-	// 
-	// analyser->process(fl);
+  int App::execute () {
+  	// Filters::FILE | Filters::CONTENT
+  	// 
+  	// Analyzer *analyser = new Analyzer(filters());
+  	// 
+  	// analyser->process(fl);
 
-//	anyliser->compare()
-	return 0;
+  //	anyliser->compare()
+  	return 0;
+  }
+
+  Config &App::config() { return _config; }
 }
-
-Config &App::config() { return _config; }

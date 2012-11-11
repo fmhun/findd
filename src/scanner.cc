@@ -34,4 +34,8 @@
 
 #include "scanner.h"
 
-Scanner::Scanner () {}
+namespace findd {
+  
+  Scanner::Scanner () {}
+  
+}

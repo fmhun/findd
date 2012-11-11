@@ -34,16 +34,20 @@
 
 #include "filelist.h"
 
-FileListException::~FileListException() throw() {}
+namespace findd {
 
-const char* FileListException::what() const throw() {
-  return "FileList error";
+  FileListException::~FileListException() throw() {}
+
+  const char* FileListException::what() const throw() {
+    return "FileList error";
+  }
+
+  InvalidBackupException::~InvalidBackupException() throw() {}
+
+  const char* InvalidBackupException::what() const throw() {
+    return "invalid backup input file";
+  }
+
+  FileList::FileList() {}
+  
 }
-
-InvalidBackupException::~InvalidBackupException() throw() {}
-
-const char* InvalidBackupException::what() const throw() {
-  return "invalid backup input file";
-}
-
-FileList::FileList() {}

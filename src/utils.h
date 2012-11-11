@@ -34,8 +34,12 @@
 		
 #include <string>
 
-namespace utils {
+namespace findd {
+  
+  namespace utils {
 	
-	std::string sha1 (std::string);
+	  std::string sha1 (std::string);
 	
+  }
+  
 }

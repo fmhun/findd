@@ -37,23 +37,27 @@
 
 #include <exception>
 
-class FileListException : public std::exception {
-public:
-  virtual ~FileListException() throw();
+namespace findd {
   
-  virtual const char* what() const throw();
-};
+  class FileListException : public std::exception {
+  public:
+    virtual ~FileListException() throw();
+  
+    virtual const char* what() const throw();
+  };
 
-class InvalidBackupException : public FileListException {
-public:
-  virtual ~InvalidBackupException() throw();
+  class InvalidBackupException : public FileListException {
+  public:
+    virtual ~InvalidBackupException() throw();
 
-  virtual const char* what() const throw();
-};
+    virtual const char* what() const throw();
+  };
 
-class FileList {
-public:
-	FileList();
-};
+  class FileList {
+  public:
+  	FileList();
+  };
+
+}
 
 #endif

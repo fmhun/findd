@@ -35,21 +35,23 @@
 #ifndef FINDD_CONFIG_H_
 #define FINDD_CONFIG_H_
 
-class CommandLine;
+namespace findd {
 
+  class CommandLine;
 
-class Config
-{	
-public:
-	Config ();
-	~Config ();
+  class Config {
+  public:
+  	Config ();
+  	~Config ();
 	
-	void restoreDefaultValues ();
+  	void restoreDefaultValues ();
 
-	bool recursive () const;
-	void set_recursive (const bool);
-private:	
-	bool _recursive;
-};
+  	bool recursive () const;
+  	void set_recursive (const bool);
+  private:	
+  	bool _recursive;
+  };  
+
+}
 
 #endif	// FINDD_CONFIG_H_

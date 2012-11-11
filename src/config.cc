@@ -34,17 +34,20 @@
 
 #include "config.h"
 
-Config::Config ()
-{
-	restoreDefaultValues();
+namespace findd {
+      
+  Config::Config () {
+  	restoreDefaultValues();
+  }
+
+  Config::~Config () {}
+
+  void Config::restoreDefaultValues () {
+  	_recursive = true;
+  }
+
+  bool Config::recursive () const { return _recursive; }
+
+  void Config::set_recursive (bool recursive) { _recursive = recursive; }
+    
 }
-
-Config::~Config () {}
-
-void Config::restoreDefaultValues () {
-	_recursive = true;
-}
-
-bool Config::recursive () const { return _recursive; }
-
-void Config::set_recursive (bool recursive) { _recursive = recursive; }

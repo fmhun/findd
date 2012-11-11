@@ -36,12 +36,16 @@
 
 #include "app.h"
 
-Ui::Ui () {}
+namespace findd {
+  
+  Ui::Ui () {}
 
-Ui::~Ui () {
-	// do not delete _dev_app !
-}
+  Ui::~Ui () {
+  	// do not delete _dev_app !
+  }
 
-void Ui::bind(App *app) {
-	_dev_app = app;
+  void Ui::bind(findd::App *app) {
+  	_dev_app = app;
+  }
+  
 }

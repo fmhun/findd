@@ -33,5 +33,9 @@
 */
 
 #include "duplicate.h"
-		
-Duplicate::Duplicate() {}
+
+namespace findd {
+  
+  Duplicate::Duplicate() {}
+
+}

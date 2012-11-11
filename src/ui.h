@@ -35,15 +35,19 @@
 #ifndef FINDD_UI_H_
 #define FINDD_UI_H_
 
-class App;
-
-class Ui {
-public:
-	Ui();
-	~Ui();
-	void bind (App *);
-protected:
-	App *_dev_app;
-};
+namespace findd {
+  
+  class App;
+  
+  class Ui {
+  public:
+  	Ui ();
+  	virtual ~Ui ();
+  	void bind (findd::App *);
+  protected:
+  	findd::App *_dev_app;
+  };
+  
+}
 
 #endif

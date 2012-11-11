@@ -35,10 +35,13 @@
 #ifndef FINDD_DUPLICATE_H
 #define FINDD_DUPLICATE_H
 
-class Duplicate
-{
-public:
-	Duplicate();
-};
+namespace findd {
+
+  class Duplicate {
+  public:
+  	Duplicate();
+  };
+
+}
 
 #endif

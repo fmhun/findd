@@ -36,10 +36,14 @@
 
 #include <string>
 
-namespace utils {
+namespace findd {
+  
+  namespace utils {
 	
-	std::string sha1 (std::string str) {
-		return "sha1";
-	}
+  	std::string sha1 (std::string str) {
+  		return "sha1";
+  	}
 	
+  }
+  
 }		

@@ -35,10 +35,13 @@
 #ifndef FINDD_FILTER_H
 #define FINDD_FILTER_H
 
-class Filter
-{
-public:
-	Filter();
-};
+namespace findd {
+
+  class Filter {
+  public:
+  	Filter();
+  };
+
+}
 
 #endif

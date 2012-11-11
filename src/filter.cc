@@ -34,4 +34,8 @@
 
 #include "filter.h"
 
-Filter::Filter() {}
+namespace findd {
+  
+  Filter::Filter() {}
+  
+}

@@ -36,42 +36,44 @@
 
 #include "file.h"
 
-File::File () {
-	
-}
+namespace findd {
+  
+  File::File () {}
 
-bool File::drop () {
-	return true;
-}
+  bool File::drop () {
+  	return true;
+  }
 
-std::string File::name () const {
-	return _name;
-}
+  std::string File::name () const {
+  	return _name;
+  }
 
-void File::set_name (std::string &name) {
-	_name = name;
-}
+  void File::set_name (std::string &name) {
+  	_name = name;
+  }
 
-std::string File::path () const {
-	return _path;
-}
+  std::string File::path () const {
+  	return _path;
+  }
 
-void File::set_path (std::string &path) {
-	_path = path;
-}
+  void File::set_path (std::string &path) {
+  	_path = path;
+  }
 
-std::string File::content_digest () const {
-	return _content_digest;
-}
+  std::string File::content_digest () const {
+  	return _content_digest;
+  }
 
-void File::set_content_digest (std::string &content_digest) {
-	_content_digest = content_digest;
-}
+  void File::set_content_digest (std::string &content_digest) {
+  	_content_digest = content_digest;
+  }
 
-int File::size () const {
-	return _size;
-}
+  int File::size () const {
+  	return _size;
+  }
 
-void File::set_size (int size) {
-	_size = size;
+  void File::set_size (int size) {
+  	_size = size;
+  }
+  
 }

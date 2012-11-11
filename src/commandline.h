@@ -39,11 +39,15 @@
 
 #include "ui.h"
 
-class CommandLine : public Ui {
-public:
-	CommandLine ();
-  virtual ~CommandLine ();
-	void ParseArgs (int &argc, char **argv);
-};
+namespace findd {
+  
+  class CommandLine : public Ui {
+  public:
+  	CommandLine ();
+    virtual ~CommandLine ();
+  	void ParseArgs (int &argc, char **argv);
+  };
+      
+}
 
 #endif	// FINDD_COMMANDLINE_H_

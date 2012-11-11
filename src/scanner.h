@@ -39,21 +39,25 @@
 #include <string>
 #include <boost/filesystem.hpp>
 
-namespace fs = ::boost::filesystem;
+namespace findd {
+  
+  namespace fs = ::boost::filesystem;
 
-class Scanner {
-public:
-	Scanner();
+  class Scanner {
+  public:
+  	Scanner();
 	
-	void scan (const std::string &directory) {
-		fs::path p(directory);
+  	void scan (const std::string &directory) {
+  		fs::path p(directory);
 		
-		if (fs::is_regular_file(p)) {
-			//std::cout << "it exists";
-		} else if (fs::is_directory(p)) {
+  		if (fs::is_regular_file(p)) {
+  			//std::cout << "it exists";
+  		} else if (fs::is_directory(p)) {
 			
-		}
-	}
-};
+  		}
+  	}
+  };
+
+}
 
 #endif
