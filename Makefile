@@ -54,10 +54,10 @@ check: test
 test: $(SRCOBJS) $(TEST_OBJS) $(TEST_PROG_SRC:.cc=.o)
 	$(CXX) $(CFLAGS) $^ -o $@ $(DEPS_LIB) $(TEST_LIB)
 
-$( PROG_MAIN_SRC:.cc=.o): $(SRC_DIR)/$(PROG_MAIN_SRC)
+$(PROG_MAIN_SRC:.cc=.o): $(SRC_DIR)/$(PROG_MAIN_SRC)
 	$(CXX) $(CFLAGS) -c $< -o $@
 
-$( TEST_PROG_SRC:.cc=.o): $(TEST_DIR)/$(TEST_PROG_SRC)
+$(TEST_PROG_SRC:.cc=.o): $(TEST_DIR)/$(TEST_PROG_SRC)
 	$(CXX) $(CFLAGS) -c $< -o $@
 
 %.o: $(SRC_DIR)/%.cc $(SRC_DIR)/%.h
