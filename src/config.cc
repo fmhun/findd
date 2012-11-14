@@ -43,11 +43,7 @@ namespace findd {
   Config::~Config () {}
 
   void Config::restoreDefaultValues () {
-  	_recursive = true;
+  	recursive = true;
   }
-
-  bool Config::recursive () const { return _recursive; }
-
-  void Config::set_recursive (bool recursive) { _recursive = recursive; }
     
 }

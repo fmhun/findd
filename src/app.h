@@ -35,19 +35,29 @@
 #ifndef FINDD_APP_H_
 #define FINDD_APP_H_
 
+#include <string>
+
 #include "config.h"
 
 namespace findd {
-
+  
+  class Ui;
+  
   class App {
   public:
-  	App();
-	
+  	App ();
+
   	int execute ();
-	
-  	Config &config();
-  private:
+    void bind (Ui *);
+
+  	Config &config ();
+  protected:
+    void load_file_list ();
+    void search_duplicates ();
+    
+    Ui *_dev_ui;
   	Config _config;
+    std::string _term_message;
   };
 
 }

@@ -40,12 +40,6 @@ namespace findd {
   
   Ui::Ui () {}
 
-  Ui::~Ui () {
-  	// do not delete _dev_app !
-  }
-
-  void Ui::bind(findd::App *app) {
-  	_dev_app = app;
-  }
+  Ui::~Ui () {}
   
 }

@@ -35,18 +35,38 @@
 #include "app.h"
 
 namespace findd {
+  
   App::App () {}
 
   int App::execute () {
-  	// Filters::FILE | Filters::CONTENT
-  	// 
-  	// Analyzer *analyser = new Analyzer(filters());
-  	// 
-  	// analyser->process(fl);
-
-  //	anyliser->compare()
-  	return 0;
+    // try {
+    //   load_file_list();
+    //   search_duplicates();
+    // } catch FinddException &e {
+    //   _term_message = e.what();
+    //   return -1;
+    // }
+    
+    return 0;
   }
-
-  Config &App::config() { return _config; }
+  
+  void App::load_file_list () {
+    // if (_config.backup) {
+    //   // load filelist from the backup
+    // } else {
+    //   if (_config.directories) {
+    //     // perform new scan
+    //   } else {
+    //     throw ArgumentException("no input directories to scan");
+    //   }
+    // }
+  }
+  
+  void App::search_duplicates () {}
+  
+  void App::bind (Ui *ui) {
+  	_dev_ui = ui;
+  }
+  
+  Config &App::config () { return _config; }
 }

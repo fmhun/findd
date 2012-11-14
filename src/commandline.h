@@ -35,17 +35,54 @@
 #ifndef FINDD_COMMANDLINE_H_
 #define FINDD_COMMANDLINE_H_
 
-#define STRIP_FLAG_HELP 1
-
+#include <boost/program_options.hpp>
+#include <string>
+#include <exception>
+    
 #include "ui.h"
 
 namespace findd {
+  
+  class App; class Config;
+  
+  // class CommandLineException : public std::exception {
+  // public:
+  //   virtual ~CommandLineException () throw() {}
+  // 
+  //   virtual const char* what () const throw() {
+  //     return "command line error";
+  //   }
+  // };
+  // 
+  // class ArgumentException : public CommandLineException {
+  // public:
+  //   ArgumentException () {}
+  //   virtual ~ArgumentException() throw() {}
+  // 
+  //   virtual const char* what() const throw() {
+  //     return "findd: illegal option";
+  //   }
+  // };
   
   class CommandLine : public Ui {
   public:
   	CommandLine ();
     virtual ~CommandLine ();
-  	void ParseArgs (int &argc, char **argv);
+    
+    int run (App &);
+  	void parse (Config &, const int &, char **);
+    
+    void dialog (const std::string &, const UiMessageType) const;
+    
+    void out (const std::string &) const;
+    void err (const std::string &) const;
+  private:
+  	const std::string help () const;
+    const std::string version () const;
+    
+    int _argc;
+    char **_argv;
+    boost::program_options::variables_map *_flags;
   };
       
 }

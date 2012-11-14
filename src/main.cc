@@ -36,22 +36,20 @@
 #include "commandline.h"
 #include "ui.h"
 
+#include <boost/program_options.hpp>
+#include <iostream>
+
 using findd::App;
 using findd::Ui;
 using findd::CommandLine;
+//using findd::CommandLineException;
 
-int main (int argc, char ** argv) {
-  Ui* cmdline = (Ui*) new CommandLine();
-  
-  App* app = new App();
-  cmdline->bind(app);
-  
-  ((CommandLine*) cmdline)->ParseArgs(argc, argv);
-  
-  int status = app->execute();
-  
-  delete cmdline;
-  delete app;
+int main (int argc, char ** argv) {  
+  App app;
+  CommandLine cmdline;
 
-  return status;
+  cmdline.parse(app.config(), argc, argv);
+
+  return cmdline.run(app);
+  return 0;
 }

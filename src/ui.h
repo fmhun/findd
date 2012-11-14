@@ -35,17 +35,24 @@
 #ifndef FINDD_UI_H_
 #define FINDD_UI_H_
 
+#include <string>
+
 namespace findd {
   
   class App;
+  
+  enum UiMessageType {
+    INFO  = 1,
+    ERROR = 2
+  };
   
   class Ui {
   public:
   	Ui ();
   	virtual ~Ui ();
-  	void bind (findd::App *);
-  protected:
-  	findd::App *_dev_app;
+    
+    virtual int run (App &) = 0;
+    virtual void dialog (const std::string &, const UiMessageType) const = 0;
   };
   
 }

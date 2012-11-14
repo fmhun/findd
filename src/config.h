@@ -37,19 +37,14 @@
 
 namespace findd {
 
-  class CommandLine;
-
   class Config {
   public:
   	Config ();
-  	~Config ();
-	
-  	void restoreDefaultValues ();
+    virtual	~Config ();
 
-  	bool recursive () const;
-  	void set_recursive (const bool);
-  private:	
-  	bool _recursive;
+  	void restoreDefaultValues ();
+    
+    bool recursive;
   };  
 
 }
