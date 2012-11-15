@@ -13,7 +13,7 @@ class ConfigTest : public CppUnit::TestFixture {
   void setUp ();
   void tearDown ();
 
-  //void testSomething(void); 
+  void testRestoreDefaultValues ();
 };
 
 #endif // FINDD_CONFIGTEST_H
