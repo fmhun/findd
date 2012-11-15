@@ -12,3 +12,11 @@ void DuplicateTest::setUp () {
 void DuplicateTest::tearDown () {
 	
 }
+
+void DuplicateTest::testGetMinGainOfBytes () {
+  
+}
+
+void DuplicateTest::testGetMaxGainOfBytes () {
+  
+}

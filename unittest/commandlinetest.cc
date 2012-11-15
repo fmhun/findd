@@ -12,3 +12,11 @@ void CommandlineTest::setUp () {
 void CommandlineTest::tearDown () {
 	
 }
+
+void CommandlineTest::testParseArgsWithValidFlags () {
+  
+}
+
+void CommandlineTest::testParseArgsWithInvalidFLags () {
+  
+}

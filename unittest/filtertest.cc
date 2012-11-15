@@ -12,3 +12,39 @@ void FilterTest::setUp () {
 void FilterTest::tearDown () {
 	
 }
+
+void FilterTest::testCompareFilesByTheirContent () {
+  
+}
+
+void FilterTest::testCompareFilesByTheirSize () {
+  
+}
+
+void FilterTest::testCompareFilesByTheirName () {
+  
+}
+
+void FilterTest::testCompareFilesByTheirContentAndSize () {
+  
+}
+
+void FilterTest::testCompareFilesByTheirContentAndName () {
+  
+}
+
+void FilterTest::testCompareFilesByTheirSizeAndName () {
+  
+}
+
+void FilterTest::testCompareFilesByTheirContentSizeName () {
+  
+}
+
+void FilterTest::testFileListFilteringWithNoDuplicate () {
+  
+}
+
+void FilterTest::testFileListFilteringWithDuplicates () {
+  
+}

@@ -12,3 +12,11 @@ void FileTest::setUp () {
 void FileTest::tearDown () {
 	
 }
+
+void FileTest::testDeleteWhenFileExists () {
+  
+}
+
+void FileTest::testDeleteWhenFileNotExists () {
+  
+}

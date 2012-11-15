@@ -12,3 +12,19 @@ void FileListTest::setUp () {
 void FileListTest::tearDown () {
 	
 }
+
+void FileListTest::testCreateFileListFromValidBackup () {
+  
+}
+
+void FileListTest::testCreateFileListFromInvalidBackup () {
+  
+}
+
+void FileListTest::testSaveWithValidPath () {
+  
+}
+
+void FileListTest::testSaveWithInvalidPath () {
+  
+}

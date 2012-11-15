@@ -39,7 +39,7 @@ DEPS_LIB = -lgflags -lboost_program_options -lboost_system -lboost_filesystem
 PROG_MAIN_SRC = main.cc
 
 TEST_DIR = unittest
-TEST_OBJS = filetest.o filelisttest.o duplicatetest.o filtertest.o scannertest.o configtest.o apptest.o uitest.o commandlinetest.o
+TEST_OBJS = filetest.o filelisttest.o duplicatetest.o filtertest.o scannertest.o configtest.o apptest.o commandlinetest.o
 TEST_LIB = -lcppunit
 TEST_PROG_SRC = testrunner.cc
 
@@ -58,7 +58,7 @@ $(PROG_MAIN_SRC:.cc=.o): $(SRC_DIR)/$(PROG_MAIN_SRC)
 	$(CXX) $(CFLAGS) -c $< -o $@
 
 $(TEST_PROG_SRC:.cc=.o): $(TEST_DIR)/$(TEST_PROG_SRC)
-	$(CXX) $(CFLAGS) -c $< -o $@
+	$(CXX) $(CFLAGS) -I$(SRC_DIR) -c $< -o $@
 
 %.o: $(SRC_DIR)/%.cc $(SRC_DIR)/%.h
 	$(CXX) $(CFLAGS) -c $< -o $@
