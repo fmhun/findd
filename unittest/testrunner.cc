@@ -1,16 +1,15 @@
 // ui
-#include "uitest.h"
 #include "commandlinetest.h"
 #include "configtest.h"
 
 // scanning
-#include "file.h"
-#include "filelist.h"
-#include "scanner.h"
+#include "filetest.h"
+#include "filelisttest.h"
+#include "scannertest.h"
 
 // filtering
-#include "duplicate.h"
-#include "filter.h"
+#include "duplicatetest.h"
+#include "filtertest.h"
 
 #include "apptest.h"
 

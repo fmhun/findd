@@ -6,14 +6,16 @@
 
 class FileTest : public CppUnit::TestFixture {
   CPPUNIT_TEST_SUITE( FileTest );
-  //CPPUNIT_TEST( testSomething );
+  CPPUNIT_TEST( testDeleteWhenFileExists );
+  CPPUNIT_TEST( testDeleteWhenFileNotExists );
   CPPUNIT_TEST_SUITE_END();
 
  public:
   void setUp ();
   void tearDown ();
 
-  //void testSomething(void); 
+  void testDeleteWhenFileExists ();
+  void testDeleteWhenFileNotExists ();
 };
 
 #endif // FINDD_FILETEST_H_

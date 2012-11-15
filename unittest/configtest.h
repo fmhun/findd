@@ -6,7 +6,7 @@
 
 class ConfigTest : public CppUnit::TestFixture {
   CPPUNIT_TEST_SUITE( ConfigTest );
-  //CPPUNIT_TEST( testSomething );
+  CPPUNIT_TEST( testRestoreDefaultValues );
   CPPUNIT_TEST_SUITE_END();
 
  public:

@@ -6,14 +6,11 @@
 
 class AppTest : public CppUnit::TestFixture {
   CPPUNIT_TEST_SUITE( AppTest );
-  //CPPUNIT_TEST( testSomething );
   CPPUNIT_TEST_SUITE_END();
 
  public:
   void setUp ();
-  void tearDown ();
-
-  //void testSomething(void); 
+  void tearDown (); 
 };
 
 #endif // FINDD_APPTEST_H

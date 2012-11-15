@@ -6,14 +6,16 @@
 
 class CommandlineTest : public CppUnit::TestFixture {
   CPPUNIT_TEST_SUITE( CommandlineTest );
-  //CPPUNIT_TEST( testSomething );
+  CPPUNIT_TEST( testParseArgsWithValidFlags );
+  CPPUNIT_TEST( testParseArgsWithInvalidFLags );
   CPPUNIT_TEST_SUITE_END();
 
- public:
+public:
   void setUp ();
   void tearDown ();
-
-  //void testSomething(void); 
+  
+  void testParseArgsWithValidFlags ();
+  void testParseArgsWithInvalidFLags ();
 };
 
 #endif // FINDD_COMMANDLINETEST_H

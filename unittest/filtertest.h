@@ -6,7 +6,15 @@
 
 class FilterTest : public CppUnit::TestFixture {
   CPPUNIT_TEST_SUITE( FilterTest );
-  //CPPUNIT_TEST( testSomething );
+  CPPUNIT_TEST( testCompareFilesByTheirContent );
+  CPPUNIT_TEST( testCompareFilesByTheirSize );
+  CPPUNIT_TEST( testCompareFilesByTheirName );
+  CPPUNIT_TEST( testCompareFilesByTheirContentAndSize );
+  CPPUNIT_TEST( testCompareFilesByTheirContentAndName );
+  CPPUNIT_TEST( testCompareFilesByTheirSizeAndName );
+  CPPUNIT_TEST( testCompareFilesByTheirContentSizeName );
+  CPPUNIT_TEST( testFileListFilteringWithNoDuplicate );
+	CPPUNIT_TEST( testFileListFilteringWithDuplicates );
   CPPUNIT_TEST_SUITE_END();
 
  public:
@@ -19,13 +27,13 @@ class FilterTest : public CppUnit::TestFixture {
    *  - S : size
    *  - N : name
    */
-  void testCompareDifferentFilesByTheirContent ();
-  void testCompareDifferentFilesByTheirContent ();
-  void testCompareDifferentFilesByTheirContent ();
-  void testCompareDifferentFilesByTheirContent ();
-  void testCompareDifferentFilesByTheirContent ();
-  void testCompareIdenticalFiles ();
-  
+  void testCompareFilesByTheirContent ();
+  void testCompareFilesByTheirSize ();
+  void testCompareFilesByTheirName ();
+  void testCompareFilesByTheirContentAndSize ();
+  void testCompareFilesByTheirContentAndName ();
+  void testCompareFilesByTheirSizeAndName ();
+  void testCompareFilesByTheirContentSizeName ();
   
   // Test only filtering and not compare function. It doesn't make sense to test filtering for each combination of 
   // filter modes because it's tested by testCompare* tests.

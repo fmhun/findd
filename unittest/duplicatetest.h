@@ -6,14 +6,16 @@
 
 class DuplicateTest : public CppUnit::TestFixture {
   CPPUNIT_TEST_SUITE( DuplicateTest );
-  //CPPUNIT_TEST( testSomething );
+  CPPUNIT_TEST( testGetMinGainOfBytes );
+  CPPUNIT_TEST( testGetMaxGainOfBytes );
   CPPUNIT_TEST_SUITE_END();
 
- public:
+public:
   void setUp ();
-  void tearDown ();
-
-  //void testSomething(void); 
+  void tearDown (); 
+  
+  void testGetMinGainOfBytes ();
+  void testGetMaxGainOfBytes ();
 };
 
 #endif // FINDD_DUPLICATETEST_H

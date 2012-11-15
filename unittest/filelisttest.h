@@ -6,7 +6,10 @@
 
 class FileListTest : public CppUnit::TestFixture {
   CPPUNIT_TEST_SUITE( FileListTest );
-  //CPPUNIT_TEST( testSomething );
+  CPPUNIT_TEST( testCreateFileListFromValidBackup );
+  CPPUNIT_TEST( testCreateFileListFromInvalidBackup );
+  CPPUNIT_TEST( testSaveWithValidPath );
+  CPPUNIT_TEST( testSaveWithInvalidPath );
   CPPUNIT_TEST_SUITE_END();
 
 public:
