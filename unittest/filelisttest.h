@@ -21,6 +21,9 @@ public:
   
   void testSaveWithValidPath ();
   void testSaveWithInvalidPath ();
+
+private:
+  FileList *_filelist;
 };
 
 #endif // FINDD_FILELISTTEST_H_
