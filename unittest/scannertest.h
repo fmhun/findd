@@ -4,13 +4,15 @@
 #include <cppunit/TestFixture.h>
 #include <cppunit/extensions/HelperMacros.h>
 
+class Scanner;
+
 class ScannerTest : public CppUnit::TestFixture {
 	CPPUNIT_TEST_SUITE( ScannerTest );
   CPPUNIT_TEST( testScanWithDirectoryThatNotExists );
-  CPPUNIT_TEST( testScanWithManyDirectoryOneNotExists );
-	CPPUNIT_TEST( testRecursiveScanWithOneDirectory );
-  CPPUNIT_TEST( testRecursiveScanWithManyDirectoriesNotChildOfAnOther );
-  CPPUNIT_TEST( testRecursiveScanWithManyDirectoriesOneIsAChildOfAnOther );
+  CPPUNIT_TEST( testScanManyTimeTheSameDirectoryWhichExists );
+	CPPUNIT_TEST( testScanWithDirectoryWhichContainsOnlyFiles );
+  CPPUNIT_TEST( testScanWithDirectoryThatContainsAnOtherDirectory );
+  CPPUNIT_TEST( testRecursiveScanWithDirectoryThatContainsAnOtherDirectory );
   CPPUNIT_TEST_SUITE_END();
 
 public:
@@ -20,9 +22,9 @@ public:
   void testScanWithDirectoryThatNotExists ();
   void testScanWithManyDirectoryOneNotExists ();
   
-  void testRecursiveScanWithOneDirectory ();
-  void testRecursiveScanWithManyDirectoriesNotChildOfAnOther ();    // /home and /usr
-  void testRecursiveScanWithManyDirectoriesOneIsAChildOfAnOther (); // /home and /home/foo
+  void testScanWithDirectoryWhichContainsOnlyFiles ();
+private:
+  Scanner *_scanner;
 };
 
 #endif // FINDD_SCANNERTEST_H_

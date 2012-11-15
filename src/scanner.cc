@@ -38,4 +38,19 @@ namespace findd {
   
   Scanner::Scanner () {}
   
+  Scanner::~Scanner () {}
+  
+  void Scanner::scan (const std::string &directory) {
+		fs::path p(directory);
+	
+		if (fs::is_regular_file(p)) {
+			//std::cout << "it exists";
+		} else if (fs::is_directory(p)) {
+		
+		}
+	}
+  
+  const std::vector<string> &Scanner::scanned_directories () const {
+    return scanned_directories;
+  }
 }

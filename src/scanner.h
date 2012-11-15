@@ -37,25 +37,27 @@
 
 #include <iostream>
 #include <string>
+#include <vector>
 #include <boost/filesystem.hpp>
 
 namespace findd {
   
   namespace fs = ::boost::filesystem;
 
+  class DirectoryNotFoundException {
+    
+  };
+  
   class Scanner {
   public:
-  	Scanner();
-	
-  	void scan (const std::string &directory) {
-  		fs::path p(directory);
-		
-  		if (fs::is_regular_file(p)) {
-  			//std::cout << "it exists";
-  		} else if (fs::is_directory(p)) {
-			
-  		}
-  	}
+  	Scanner ();
+    ~Scanner ();
+    void scan (const std::string &);
+    
+    const std::vector<string> &scanned_directories () const;
+  private: 
+    FileList _file_list;
+    std::vector<string> scanned_directories;
   };
 
 }
