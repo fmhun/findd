@@ -40,13 +40,13 @@
 #include <vector>
 #include <boost/filesystem.hpp>
 
+#include "filelist.h"
+
 namespace findd {
   
   namespace fs = ::boost::filesystem;
 
-  class DirectoryNotFoundException {
-    
-  };
+  class DirectoryNotFoundException {};
   
   class Scanner {
   public:
@@ -54,10 +54,10 @@ namespace findd {
     ~Scanner ();
     void scan (const std::string &);
     
-    const std::vector<string> &scanned_directories () const;
+    const std::vector<std::string> &scanned_directories () const;
   private: 
-    FileList _file_list;
-    std::vector<string> scanned_directories;
+    FileList *_file_list;
+    std::vector<std::string> *_scanned_directories;
   };
 
 }

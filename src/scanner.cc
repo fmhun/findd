@@ -36,9 +36,15 @@
 
 namespace findd {
   
-  Scanner::Scanner () {}
+  Scanner::Scanner () {
+    _file_list = new FileList();
+    _scanned_directories = new std::vector<std::string>();
+  }
   
-  Scanner::~Scanner () {}
+  Scanner::~Scanner () {
+    delete _file_list;
+    delete _scanned_directories;
+  }
   
   void Scanner::scan (const std::string &directory) {
 		fs::path p(directory);
@@ -50,7 +56,7 @@ namespace findd {
 		}
 	}
   
-  const std::vector<string> &Scanner::scanned_directories () const {
-    return scanned_directories;
+  const std::vector<std::string> &Scanner::scanned_directories () const {
+    return *_scanned_directories;
   }
 }
