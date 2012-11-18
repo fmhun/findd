@@ -34,7 +34,7 @@ CXX = g++
 CFLAGS = -W -Wall -ansi -pendic
 
 SRC_DIR = src
-SRCOBJS = crypto.o logger.o file.o filelist.o duplicate.o filter.o scanner.o config.o app.o ui.o commandline.o
+SRCOBJS = common.o crypto.o logger.o file.o filelist.o duplicate.o filter.o scanner.o config.o app.o ui.o commandline.o
 DEPS_LIB = -lgflags -lboost_program_options -lboost_system -lboost_filesystem
 PROG_MAIN_SRC = main.cc
 
@@ -59,6 +59,9 @@ $(PROG_MAIN_SRC:.cc=.o): $(SRC_DIR)/$(PROG_MAIN_SRC)
 
 $(TEST_PROG_SRC:.cc=.o): $(TEST_DIR)/$(TEST_PROG_SRC)
 	$(CXX) $(CFLAGS) -I$(SRC_DIR) -c $< -o $@
+
+common.o: $(SRC_DIR)/common.h
+	$(CXX) $(CFLAGS) -c $< -o $@
 
 %.o: $(SRC_DIR)/utils/%.cc $(SRC_DIR)/utils/%.h
 	$(CXX) $(CFLAGS) -c $< -o $@
