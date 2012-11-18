@@ -19,7 +19,7 @@ void ScannerTest::testScanWithDirectoryThatNotExists () {
   CPPUNIT_ASSERT_THROW( _scanner->scan("directory_not_exist"), DirectoryNotFoundException );
 }
 
-void ScannerTest::testScanManyTimeTheSameDirectoryWhichExists () {
+void ScannerTest::testScanTheSameDirectoryWhichExistsManyTime () {
   _scanner->scan("directory_exist");
   CPPUNIT_ASSERT( _scanner->scanned_directories().front() == "directory_exist" );
 }
@@ -27,7 +27,7 @@ void ScannerTest::testScanManyTimeTheSameDirectoryWhichExists () {
 // dir
 //  |_ f1
 //  |_ f2
-void ScannerTest::testScanWithDirectoryWhichContainsOnlyFiles () {
+void ScannerTest::testScanWithADirectoryWhichContainsOnlyFiles () {
   _scanner->scan("dir");
   CPPUNIT_ASSERT( scanner->file_list().size() == 2 );
 }
@@ -36,7 +36,7 @@ void ScannerTest::testScanWithDirectoryWhichContainsOnlyFiles () {
 //  |_ f1
 //  |_ dir
 //      |_ f1
-void ScannerTest::testScanWithDirectoryThatContainsAnOtherDirectory () {
+void ScannerTest::testScanWithADirectoryThatContainsAnOtherDirectory () {
   _scanner->scan("dir");
   CPPUNIT_ASSERT( scanner->file_list().size() == 1 );
 }
@@ -45,7 +45,7 @@ void ScannerTest::testScanWithDirectoryThatContainsAnOtherDirectory () {
 //  |_ f1
 //  |_ dir
 //      |_ f1
-void ScannerTest::testRecursiveScanWithDirectoryThatContainsAnOtherDirectory () {
+void ScannerTest::testRecursiveScanWithADirectoryThatContainsAnOtherDirectory () {
   _scanner->scan("dir");
   CPPUNIT_ASSERT( scanner->file_list().size() == 2 );
 }

@@ -1,0 +1,53 @@
+#!/usr/bin/env node
+
+
+/**
+ * Module dependencies.
+ */
+var net = require ('net')
+	, fs = require('fs')
+	, sys = require('util')
+	, exec = require('child_process').exec
+	, events = require('events');
+
+
+watch('src');
+watch('unittest');
+
+
+function execute (cmd) {
+	var success = true;
+	exec(cmd, function (err, out) {
+		if (err) { 
+			sys.puts(err);
+			success = false;
+		}
+		if (out) { 
+			sys.puts(out);
+		}
+	});
+	return success;
+}
+
+function watch (path) {
+	var readdir = function (dir, arr) {
+		arr = arr || [];
+		fs.readdirSync(dir).forEach(function (file) {
+			var f = dir + '/' + file;
+			fs.statSync(f).isDirectory() ? readdir(f, arr) : /\.(cc|h)/.test(f) && arr.push(f);
+		});
+		return arr;
+	}
+	
+	readdir(path).forEach(function (file) {
+		fs.watchFile(file, { interval: 100, persistent: true }, function (curr, prev) {
+			if(curr.mtime.getTime() != prev.mtime.getTime()){	
+				fs.readFile(file, function (err, data) {
+					if (data) { 
+						execute('make test && ./test');
+					}
+				});
+			}
+		});
+	});
+} 

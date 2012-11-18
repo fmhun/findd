@@ -9,10 +9,10 @@ class Scanner;
 class ScannerTest : public CppUnit::TestFixture {
 	CPPUNIT_TEST_SUITE( ScannerTest );
   CPPUNIT_TEST( testScanWithDirectoryThatNotExists );
-  CPPUNIT_TEST( testScanManyTimeTheSameDirectoryWhichExists );
-	CPPUNIT_TEST( testScanWithDirectoryWhichContainsOnlyFiles );
-  CPPUNIT_TEST( testScanWithDirectoryThatContainsAnOtherDirectory );
-  CPPUNIT_TEST( testRecursiveScanWithDirectoryThatContainsAnOtherDirectory );
+  CPPUNIT_TEST( testScanTheSameDirectoryWhichExistsManyTime );
+	CPPUNIT_TEST( testScanWithADirectoryWhichContainsOnlyFiles );
+  CPPUNIT_TEST( testScanWithADirectoryThatContainsAnOtherDirectory );
+  CPPUNIT_TEST( testRecursiveScanWithADirectoryThatContainsAnOtherDirectory );
   CPPUNIT_TEST_SUITE_END();
 
 public:
@@ -20,9 +20,10 @@ public:
 	void tearDown ();
 
   void testScanWithDirectoryThatNotExists ();
-  void testScanWithManyDirectoryOneNotExists ();
-  
-  void testScanWithDirectoryWhichContainsOnlyFiles ();
+  void testScanTheSameDirectoryWhichExistsManyTime ();
+  void testScanWithADirectoryWhichContainsOnlyFiles ();
+  void testScanWithADirectoryThatContainsAnOtherDirectory ();
+  void testRecursiveScanWithADirectoryThatContainsAnOtherDirectory ();
 private:
   Scanner *_scanner;
 };
