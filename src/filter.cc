@@ -36,6 +36,7 @@
 
 namespace findd {
   
-  Filter::Filter() {}
+  //Filter::Filter () : _compare_name(false), _compare_size(false), _compare_content(false) {}
   
+  //Filter::~Filter () {}
 }

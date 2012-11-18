@@ -37,10 +37,13 @@
 
 namespace findd {
 
-  class Filter {
-  public:
-  	Filter();
+  enum FilterMode {
+    NAME = 'N',
+    SIZE = 'S',
+    CONTENT = 'C'
   };
+
+  
 
 }
 

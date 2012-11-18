@@ -37,6 +37,7 @@
 
 #include <boost/program_options.hpp>
 #include <string>
+#include <sstream>
 #include <exception>
     
 #include "ui.h"
@@ -45,24 +46,33 @@ namespace findd {
   
   class App; class Config;
   
-  // class CommandLineException : public std::exception {
-  // public:
-  //   virtual ~CommandLineException () throw() {}
-  // 
-  //   virtual const char* what () const throw() {
-  //     return "command line error";
-  //   }
-  // };
-  // 
-  // class ArgumentException : public CommandLineException {
-  // public:
-  //   ArgumentException () {}
-  //   virtual ~ArgumentException() throw() {}
-  // 
-  //   virtual const char* what() const throw() {
-  //     return "findd: illegal option";
-  //   }
-  // };
+  class CommandLineException : public std::exception {
+  public:
+    CommandLineException (const std::string &msg) {
+      _msg = msg;
+    }
+    
+    virtual ~CommandLineException () throw() {}
+    
+    const char* what () const throw() {
+      return (std::string("findd: ") + _msg).c_str();
+    }
+  protected:
+    std::string _msg;
+  };
+  
+  class ValidationException : public CommandLineException {
+  public:
+    ValidationException (const std::string &msg) : CommandLineException(msg) {}
+    
+    virtual ~ValidationException () throw() {}
+    
+    const char* what () const throw() {
+      std::stringstream ss;
+      ss << "findd: " << _msg << std::endl << "usage: findd [-r] [-d ARGS | -b ARGS] [-f ARGS]";
+      return ss.str().c_str();
+    }
+  };
   
   class CommandLine : public Ui {
   public:
@@ -70,7 +80,7 @@ namespace findd {
     virtual ~CommandLine ();
     
     int run (App &);
-  	void parse (Config &, const int &, char **);
+  	void parse (Config *, const int &, char **);
     
     void dialog (const std::string &, const UiMessageType) const;
     
@@ -79,9 +89,11 @@ namespace findd {
   private:
   	const std::string help () const;
     const std::string version () const;
+    const std::string usage () const;
     
     int _argc;
     char **_argv;
+    boost::program_options::options_description *_options;
     boost::program_options::variables_map *_flags;
   };
       

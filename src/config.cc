@@ -34,16 +34,24 @@
 
 #include "config.h"
 
+#include "filter.h"
+
 namespace findd {
       
   Config::Config () {
-  	restoreDefaultValues();
+    directories = new std::vector<std::string>();
+    filter = new filter_t();
+    restoreDefaultValues();
   }
 
-  Config::~Config () {}
+  Config::~Config () {
+    delete directories;
+    delete filter;
+  }
 
   void Config::restoreDefaultValues () {
-  	recursive = true;
+  	recursive = false;
+    display_stats = false;
   }
-    
+  
 }

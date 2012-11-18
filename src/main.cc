@@ -31,25 +31,41 @@
 	(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
 	THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
-    
+
+#include <boost/program_options.hpp>
+#include <exception>
+
 #include "app.h"
 #include "commandline.h"
 #include "ui.h"
-
-#include <boost/program_options.hpp>
-#include <iostream>
+#include "utils/logger.h"
 
 using findd::App;
 using findd::Ui;
 using findd::CommandLine;
-//using findd::CommandLineException;
+using findd::utils::Logger;
+using std::exception;
 
-int main (int argc, char ** argv) {  
+Logger *L = Logger::instance();
+
+void bootstrap ();
+
+int main (int argc, char ** argv) {
+  bootstrap();
+  
   App app;
   CommandLine cmdline;
+  
+  try {
+    cmdline.parse(app.config(), argc, argv);
+    return cmdline.run(app);
+  } catch (exception &e) {
+    L->error(e.what());
+    cmdline.dialog(e.what(), findd::ERROR);
+    return -1;
+  } 
+}
 
-  cmdline.parse(app.config(), argc, argv);
-
-  return cmdline.run(app);
-  return 0;
+void bootstrap () {
+  //L->register_stream(&std::clog);
 }

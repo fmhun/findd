@@ -36,65 +36,141 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include <boost/program_options.hpp>
 #include <string>
+#include <vector>
 #include <iostream>
 #include <exception>
+#include <algorithm>
 
 #include "app.h"
 #include "ui.h"
 #include "config.h"
+#include "common.h"
+#include "utils/logger.h"
 
-namespace po = boost::program_options;
+extern findd::utils::Logger *L;
+
+using namespace boost;
+using std::logic_error;
+using std::string;
+
+void validate(boost::any& v, const std::vector<std::string >& values, filter_t* /* target_type */, int) {
+  using namespace boost::program_options;
+  
+  filter_t f;
+  
+  validators::check_first_occurrence(v);
+  std::string in = validators::get_single_string(values);
+  std::transform(in.begin(), in.end(), in.begin(), ::tolower);
+  
+  for (unsigned int i = 0; i < in.length(); i++) {
+    if (in.at(i) == 'n') {
+      f.compare_name = true;
+    } else if (in.at(i) == 's') {
+      f.compare_size = true;
+    } else if (in.at(i) == 'c') {
+      f.compare_content = true;
+    } else {
+      throw logic_error(string("The filter combinasion '") 
+              + in + "' is not valid. run with --help to see available modes.");
+    }
+  }
+  
+  v = f;
+}
+
+namespace { // Auxiliary functions for checking input for validity.
+    
+  using namespace boost::program_options;
+    
+  // Function used to check that 'opt1' and 'opt2' are not specified at the same time.
+  void conflicting_options(const variables_map& vm, 
+                           const char* opt1, const char* opt2) {
+      if (vm.count(opt1) && !vm[opt1].defaulted() 
+          && vm.count(opt2) && !vm[opt2].defaulted())
+          throw logic_error(string(opt1) + " and " + opt2 + " options can not be used together.");
+  }
+
+  // Function used to check that of 'for_what' is specified, then 'required_option' is specified too.
+  void option_dependency(const variables_map& vm,
+                          const char* for_what, const char* required_option){
+      if (vm.count(for_what) && !vm[for_what].defaulted())
+          if (vm.count(required_option) == 0 || vm[required_option].defaulted())
+              throw logic_error(string("option ") + for_what 
+                                + " requires option '" + required_option + "'.");
+  }
+    
+}
 
 namespace findd {
   
+  namespace po = boost::program_options;
+  
   CommandLine::CommandLine () {}
 
-  CommandLine::~CommandLine () { delete _flags; }
+  CommandLine::~CommandLine () { 
+    delete _flags; 
+  }
   
   int CommandLine::run (App &app) {
+    L->info("running");
     app.bind(const_cast<CommandLine *>(this));
-        
+    
     if (_flags->count("help")) {
       out(help());
     } else if (_flags->count("version")) {
       out(version());
     } else {
-      try {
-        return app.execute();
-      } catch (std::exception &e) {
-        err(e.what());
-        return -1;
+      try { // handle validation errors before executing 
+        po::notify(*_flags);
+      } catch (std::exception &e) { 
+        throw ValidationException(e.what()); 
       }
+      
+      return app.execute();
     }
     
     return 0;
   }
   
-  void CommandLine::parse (Config &cnf, const int &argc, char **argv) {
+  void CommandLine::parse (Config *cnf, const int &argc, char **argv) {
     _argc = argc;
     _argv = argv;
     _flags = new po::variables_map();
     
     try {
+      L->info("parse arguments");
       po::options_description general("General options");
       general.add_options()
         ("help,h", "produce help message")
         ("version,v", "produce version message")  
       ;
-    
+      
       po::options_description scanning("Scanning options");
       scanning.add_options()
-        ("recursive,r", po::bool_switch(&cnf.recursive), "scan directories recursively")
-          //("input-scan", po::value(), "scan backup")
+        ("recursive,r", po::bool_switch(&cnf->recursive)->default_value(false), "scan directories recursively if specified")
+        ("scan,s", po::value< std::vector<std::string> >(cnf->directories)->multitoken(), "list of directories to scan")
+        ("restore,i", po::value<std::string>(&cnf->in_scan_file), "restore a scan from a backup")
+        ("save,o", po::value<std::string>(&cnf->out_scan_file), "save scanned files")
+      ;
+      
+      po::options_description filtering("Filtering options");
+      scanning.add_options()
+        ("hello", po::value<int>(), "opt")
+        ("filter,f", po::value<filter_t>(cnf->filter)->required(), "apply filter to search duplicates")
       ;
     
-      po::options_description all("All options");
-      all.add(general).add(scanning);
-
-      po::store(po::parse_command_line(_argc, _argv, all), *_flags);
-      po::notify(*_flags);
+      _options = new po::options_description();
+      _options->add(general).add(filtering).add(scanning);
+      
+      po::store(po::parse_command_line(_argc, _argv, *_options), *_flags);
+      
+      conflicting_options(*_flags, "scan", "restore");
+      conflicting_options(*_flags, "restore", "save");
+      conflicting_options(*_flags, "filter", "nofilter");
+      option_dependency(*_flags, "scan", "filter");
+      option_dependency(*_flags, "restore", "filter");
     } catch (std::exception &e) {
-      out(e.what());
+      throw ValidationException(e.what());
     }
   }
   
@@ -118,12 +194,24 @@ namespace findd {
   }
   
   const std::string CommandLine::help () const {
-    return "findd help : \
-      test";
+    std::stringstream ss;
+    ss << "findd help :" << std::endl 
+       << std::endl
+       << usage() << std::endl
+       << *_options;
+    
+    return ss.str();
   }
   
   const std::string CommandLine::version () const {
     return "findd version 1.0.0, University of Poitiers © 2012";
   }
   
+  const std::string CommandLine::usage () const {
+    std::stringstream ss;
+    ss << "usage: findd [--version] [--help] [--recursive] [[--scan <dir>...] | [--restore <path>]]" << std::endl
+       << "             [--save <path>] [--filter <mode>]";
+    
+    return ss.str();
+  }
 }

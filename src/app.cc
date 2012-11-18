@@ -34,9 +34,17 @@
 
 #include "app.h"
 
+#include "config.h"
+
 namespace findd {
   
-  App::App () {}
+  App::App () {
+    _dev_config = new Config();
+  }
+  
+  App::~App () {
+    delete _dev_config;
+  }
 
   int App::execute () {
     // try {
@@ -68,5 +76,5 @@ namespace findd {
   	_dev_ui = ui;
   }
   
-  Config &App::config () { return _config; }
+  Config *App::config () { return _dev_config; }
 }

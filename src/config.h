@@ -35,8 +35,13 @@
 #ifndef FINDD_CONFIG_H_
 #define FINDD_CONFIG_H_
 
-namespace findd {
+#include <string>
+#include <vector>
 
+#include "common.h"
+
+namespace findd {
+  
   class Config {
   public:
   	Config ();
@@ -44,7 +49,14 @@ namespace findd {
 
   	void restoreDefaultValues ();
     
+    friend class CommandLine; // CommandLine must access Config attributes by address
+  private:
     bool recursive;
+    std::vector<std::string> *directories;  
+    std::string in_scan_file;
+    std::string out_scan_file;
+    filter_t *filter;
+    bool display_stats;
   };  
 
 }

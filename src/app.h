@@ -37,26 +37,26 @@
 
 #include <string>
 
-#include "config.h"
-
 namespace findd {
   
   class Ui;
+  class Config;
   
   class App {
   public:
   	App ();
-
+    virtual ~App ();
+    
   	int execute ();
     void bind (Ui *);
 
-  	Config &config ();
+  	Config *config ();
   protected:
     void load_file_list ();
     void search_duplicates ();
     
     Ui *_dev_ui;
-  	Config _config;
+  	Config *_dev_config;
     std::string _term_message;
   };
 
