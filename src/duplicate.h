@@ -35,11 +35,16 @@
 #ifndef FINDD_DUPLICATE_H
 #define FINDD_DUPLICATE_H
 
+#include <vector>
+
 namespace findd {
 
-  class Duplicate {
+  class File;
+  
+  class Duplicate : public std::vector<File*> {
   public:
-  	Duplicate();
+  	Duplicate ();
+    ~Duplicate ();
   };
 
 }

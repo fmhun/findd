@@ -38,41 +38,41 @@
 
 namespace findd {
   
-  File::File () {}
+  File::File (string path, unsigned int size) : _path(path), _size(size) {}
 
   bool File::drop () {
   	return true;
   }
 
-  std::string File::name () const {
+  const string & File::name () const {
   	return _name;
   }
 
-  void File::set_name (std::string &name) {
+  void File::set_name (string &name) {
   	_name = name;
   }
 
-  std::string File::path () const {
+  const string & File::path () const {
   	return _path;
   }
 
-  void File::set_path (std::string &path) {
+  void File::set_path (string &path) {
   	_path = path;
   }
 
-  std::string File::content_digest () const {
+  const string & File::content_digest () const {
   	return _content_digest;
   }
 
-  void File::set_content_digest (std::string &content_digest) {
+  void File::set_content_digest (string &content_digest) {
   	_content_digest = content_digest;
   }
 
-  int File::size () const {
+  const unsigned int & File::size () const {
   	return _size;
   }
 
-  void File::set_size (int size) {
+  void File::set_size (unsigned int size) {
   	_size = size;
   }
   

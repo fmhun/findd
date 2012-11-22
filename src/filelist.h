@@ -35,9 +35,12 @@
 #ifndef FINDD_FILELIST_H
 #define FINDD_FILELIST_H
 
+#include <list>
 #include <exception>
 
 namespace findd {
+  
+  class File;
   
   class FileListException : public std::exception {
   public:
@@ -53,9 +56,10 @@ namespace findd {
     virtual const char* what() const throw();
   };
 
-  class FileList {
+  class FileList : std::list<File> {
   public:
-  	FileList();
+  	FileList ();
+    ~FileList ();
   };
 
 }

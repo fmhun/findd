@@ -55,9 +55,8 @@ namespace findd {
     void load_file_list ();
     void search_duplicates ();
     
-    Ui *_dev_ui;
-  	Config *_dev_config;
-    std::string _term_message;
+    Ui *_ui;
+  	Config *_config;
   };
 
 }

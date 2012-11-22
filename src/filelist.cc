@@ -33,7 +33,8 @@
 */
 
 #include "filelist.h"
-
+#include "file.h"
+    
 namespace findd {
 
   FileListException::~FileListException() throw() {}
@@ -48,6 +49,7 @@ namespace findd {
     return "invalid backup input file";
   }
 
-  FileList::FileList() {}
+  FileList::FileList () : std::list<File>() {}
+  FileList::~FileList () {}
   
 }

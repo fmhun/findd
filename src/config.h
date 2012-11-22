@@ -49,14 +49,21 @@ namespace findd {
 
   	void restoreDefaultValues ();
     
+    const bool & recursive () const;
+    const std::vector<std::string> & directories () const;
+    const std::string & in_scan_file () const;
+    const std::string & out_scan_file () const;
+    const filter_t & filter () const;
+    const bool & display_stats () const;
+    
     friend class CommandLine; // CommandLine must access Config attributes by address
   private:
-    bool recursive;
-    std::vector<std::string> *directories;  
-    std::string in_scan_file;
-    std::string out_scan_file;
-    filter_t *filter;
-    bool display_stats;
+    bool _recursive;
+    std::vector<std::string> *_directories;  
+    std::string _in_scan_file;
+    std::string _out_scan_file;
+    filter_t *_filter;
+    bool _display_stats;
   };  
 
 }

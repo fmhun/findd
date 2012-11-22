@@ -147,16 +147,16 @@ namespace findd {
       
       po::options_description scanning("Scanning options");
       scanning.add_options()
-        ("recursive,r", po::bool_switch(&cnf->recursive)->default_value(false), "scan directories recursively if specified")
-        ("scan,s", po::value< std::vector<std::string> >(cnf->directories)->multitoken(), "list of directories to scan")
-        ("restore,i", po::value<std::string>(&cnf->in_scan_file), "restore a scan from a backup")
-        ("save,o", po::value<std::string>(&cnf->out_scan_file), "save scanned files")
+        ("recursive,r", po::bool_switch(&cnf->_recursive)->default_value(false), "scan directories recursively if specified")
+        ("scan,s", po::value< std::vector<std::string> >(cnf->_directories)->multitoken(), "list of directories to scan")
+        ("restore,i", po::value<std::string>(&cnf->_in_scan_file), "restore a scan from a backup")
+        ("save,o", po::value<std::string>(&cnf->_out_scan_file), "save scanned files")
       ;
       
       po::options_description filtering("Filtering options");
       scanning.add_options()
         ("hello", po::value<int>(), "opt")
-        ("filter,f", po::value<filter_t>(cnf->filter)->required(), "apply filter to search duplicates")
+        ("filter,f", po::value<filter_t>(cnf->_filter)->required(), "apply filter to search duplicates")
       ;
     
       _options = new po::options_description();

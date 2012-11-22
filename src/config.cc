@@ -39,19 +39,26 @@
 namespace findd {
       
   Config::Config () {
-    directories = new std::vector<std::string>();
-    filter = new filter_t();
+    _directories = new std::vector<std::string>();
+    _filter = new filter_t();
     restoreDefaultValues();
   }
 
   Config::~Config () {
-    delete directories;
-    delete filter;
+    delete _directories;
+    delete _filter;
   }
-
+  
+  const bool & Config::recursive () const { return _recursive; }
+  const std::vector<std::string> & Config::directories () const { return *_directories; }
+  const std::string & Config::in_scan_file () const { return _in_scan_file; }
+  const std::string & Config::out_scan_file () const { return _out_scan_file; }
+  const filter_t & Config::filter () const { return *_filter; }
+  const bool & Config::display_stats () const { return _display_stats; }
+  
   void Config::restoreDefaultValues () {
-  	recursive = false;
-    display_stats = false;
+  	_recursive = false;
+    _display_stats = false;
   }
   
 }

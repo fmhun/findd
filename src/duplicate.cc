@@ -33,9 +33,11 @@
 */
 
 #include "duplicate.h"
+#include "file.h"
 
 namespace findd {
   
-  Duplicate::Duplicate() {}
-
+  Duplicate::Duplicate () : std::vector<File*>() {}
+  
+  Duplicate::~Duplicate () {}
 }

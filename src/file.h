@@ -38,28 +38,30 @@
 #include <string> 
 
 namespace findd {
-
+  
+  using std::string;
+  
   class File {
   public:
-  	File ();
+  	File (string, unsigned int);
   	bool drop ();
 	
-  	std::string name () const;
+  	const string & name () const;
   	void set_name (std::string &);
 	
-  	std::string path () const;
+  	const string & path () const;
   	void set_path (std::string &);
 	
-  	std::string content_digest () const;
+  	const string & content_digest () const;
   	void set_content_digest (std::string &);
 	
-  	int size () const;
-  	void set_size (int);
+  	const unsigned int & size () const;
+  	void set_size (unsigned int);
   private:
   	std::string _name; 
   	std::string _path; 
   	std::string _content_digest;
-  	int _size;
+  	unsigned int _size;
   };
     
 }
