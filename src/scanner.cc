@@ -33,6 +33,9 @@
 */
 
 #include "scanner.h"
+#include <vector>
+#include <list>
+#include "file.h"
 
 namespace findd {
   
@@ -47,15 +50,40 @@ namespace findd {
   }
   
   void Scanner::scan (const std::string &directory) {
-		fs::path p(directory);
-	
-		if (fs::is_regular_file(p)) {
-			//std::cout << "it exists";
-		} else if (fs::is_directory(p)) {
+    using namespace fs;
+    using namespace std;
 		
-		}
-	}
+		path p(directory);
+    
+    if (!exists(p) || !is_directory(p)) {
+      return;
+    }
   
+    list<path> files;
+    list<path> dirs_to_scan;
+    dirs_to_scan.push_back(p);
+
+    while (dirs_to_scan.size() != 0) {
+      path dir = dirs_to_scan.front();
+      dirs_to_scan.pop_front();
+
+      vector<path> contents;
+      copy(directory_iterator(dir), directory_iterator(), back_inserter(contents));
+
+      for (vector<path>::const_iterator it (contents.begin()); it != contents.end(); ++it) {
+        cout << "   " << *it << '\n';
+        if (is_directory(*it)) {
+          dirs_to_scan.push_back(*it);
+        } else if (is_regular_file(*it)) {
+          files.push_back(*it);
+        } else {
+          // throw  
+        }
+      }
+    }
+    
+	}
+
   const std::vector<std::string> &Scanner::scanned_directories () const {
     return *_scanned_directories;
   }

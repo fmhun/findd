@@ -38,6 +38,9 @@
 #include "filelist.h"
 #include "duplicate.h"
 #include "file.h"
+#include "scanner.h"
+
+#include <iostream>
 
 namespace findd {
   
@@ -60,22 +63,28 @@ namespace findd {
     //   _term_message = e.what();
     //   return -1;
     // }
-    //load_file_list();
-    search_duplicates();
+    load_file_list();
+    //search_duplicates();
     
     return 0;
   }
   
   void App::load_file_list () {
-    // if (_dev_config->in_scan_file()) {
-    //   // load filelist from the backup
-    // } else {
-    //   if (_config.directories) {
-    //     // perform new scan
-    //   } else {
-    //     throw ArgumentException("no input directories to scan");
-    //   }
-    // }
+    if (_config->in_scan_file() != "") {
+      // load filelist from the backup
+    } else {
+      if (!_config->directories().empty()) {
+        // perform new scan
+        Scanner scanner;
+        const std::vector<std::string> &dir = _config->directories(); 
+        for (unsigned int i = 0; i < dir.size(); i++) {
+          scanner.scan(dir[i]);
+        }
+        std::cout << "scan" << std::endl;
+      } else {
+        //throw ArgumentException("no input directories to scan");
+      }
+    }
   }
   
   void App::search_duplicates () {

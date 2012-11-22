@@ -36,14 +36,16 @@
 #define FINDD_FILE_H
 
 #include <string> 
+#include <boost/filesystem.hpp>
 
 namespace findd {
   
+  namespace fs = ::boost::filesystem;
   using std::string;
   
   class File {
   public:
-  	File (string, unsigned int);
+  	File (const fs::path &);
   	bool drop ();
 	
   	const string & name () const;

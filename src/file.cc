@@ -32,16 +32,19 @@
 	THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#include <string>	
+#include <string>
 
 #include "file.h"
 
 namespace findd {
   
-  File::File (string path, unsigned int size) : _path(path), _size(size) {}
+  File::File (const fs::path &p) {
+
+  }
 
   bool File::drop () {
-  	return true;
+    const fs::path p(_path);
+  	return fs::remove(p);
   }
 
   const string & File::name () const {
