@@ -35,7 +35,7 @@ CFLAGS = -W -Wall -ansi -pendic
 
 SRC_DIR = src
 SRCOBJS = common.o crypto.o logger.o file.o filelist.o duplicate.o filter.o scanner.o config.o app.o ui.o commandline.o
-DEPS_LIB = -lgflags -lboost_program_options -lboost_system -lboost_filesystem
+DEPS_LIB = -lboost_program_options -lboost_system -lboost_filesystem
 PROG_MAIN_SRC = main.cc
 
 TEST_DIR = unittest
