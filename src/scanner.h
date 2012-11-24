@@ -37,7 +37,7 @@
 
 #include <string>
 #include <vector>
-#include <list>
+#include "common.h"
 
 namespace findd {
   
@@ -50,10 +50,10 @@ namespace findd {
     void scan (const std::string &);
     
     const std::vector<std::string> &scanned_directories () const;
-    const std::list<File> &file_list () const;
+    const file_list &files () const;
   private:
-    std::list<File> *_file_list;
-    std::vector<std::string> *_scanned_directories;
+    file_list _files;
+    std::vector<std::string> _scanned_directories;
   };
 
 }

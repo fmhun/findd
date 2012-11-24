@@ -48,12 +48,9 @@ namespace findd {
   	App ();
     virtual ~App ();
     
-  	int execute ();
+  	void execute ();
   	env_t & env ();
-  protected:
-    void load_file_list ();
-    void search_duplicates ();
-    
+  private:    
   	env_t _env;
   };
 

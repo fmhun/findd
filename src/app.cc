@@ -35,9 +35,6 @@
 #include "app.h"
 
 #include "common.h"
-#include "filelist.h"
-#include "duplicate.h"
-#include "file.h"
 #include "scanner.h"
 
 #include <iostream>
@@ -51,81 +48,23 @@ namespace findd {
   
   App::~App () {}
 
-  int App::execute () {
-    // try {
-    //   load_file_list();
-    //   search_duplicates();
-    // } catch FinddException &e {
-    //   _term_message = e.what();
-    //   return -1;
-    // }
-    load_file_list();
-    //search_duplicates();
+  void App::execute () {
+    file_list files;
     
-    return 0;
-  }
-  
-  void App::load_file_list () {
     if (_env.in_scan_file != "") {
       // load filelist from the backup
     } else {
       if (!_env.directories.empty()) {  // perform new scan
         Scanner scanner;
-        const std::vector<std::string> &dir = _env.directories;
-        
-        for (unsigned int i = 0; i < dir.size(); i++) {
-          scanner.scan(dir[i]);
+        for (unsigned int i = 0; i < _env.directories.size(); i++) {
+          scanner.scan(_env.directories[i]);
         }
-        
-        std::cout << scanner.file_list().size() * sizeof(File) << std::endl;
+        files = scanner.files();
       } else {
         //throw ArgumentException("no input directories to scan");
       }
     }
   }
-  
-  void App::search_duplicates () {
-    // FileList files;
-    // File f1("/f1", 1), f2("/f2", 1), f3("/f2 bis", f4("/f1 bis") 1);
-    // 
-    // files.push_back(f1); files.push_back(f2); files.push_back(f3);
-    // 
-    // // Display file addresses
-    // list<string>::iterator i = files.begin();
-    // for (i = files.begin(); i != files.end(); ++i) {
-    //   cout << &(*i) << endl;
-    // }
-    //   
-    // vector<vector<string*> > duplicates;
-    // list<string>::iterator it = files.begin();
-    //   
-    // // main loop to iterate over each non-identical file
-    // while (it != files.end()) {
-    //   vector<string*> dup;
-    //   dup.push_back(&(*it));
-    //   string file = *it;
-    // 
-    //   cout << "|__ searching duplicates for " << file << endl;
-    //   it++; // point to the next element
-    // 
-    //   // iterate over the file list while we found that the next element is identical with the file we are processing
-    //   while (it != files.end()) {
-    //     if (file == *it) {   
-    //       cout << "   |__ found " << *it << endl;
-    //       dup.push_back(&(*it));
-    //       it++; // process the next element
-    //     } else {
-    //       cout << "   |__ done " << file << endl;
-    //       break;
-    //     }
-    //   }
-    // 
-    //   if (dup.size() != 1) {
-    //     duplicates.push_back(dup);
-    //   }
-    // }
-    
-  }
-  
+   
   env_t & App::env () { return _env; }
 }

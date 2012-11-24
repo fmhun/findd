@@ -3,23 +3,31 @@
 
 #include <string>
 #include <vector>
+#include <list>
+#include "file.h"
 
-struct filter_t {
-  filter_t () : compare_name(false), compare_size(false), compare_content(false) {}
+namespace findd {
+
+  typedef struct std::list<File> file_list;
+
+  struct filter_t {
+    filter_t () : compare_name(false), compare_size(false), compare_content(false) {}
   
-  bool compare_name;
-  bool compare_size;
-  bool compare_content;
-};
+    bool compare_name;
+    bool compare_size;
+    bool compare_content;
+  };
 
-struct env_t {
-  bool recursive;
-  std::vector<std::string> directories;  
-  std::string in_scan_file;
-  std::string out_scan_file;
-  filter_t filter;
-  //bool display_stats;
-};
+  struct env_t {
+    bool recursive;
+    std::vector<std::string> directories;  
+    std::string in_scan_file;
+    std::string out_scan_file;
+    filter_t filter;
+    bool display_stats;
+  };
+
+}
 
 // void init_env(env_t *env) {
 //   //recursive = false;
