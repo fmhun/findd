@@ -73,14 +73,15 @@ namespace findd {
     if (_config->in_scan_file() != "") {
       // load filelist from the backup
     } else {
-      if (!_config->directories().empty()) {
-        // perform new scan
+      if (!_config->directories().empty()) {  // perform new scan
         Scanner scanner;
-        const std::vector<std::string> &dir = _config->directories(); 
+        const std::vector<std::string> &dir = _config->directories();
+        
         for (unsigned int i = 0; i < dir.size(); i++) {
           scanner.scan(dir[i]);
         }
-        std::cout << "scan" << std::endl;
+        
+        std::cout << scanner.file_list().size() * sizeof(File) << std::endl;
       } else {
         //throw ArgumentException("no input directories to scan");
       }

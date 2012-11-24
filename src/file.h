@@ -49,19 +49,14 @@ namespace findd {
   	bool drop ();
 	
   	const string & name () const;
-  	void set_name (std::string &);
-	
-  	const string & path () const;
-  	void set_path (std::string &);
-	
+  	const string & extension () const;
+    const string & absolute_path () const;
   	const string & content_digest () const;
-  	void set_content_digest (std::string &);
-	
   	const unsigned int & size () const;
-  	void set_size (unsigned int);
   private:
-  	std::string _name; 
-  	std::string _path; 
+  	std::string _name;
+    std::string _extension;
+  	std::string _absolute_path;
   	std::string _content_digest;
   	unsigned int _size;
   };

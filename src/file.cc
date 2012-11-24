@@ -39,44 +39,35 @@
 namespace findd {
   
   File::File (const fs::path &p) {
-
+    _name = p.filename().string();
+    _extension = p.extension().string();
+    _absolute_path = fs::canonical(p).string();
+    _size = fs::file_size(p);
   }
 
   bool File::drop () {
-    const fs::path p(_path);
+    const fs::path p(_absolute_path);
   	return fs::remove(p);
   }
 
   const string & File::name () const {
   	return _name;
   }
-
-  void File::set_name (string &name) {
-  	_name = name;
+  
+  const string & File::extension () const {
+  	return _extension;
   }
 
-  const string & File::path () const {
-  	return _path;
-  }
-
-  void File::set_path (string &path) {
-  	_path = path;
+  const string & File::absolute_path () const {
+  	return _absolute_path;
   }
 
   const string & File::content_digest () const {
   	return _content_digest;
   }
 
-  void File::set_content_digest (string &content_digest) {
-  	_content_digest = content_digest;
-  }
-
   const unsigned int & File::size () const {
   	return _size;
-  }
-
-  void File::set_size (unsigned int size) {
-  	_size = size;
   }
   
 }

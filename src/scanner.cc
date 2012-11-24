@@ -33,14 +33,15 @@
 */
 
 #include "scanner.h"
-#include <vector>
-#include <list>
+
+#include <boost/filesystem.hpp>
+
 #include "file.h"
 
 namespace findd {
   
   Scanner::Scanner () {
-    _file_list = new FileList();
+    _file_list = new std::list<File>();
     _scanned_directories = new std::vector<std::string>();
   }
   
@@ -59,32 +60,35 @@ namespace findd {
       return;
     }
   
-    list<path> files;
     list<path> dirs_to_scan;
     dirs_to_scan.push_back(p);
 
     while (dirs_to_scan.size() != 0) {
       path dir = dirs_to_scan.front();
       dirs_to_scan.pop_front();
+      _scanned_directories->push_back(dir.string());
 
       vector<path> contents;
       copy(directory_iterator(dir), directory_iterator(), back_inserter(contents));
 
-      for (vector<path>::const_iterator it (contents.begin()); it != contents.end(); ++it) {
-        cout << "   " << *it << '\n';
+      for (vector<path>::const_iterator it(contents.begin()); it != contents.end(); ++it) {
         if (is_directory(*it)) {
           dirs_to_scan.push_back(*it);
         } else if (is_regular_file(*it)) {
-          files.push_back(*it);
+          _file_list->push_back(File(*it));
         } else {
-          // throw  
+          // TODO : what should we do for elements which are not a directory and not a regular file.  
         }
       }
     }
-    
 	}
 
   const std::vector<std::string> &Scanner::scanned_directories () const {
     return *_scanned_directories;
   }
+  
+  const std::list<File> &Scanner::file_list () const {
+    return *_file_list;
+  }
+  
 }

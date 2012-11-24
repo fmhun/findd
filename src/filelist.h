@@ -56,7 +56,7 @@ namespace findd {
     virtual const char* what() const throw();
   };
 
-  class FileList : std::list<File> {
+  class FileList : public std::list<File> {
   public:
   	FileList ();
     ~FileList ();

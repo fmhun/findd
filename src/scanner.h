@@ -35,18 +35,15 @@
 #ifndef FINDD_SCANNER_H_
 #define FINDD_SCANNER_H_
 
-#include <iostream>
 #include <string>
 #include <vector>
-#include <boost/filesystem.hpp>
-
-#include "filelist.h"
+#include <list>
 
 namespace findd {
   
-  namespace fs = ::boost::filesystem;
-
   class DirectoryNotFoundException {};
+  
+  class File;
   
   class Scanner {
   public:
@@ -55,8 +52,9 @@ namespace findd {
     void scan (const std::string &);
     
     const std::vector<std::string> &scanned_directories () const;
-  private: 
-    FileList *_file_list;
+    const std::list<File> &file_list () const;
+  private:
+    std::list<File> *_file_list;
     std::vector<std::string> *_scanned_directories;
   };
 
