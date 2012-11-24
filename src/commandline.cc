@@ -42,8 +42,6 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <algorithm>
 
 #include "app.h"
-#include "ui.h"
-#include "config.h"
 #include "common.h"
 #include "utils/logger.h"
 
@@ -105,91 +103,70 @@ namespace findd {
   
   namespace po = boost::program_options;
   
-  CommandLine::CommandLine () {}
+  CommandLine::CommandLine () {
+    _options = new boost::program_options::options_description();
+  }
 
-  CommandLine::~CommandLine () { 
-    delete _flags; 
+  CommandLine::~CommandLine () {
+    delete _options;
   }
   
-  int CommandLine::run (App &app) {
-    L->info("running");
-    app.bind(const_cast<CommandLine *>(this));
-    
-    if (_flags->count("help")) {
-      out(help());
-    } else if (_flags->count("version")) {
-      out(version());
-    } else {
-      try { // handle validation errors before executing 
-        po::notify(*_flags);
-      } catch (std::exception &e) { 
-        throw ValidationException(e.what()); 
-      }
-      
-      return app.execute();
-    }
-    
-    return 0;
-  }
-  
-  void CommandLine::parse (Config *cnf, const int &argc, char **argv) {
+  void CommandLine::parse (env_t &env, const int &argc, char **argv) {
     _argc = argc;
     _argv = argv;
-    _flags = new po::variables_map();
     
-    try {
-      L->info("parse arguments");
-      po::options_description general("General options");
-      general.add_options()
-        ("help,h", "produce help message")
-        ("version,v", "produce version message")  
-      ;
+    L->info("parse arguments");
+    po::options_description general("General options");
+    general.add_options()
+      ("help,h", "produce help message")
+      ("version,v", "produce version message")  
+    ;
       
-      po::options_description scanning("Scanning options");
-      scanning.add_options()
-        ("recursive,r", po::bool_switch(&cnf->_recursive)->default_value(false), "scan directories recursively if specified")
-        ("scan,s", po::value< std::vector<std::string> >(cnf->_directories)->multitoken(), "list of directories to scan")
-        ("restore,i", po::value<std::string>(&cnf->_in_scan_file), "restore a scan from a backup")
-        ("save,o", po::value<std::string>(&cnf->_out_scan_file), "save scanned files")
-      ;
+    po::options_description scanning("Scanning options");
+    scanning.add_options()
+      ("recursive,r", po::bool_switch(&env.recursive)->default_value(false), "scan directories recursively if specified")
+      ("scan,s", po::value< std::vector<std::string> >(&env.directories)->multitoken(), "list of directories to scan")
+      ("restore,i", po::value<std::string>(&env.in_scan_file), "restore a scan from a backup")
+      ("save,o", po::value<std::string>(&env.out_scan_file), "save scanned files")
+    ;
       
-      po::options_description filtering("Filtering options");
-      scanning.add_options()
-        ("hello", po::value<int>(), "opt")
-        ("filter,f", po::value<filter_t>(cnf->_filter)->required(), "apply filter to search duplicates")
-      ;
+    po::options_description filtering("Filtering options");
+    scanning.add_options()
+      ("hello", po::value<int>(), "opt")
+      ("filter,f", po::value<filter_t>(&env.filter)->required(), "apply filter to search duplicates")
+    ;
     
-      _options = new po::options_description();
-      _options->add(general).add(filtering).add(scanning);
+    _options->add(general).add(filtering).add(scanning);
       
-      po::store(po::parse_command_line(_argc, _argv, *_options), *_flags);
+    po::store(po::parse_command_line(_argc, _argv, *_options), _flags);
+  }
+  
+  void CommandLine::validate () throw(ValidationError) {
+    if (_flags.count("help")) {
+      out(help());
+    } else if (_flags.count("version")) {
+      out(version());
+    } else {
+      try {
+        conflicting_options(_flags, "scan", "restore");
+        conflicting_options(_flags, "restore", "save");
+        conflicting_options(_flags, "filter", "nofilter");
+        option_dependency(_flags, "scan", "filter");
+        option_dependency(_flags, "restore", "filter");
+        
+        po::notify(_flags);
       
-      conflicting_options(*_flags, "scan", "restore");
-      conflicting_options(*_flags, "restore", "save");
-      conflicting_options(*_flags, "filter", "nofilter");
-      option_dependency(*_flags, "scan", "filter");
-      option_dependency(*_flags, "restore", "filter");
-    } catch (std::exception &e) {
-      throw ValidationException(e.what());
+      } catch (std::exception &e) { 
+        throw ValidationError(e.what()); 
+      }
     }
   }
   
-  void CommandLine::dialog (const std::string &msg, const UiMessageType type) const {
-    switch (type) {
-      case INFO:
-        out(msg);
-      break;
-      case ERROR:
-        err(msg);
-      break;
-    }
-  }
-  
-  void CommandLine::out (const std::string &msg) const {
+  void CommandLine::out (const std::string &msg) {
     std::cout << msg << std::endl;
   }
   
-  void CommandLine::err (const std::string &msg) const {
+  void CommandLine::err (const std::string &msg) {
     std::cerr << msg << std::endl;    
   }
   

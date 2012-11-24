@@ -34,7 +34,7 @@
 
 #include "app.h"
 
-#include "config.h"
+#include "common.h"
 #include "filelist.h"
 #include "duplicate.h"
 #include "file.h"
@@ -47,13 +47,9 @@ namespace findd {
   using std::vector;
   using std::string;
   
-  App::App () {
-    _config = new Config();
-  }
+  App::App () {}
   
-  App::~App () {
-    delete _config;
-  }
+  App::~App () {}
 
   int App::execute () {
     // try {
@@ -70,12 +66,12 @@ namespace findd {
   }
   
   void App::load_file_list () {
-    if (_config->in_scan_file() != "") {
+    if (_env.in_scan_file != "") {
       // load filelist from the backup
     } else {
-      if (!_config->directories().empty()) {  // perform new scan
+      if (!_env.directories.empty()) {  // perform new scan
         Scanner scanner;
-        const std::vector<std::string> &dir = _config->directories();
+        const std::vector<std::string> &dir = _env.directories;
         
         for (unsigned int i = 0; i < dir.size(); i++) {
           scanner.scan(dir[i]);
@@ -131,9 +127,5 @@ namespace findd {
     
   }
   
-  void App::bind (Ui *ui) {
-  	_ui = ui;
-  }
-  
-  Config *App::config () { return _config; }
+  env_t & App::env () { return _env; }
 }

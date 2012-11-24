@@ -41,8 +41,6 @@
 
 namespace findd {
   
-  class DirectoryNotFoundException {};
-  
   class File;
   
   class Scanner {

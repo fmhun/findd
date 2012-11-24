@@ -40,19 +40,19 @@
 #include <sstream>
 #include <exception>
     
-#include "ui.h"
+#include "common.h"
 
 namespace findd {
   
-  class App; class Config;
+  using std::exception;
   
-  class CommandLineException : public std::exception {
+  class CommandLineError : public std::exception {
   public:
-    CommandLineException (const std::string &msg) {
+    CommandLineError (const std::string &msg) {
       _msg = msg;
     }
     
-    virtual ~CommandLineException () throw() {}
+    virtual ~CommandLineError () throw() {}
     
     const char* what () const throw() {
       return (std::string("findd: ") + _msg).c_str();
@@ -61,11 +61,11 @@ namespace findd {
     std::string _msg;
   };
   
-  class ValidationException : public CommandLineException {
+  class ValidationError : public CommandLineError {
   public:
-    ValidationException (const std::string &msg) : CommandLineException(msg) {}
+    ValidationError (const std::string &msg) : CommandLineError(msg) {}
     
-    virtual ~ValidationException () throw() {}
+    virtual ~ValidationError () throw() {}
     
     const char* what () const throw() {
       std::stringstream ss;
@@ -74,18 +74,20 @@ namespace findd {
     }
   };
   
-  class CommandLine : public Ui {
+  
+  class App;
+  struct ent_t;
+    
+  class CommandLine {
   public:
   	CommandLine ();
     virtual ~CommandLine ();
     
-    int run (App &);
-  	void parse (Config *, const int &, char **);
+    void parse (env_t &, const int &, char **);
+    void validate () throw(ValidationError);
     
-    void dialog (const std::string &, const UiMessageType) const;
-    
-    void out (const std::string &) const;
-    void err (const std::string &) const;
+    static void out (const std::string &);
+    static void err (const std::string &);
   private:
   	const std::string help () const;
     const std::string version () const;
@@ -94,7 +96,7 @@ namespace findd {
     int _argc;
     char **_argv;
     boost::program_options::options_description *_options;
-    boost::program_options::variables_map *_flags;
+    boost::program_options::variables_map _flags;
   };
       
 }

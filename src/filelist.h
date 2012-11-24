@@ -42,20 +42,6 @@ namespace findd {
   
   class File;
   
-  class FileListException : public std::exception {
-  public:
-    virtual ~FileListException() throw();
-  
-    virtual const char* what() const throw();
-  };
-
-  class InvalidBackupException : public FileListException {
-  public:
-    virtual ~InvalidBackupException() throw();
-
-    virtual const char* what() const throw();
-  };
-
   class FileList : public std::list<File> {
   public:
   	FileList ();

@@ -37,10 +37,11 @@
 
 #include <string>
 
+#include "common.h"
+
 namespace findd {
   
   class Ui;
-  class Config;
   
   class App {
   public:
@@ -48,15 +49,12 @@ namespace findd {
     virtual ~App ();
     
   	int execute ();
-    void bind (Ui *);
-
-  	Config *config ();
+  	env_t & env ();
   protected:
     void load_file_list ();
     void search_duplicates ();
     
-    Ui *_ui;
-  	Config *_config;
+  	env_t _env;
   };
 
 }

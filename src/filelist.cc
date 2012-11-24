@@ -38,18 +38,6 @@
     
 namespace findd {
 
-  FileListException::~FileListException() throw() {}
-
-  const char* FileListException::what() const throw() {
-    return "FileList error";
-  }
-
-  InvalidBackupException::~InvalidBackupException() throw() {}
-
-  const char* InvalidBackupException::what() const throw() {
-    return "invalid backup input file";
-  }
-
   FileList::FileList () : std::list<File>() {}
   FileList::~FileList () {}
   

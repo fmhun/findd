@@ -33,18 +33,15 @@
 */
 
 #include <boost/program_options.hpp>
-#include <exception>
 
 #include "app.h"
 #include "commandline.h"
-#include "ui.h"
 #include "utils/logger.h"
 
 using findd::App;
 using findd::Ui;
 using findd::CommandLine;
 using findd::utils::Logger;
-using std::exception;
 
 Logger *L = Logger::instance();
 
@@ -57,13 +54,16 @@ int main (int argc, char ** argv) {
   CommandLine cmdline;
   
   try {
-    cmdline.parse(app.config(), argc, argv);
-    return cmdline.run(app);
-  } catch (exception &e) {
-    L->error(e.what());
-    cmdline.dialog(e.what(), findd::ERROR);
+    cmdline.parse(app.env(), argc, argv);
+    cmdline.validate();
+    
+    app.execute();
+  } catch (std::exception &e) {
+    //CommandLine::err(e.what());
     return -1;
-  } 
+  }
+  
+  return 0;
 }
 
 void bootstrap () {
