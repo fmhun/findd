@@ -29,7 +29,4 @@ namespace findd {
 
 }
 
-// void init_env(env_t *env) {
-//   //recursive = false;
-// }
 #endif
