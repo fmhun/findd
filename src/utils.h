@@ -32,5 +32,46 @@
 	THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
+#ifndef FINDD_UTILS_
+#define FINDD_UTILS_
+
 #include "utils/crypto.h"
 #include "utils/logger.h"
+
+#include <iostream>
+#include <sys/time.h>
+
+// ================================================================
+// A chronometer class: Start() and Stop() are the main functions.
+class Chrono {
+ private:
+  timeval start;
+  bool started;
+
+ public:
+  // ================================================================
+  Chrono() : started(false) {};
+  // ================================================================
+  ~Chrono() {
+    if(started) Stop(); // automatic stop ...
+  }
+  // ================================================================
+  void Start() {
+    if( !started ) {
+      started = true;
+      gettimeofday( &start, NULL );
+    }
+  }
+  // ================================================================
+  void Stop() {
+    if ( started ) {
+      started = false;
+      timeval stop;
+      gettimeofday( &stop, NULL );
+      const double sec = (stop.tv_sec - start.tv_sec) + 1e-6f*(stop.tv_usec - start.tv_usec);
+      std::cout<<"Ellapsed time: "<<sec<<" second"<<(sec>=2 ? "s" : "")<<std::endl;
+    }
+  }
+};
+
+#endif

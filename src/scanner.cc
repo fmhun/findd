@@ -49,15 +49,15 @@ namespace findd {
     using namespace fs;
     using namespace std;
 		
-		path p(directory);
+		path root(directory);
     
-    if (!exists(p) || !is_directory(p)) {
+    if (!exists(root) || !is_directory(root)) {
       return;
     }
     
     list<path> dirs_to_scan;
-    dirs_to_scan.push_back(p);
-
+    dirs_to_scan.push_back(root);
+    
     while (dirs_to_scan.size() != 0) {
       path dir = dirs_to_scan.front();
       dirs_to_scan.pop_front();
@@ -66,11 +66,13 @@ namespace findd {
       vector<path> contents;
       copy(directory_iterator(dir), directory_iterator(), back_inserter(contents));
 
-      for (vector<path>::const_iterator it(contents.begin()); it != contents.end(); ++it) {
-        if (is_directory(*it)) {
-          dirs_to_scan.push_back(*it);
-        } else if (is_regular_file(*it)) {
-          _files.push_back(File(*it));
+      #pragma omp parallel for
+      for (int i = 0; i < contents.size(); ++i) {
+        const path &p = contents[i];
+        if (is_directory(p)) {
+          dirs_to_scan.push_back(p);
+        } else if (is_regular_file(p)) {
+          _files.push_back(File(p));
         } else {
           // TODO : what should we do for elements which are not a directory and not a regular file.  
         }
