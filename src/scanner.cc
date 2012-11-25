@@ -45,7 +45,7 @@ namespace findd {
   
   Scanner::~Scanner () {}
   
-  void Scanner::scan (const std::string &directory) {
+  void Scanner::scan (const std::string &directory, const bool recursive) {
     using namespace fs;
     using namespace std;
 		
@@ -69,7 +69,7 @@ namespace findd {
       #pragma omp parallel for
       for (int i = 0; i < contents.size(); ++i) {
         const path &p = contents[i];
-        if (is_directory(p)) {
+        if (is_directory(p) && recursive) {
           dirs_to_scan.push_back(p);
         } else if (is_regular_file(p)) {
           _files.push_back(File(p));

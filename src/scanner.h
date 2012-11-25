@@ -50,7 +50,7 @@ namespace findd {
   public:
   	Scanner ();
     ~Scanner ();
-    void scan (const std::string &);
+    void scan (const std::string &, const bool = false);
     
     const std::vector<std::string> &scanned_directories () const;
     const file_list &files () const;

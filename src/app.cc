@@ -57,7 +57,7 @@ namespace findd {
       if (!_env.directories.empty()) {  // perform new scan
         Scanner scanner;
         for (unsigned int i = 0; i < _env.directories.size(); i++) {
-          scanner.scan(_env.directories[i]);
+          scanner.scan(_env.directories[i], _env.recursive);
         }
         files = scanner.files();
       } else {
