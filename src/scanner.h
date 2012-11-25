@@ -37,6 +37,9 @@
 
 #include <string>
 #include <vector>
+
+#include "pugixml.hpp"
+
 #include "common.h"
 
 namespace findd {

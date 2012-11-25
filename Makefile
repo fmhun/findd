@@ -31,7 +31,9 @@
 # THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 CXX = g++
-CFLAGS = -W -Wall -ansi -pendic
+LIB_DIR = lib
+INCLUDES = -Ilib/pugixml/src
+CFLAGS = -W -Wall -ansi -pendic $(INCLUDES)
 
 SRC_DIR = src
 SRCOBJS = common.o crypto.o logger.o file.o duplicate.o filter.o scanner.o app.o commandline.o
@@ -47,6 +49,9 @@ all: findd clean
 
 findd: $(SRCOBJS) $(PROG_MAIN_SRC:.cc=.o)
 	$(CXX) $(CFLAGS) $^ -o $@ $(DEPS_LIB)
+
+pugixml.o: $(LIB_DIR)/pugixml/src/pugixml.cpp
+	$(CXX) -c $^ -o $@
 
 check: test
 	@./test
