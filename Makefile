@@ -36,7 +36,7 @@ INCLUDES = -Ilib/pugixml/src
 CFLAGS = -ansi -pendic $(INCLUDES) -fopenmp
 
 SRC_DIR = src
-SRCOBJS = common.o crypto.o logger.o file.o duplicate.o filter.o scanner.o app.o commandline.o
+SRCOBJS = common.o crypto.o logger.o file.o duplicate.o filter.o scanner.o app.o terminal.o
 DEPS_LIB = -lboost_program_options -lboost_system -lboost_filesystem
 PROG_MAIN_SRC = main.cc
 

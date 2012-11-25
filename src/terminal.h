@@ -32,40 +32,73 @@
 	THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
+#ifndef FINDD_TERMINAL_H_
+#define FINDD_TERMINAL_H_
+
 #include <boost/program_options.hpp>
-
-#include "app.h"
-#include "terminal.h"
-#include "utils/logger.h"
-
-using findd::App;
-using findd::Ui;
-using findd::Terminal;
-using findd::utils::Logger;
-
-Logger *L = Logger::instance();
-
-void bootstrap ();
-
-int main (int argc, char ** argv) {
-  bootstrap();
-  
-  App app;
-  Terminal cli;
-  
-  try {
-    cli.parse(app.env(), argc, argv);
-    cli.validate();
+#include <string>
+#include <sstream>
+#include <exception>
     
-    app.execute();
-  } catch (std::exception &e) {
-    //Terminal::err(e.what());
-    return -1;
-  }
+#include "common.h"
+
+namespace findd {
   
-  return 0;
+  using std::exception;
+  
+  class TerminalError : public std::exception {
+  public:
+    TerminalError (const std::string &msg) {
+      _msg = msg;
+    }
+    
+    virtual ~TerminalError () throw() {}
+    
+    const char* what () const throw() {
+      return (std::string("findd: ") + _msg).c_str();
+    }
+  protected:
+    std::string _msg;
+  };
+  
+  class ValidationError : public TerminalError {
+  public:
+    ValidationError (const std::string &msg) : TerminalError(msg) {}
+    
+    virtual ~ValidationError () throw() {}
+    
+    const char* what () const throw() {
+      std::stringstream ss;
+      ss << "findd: " << _msg << std::endl << "usage: findd [-r] [-d ARGS | -b ARGS] [-f ARGS]";
+      return ss.str().c_str();
+    }
+  };
+  
+  
+  class App;
+  struct ent_t;
+    
+  class Terminal {
+  public:
+  	Terminal ();
+    virtual ~Terminal ();
+    
+    void parse (env_t &, const int &, char **);
+    void validate () throw(ValidationError);
+    
+    static void out (const std::string &);
+    static void err (const std::string &);
+  private:
+  	const std::string help () const;
+    const std::string version () const;
+    const std::string usage () const;
+    
+    int _argc;
+    char **_argv;
+    boost::program_options::options_description *_options;
+    boost::program_options::variables_map _flags;
+  };
+      
 }
 
-void bootstrap () {
-  //L->register_stream(&std::clog);
-}
+#endif	// FINDD_TERMINAL_H_
