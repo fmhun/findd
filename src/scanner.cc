@@ -38,6 +38,9 @@
 
 #include "file.h"
 #include "common.h"
+#include "utils/filesystem.h"
+
+#include <iostream>
 
 namespace findd {
   
@@ -46,31 +49,41 @@ namespace findd {
   Scanner::~Scanner () {}
   
   void Scanner::scan (const std::string &directory, const bool recursive) {
-    using namespace fs;
+    using namespace boost::filesystem;
     using namespace std;
-		
-		path root(directory);
+    using utils::filesystem::trim_path;
     
-    if (!exists(root) || !is_directory(root)) {
+    string sdir = trim_path(directory);
+    path *pdir = new path(sdir);
+    
+    if (is_already_scanned(sdir))
+      return;
+        
+    if (!exists(*pdir) || !is_directory(*pdir)) {
       return;
     }
     
-    list<path> dirs_to_scan;
-    dirs_to_scan.push_back(root);
+    delete pdir;
+    list<string> dirs_to_scan;
+    dirs_to_scan.push_back(sdir);
     
     while (dirs_to_scan.size() != 0) {
-      path dir = dirs_to_scan.front();
+      path *dir = new path(dirs_to_scan.front());
       dirs_to_scan.pop_front();
-      _scanned_directories.push_back(dir.string());
-
+      
+      _scanned_directories.push_back( trim_path(dir->string()) ); // register "dir" as scanned
+      
+      // read "dir"
       vector<path> contents;
-      copy(directory_iterator(dir), directory_iterator(), back_inserter(contents));
-
-      #pragma omp parallel for
+      copy(directory_iterator(*dir), directory_iterator(), back_inserter(contents));
+      delete dir;
+      
+      // process files found from "dir"
       for (int i = 0; i < contents.size(); ++i) {
         const path &p = contents[i];
+        
         if (is_directory(p) && recursive) {
-          dirs_to_scan.push_back(p);
+          dirs_to_scan.push_back(p.string());
         } else if (is_regular_file(p)) {
           _files.push_back(File(p));
         } else {
@@ -78,14 +91,30 @@ namespace findd {
         }
       }
     }
-	}
+  }
 
   const std::vector<std::string> &Scanner::scanned_directories () const {
     return _scanned_directories;
   }
   
-  const std::list<File> &Scanner::files () const {
+  file_list Scanner::files () const {
     return _files;
+  }
+  
+  bool Scanner::is_already_scanned (const std::string &dir) {
+    for (size_t i = 0; i < _scanned_directories.size(); i++) {
+      if (_scanned_directories[i] == dir) return true;
+    }
+    return false;
+  }
+  
+  long Scanner::totalBytesScanned () const {
+    long bytes; int size = _files.size();
+    //FIXME : #pragma omp parallel for reduction(+:bytes)
+    for (int i = 0; i < size; i++) {
+      bytes += _files[i].size();
+    }
+    return bytes;
   }
   
 }

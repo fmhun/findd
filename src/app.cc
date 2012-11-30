@@ -34,15 +34,22 @@
 
 #include "app.h"
 
+#include <string>
+#include <iostream>
+
 #include "common.h"
 #include "scanner.h"
-
-#include <iostream>
+#include "terminal.h"
+#include "utils/timer.h"
+#include "file.h"
+#include "storage.h"
 
 namespace findd {
   
   using std::vector;
   using std::string;
+  using std::cout; using std::cerr; using std::endl;
+  using utils::Timer;
   
   App::App () {}
   
@@ -50,20 +57,41 @@ namespace findd {
 
   void App::execute () {
     file_list files;
+    Storage storage;
     
-    if (_env.in_scan_file != "") {
+    if (_env.in_scan_file.empty() == false) {
       // load filelist from the backup
+      files = storage.restore(_env.in_scan_file);
     } else {
-      if (!_env.directories.empty()) {  // perform new scan
+      if (_env.directories.empty() == false) {  // perform new scan
         Scanner scanner;
-        for (unsigned int i = 0; i < _env.directories.size(); i++) {
+        Timer t; t.start();
+        
+        for (unsigned int i = 0; i < _env.directories.size(); i++)
           scanner.scan(_env.directories[i], _env.recursive);
-        }
+        t.stop();
+        
         files = scanner.files();
+        
+        if (_env.out_scan_file.empty() == false) {
+          storage.persist(files, _env.out_scan_file);
+        }
+        
+        cout << "size of file list : " << (sizeof(File) * files.size()) << " bytes" << endl;
+        cout << "scanned " << files.size() << " files (" << scanner.totalBytesScanned() << " bytes) in " << t.elapsed() << " seconds" << endl;
+        
+        if (_env.filter.compare_content) {
+          cout << "processing files content..." << endl;
+          #pragma omp parallel for
+          for (int i = 0; i < files.size(); ++i) 
+            files[i].compute_checksum();
+        }
       } else {
         //throw ArgumentException("no input directories to scan");
       }
     }
+    
+    /* Search for duplicates */
   }
    
   env_t & App::env () { return _env; }

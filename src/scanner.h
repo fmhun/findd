@@ -38,8 +38,6 @@
 #include <string>
 #include <vector>
 
-#include "pugixml.hpp"
-
 #include "common.h"
 
 namespace findd {
@@ -51,10 +49,13 @@ namespace findd {
   	Scanner ();
     ~Scanner ();
     void scan (const std::string &, const bool = false);
+    long totalBytesScanned () const;
     
     const std::vector<std::string> &scanned_directories () const;
-    const file_list &files () const;
+    file_list files () const;
   private:
+    bool is_already_scanned (const std::string &);
+    
     file_list _files;
     std::vector<std::string> _scanned_directories;
   };

@@ -6,6 +6,8 @@ namespace findd { namespace utils {
 
     std::string sha1 (const std::string &);
     
+    int crc32(char *, unsigned int);
+    
   } // namespace crypto
   
 } // namespace utils

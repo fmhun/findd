@@ -32,9 +32,13 @@
 	THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
+#include "file.h"
+
 #include <string>
 
-#include "file.h"
+#include "utils/crypto.h"
+#include <iostream>
+#include <fstream>
 
 namespace findd {
   
@@ -49,24 +53,38 @@ namespace findd {
     const fs::path p(_absolute_path);
   	return fs::remove(p);
   }
+  
+  void File::compute_checksum () {
+    FILE* f = fopen(_absolute_path.c_str(), "r");
+    if (f == 0) std::cout << _name << std::endl;
+    fseek(f, 0, SEEK_END);
+    size_t fsize = ftell(f);
 
-  const string & File::name () const {
+    char* fcontent = new char[fsize];
+    rewind(f);
+    fread(fcontent, sizeof(char), fsize, f);
+    fclose(f);
+    // _content_digest = findd::utils::crypto::crc32(fcontent, fsize);
+    delete [] fcontent;
+  }
+
+  string File::name () const {
   	return _name;
   }
   
-  const string & File::extension () const {
+  string File::extension () const {
   	return _extension;
   }
 
-  const string & File::absolute_path () const {
+  string File::absolute_path () const {
   	return _absolute_path;
   }
 
-  const string & File::content_digest () const {
+  int File::content_digest () const {
   	return _content_digest;
   }
 
-  const unsigned int & File::size () const {
+  unsigned int File::size () const {
   	return _size;
   }
   

@@ -37,7 +37,7 @@
 #include "app.h"
 #include "terminal.h"
 #include "utils/logger.h"
-
+    
 using findd::App;
 using findd::Ui;
 using findd::Terminal;
@@ -56,10 +56,9 @@ int main (int argc, char ** argv) {
   try {
     cli.parse(app.env(), argc, argv);
     cli.validate();
-    
     app.execute();
   } catch (std::exception &e) {
-    //Terminal::err(e.what());
+    Terminal::err(e.what());
     return -1;
   }
   

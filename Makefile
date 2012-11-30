@@ -36,7 +36,8 @@ INCLUDES = -Ilib/pugixml/src
 CFLAGS = -ansi -pendic $(INCLUDES) -fopenmp
 
 SRC_DIR = src
-SRCOBJS = common.o crypto.o logger.o file.o duplicate.o filter.o scanner.o app.o terminal.o
+SRCOBJS = common.o timer.o filesystem.o crypto.o logger.o storage.o file.o duplicate.o filter.o scanner.o app.o terminal.o
+LIB_OBJS = pugixml.o
 DEPS_LIB = -lboost_program_options -lboost_system -lboost_filesystem
 PROG_MAIN_SRC = main.cc
 
@@ -47,7 +48,7 @@ TEST_PROG_SRC = testrunner.cc
 
 all: findd clean
 
-findd: $(SRCOBJS) $(PROG_MAIN_SRC:.cc=.o)
+findd: $(SRCOBJS) $(PROG_MAIN_SRC:.cc=.o) $(LIB_OBJS)
 	$(CXX) $(CFLAGS) $^ -o $@ $(DEPS_LIB) $(OMPFLAGS)
 
 pugixml.o: $(LIB_DIR)/pugixml/src/pugixml.cpp
