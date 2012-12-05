@@ -64,7 +64,7 @@ namespace findd {
     rewind(f);
     fread(fcontent, sizeof(char), fsize, f);
     fclose(f);
-    // _content_digest = findd::utils::crypto::crc32(fcontent, fsize);
+    _content_digest = findd::utils::crypto::crc32(fcontent, fsize);
     delete [] fcontent;
   }
 

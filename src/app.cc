@@ -83,8 +83,9 @@ namespace findd {
         if (_env.filter.compare_content) {
           cout << "processing files content..." << endl;
           #pragma omp parallel for
-          for (int i = 0; i < files.size(); ++i) 
+          for (int i = 0; i < files.size(); ++i) {
             files[i].compute_checksum();
+          }
         }
       } else {
         //throw ArgumentException("no input directories to scan");
