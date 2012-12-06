@@ -108,7 +108,7 @@ namespace findd {
     Engine engine;
     
     engine.search(files, comparator);
-    
+    cout << "found " << engine.duplicates().size() << " duplicates" << endl;
   }
    
   env_t & App::env () { return _env; }

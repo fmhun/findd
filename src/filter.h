@@ -103,6 +103,10 @@ namespace findd {
         }
       }
     }
+    
+    const duplicate_list &duplicates() const {
+      return _duplicates;
+    }
   private:
     duplicate_list _duplicates;
   };
