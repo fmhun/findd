@@ -42,6 +42,10 @@
 
 namespace findd {
   
+  File::File (const string &name, const string &extension, const string &absolute_path, unsigned int size) 
+      : _name(name), _extension(extension), _absolute_path(absolute_path), _size(size) 
+  {}
+  
   File::File (const fs::path &p) {
     _name = p.filename().string();
     _extension = p.extension().string();

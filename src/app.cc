@@ -65,10 +65,9 @@ namespace findd {
     Storage storage;
     
     if (_env.in_scan_file.empty() == false) {
-      // load filelist from the backup
       files = storage.restore(_env.in_scan_file);
     } else {
-      if (_env.directories.empty() == false) {  // perform new scan
+      if (_env.directories.empty() == false) {
         Scanner scanner;
         Timer t; t.start();
         
@@ -85,19 +84,6 @@ namespace findd {
         //cout << "size of file list : " << (sizeof(File) * files.size()) << " bytes" << endl;
         cout << "scanned " << files.size() << " files (" << scanner.totalBytesScanned() << " bytes) in " << t.elapsed() << " seconds" << endl;
         
-        if (_env.filter.compare_content) {
-          cout << "processing files content..." << endl;
-          #pragma omp parallel for
-          for (int i = 0; i < files.size(); ++i) {
-            files[i].compute_checksum();
-          }
-        }
-        
-        Comparator comparator(_env.filter.compare_name, _env.filter.compare_size, _env.filter.compare_content);
-        Engine engine;
-    
-        engine.search(files, comparator);
-        
         /* DISPLAYS DUPS */ 
         // for (int i = 0; i < duplicates.size(); i++) {
         //   for (int j = 0; j < duplicates[i].size(); j++) {
@@ -110,7 +96,19 @@ namespace findd {
       }
     }
     
-    /* Search for duplicates */
+    if (_env.filter.compare_content) {
+      cout << "processing files content..." << endl;
+      #pragma omp parallel for
+      for (int i = 0; i < files.size(); ++i) {
+        files[i].compute_checksum();
+      }
+    }
+      
+    Comparator comparator(_env.filter.compare_name, _env.filter.compare_size, _env.filter.compare_content);
+    Engine engine;
+    
+    engine.search(files, comparator);
+    
   }
    
   env_t & App::env () { return _env; }

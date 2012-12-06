@@ -47,7 +47,8 @@ namespace findd {
   
   class File {
   public:
-  	File (const fs::path &);
+  	File (const string &name, const string &extension, const string &absolute_path, unsigned int size);
+    File (const fs::path &);
     File (const File &);
     
   	bool drop ();
