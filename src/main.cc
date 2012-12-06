@@ -39,7 +39,6 @@
 #include "utils/logger.h"
     
 using findd::App;
-using findd::Ui;
 using findd::Terminal;
 using findd::utils::Logger;
 
