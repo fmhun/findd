@@ -1,0 +1,59 @@
+Readme.txt
+__________________________________________________
+
+Florian Mhun <florian.mhun@gmail.com>
+Sara Ressam  <sara.ressam@gmail.com>
+Bastien Nouhant <bastien.nouhant@gmail.com>
+Jérôme Cornet <jerome.cornet@etu.univ-poitiers.fr>
+__________________________________________________	
+
+In this document we will remember how use the application. 
+Findd allows to find duplicate files in a specified folder. For doing there are two phases :
+-> the first one consisted in indexing file from the folder specified by the user. The result could be saved.
+-> the second one consisted in find duplicates from the past operation results, or from a scan backup.  
+
+1 - Findd is a command line program, so to using this application, open a terminal and
+    type "./findd".
+
+2 - This command could not be used alone. It needs a couple of options to works, like this
+
+    $> ./findd <option recursive scan> FOLDER_NAME <option save a scan> || <option precised saved scan > <options about filters>     
+    
+
+    <option recursive scan> 	  : -r  			make a recursive scan, so all folders underlying will be also visited 
+    <option save a scan>    	  : --out-scan="file.txt"       saved the scan into "file.txt"  
+    <option precised saved scan > : - i backupFile.txt          to find duplicates from a past scan saved in a file "backupFile.txt"
+    <options about filters>       : -N || -S || -C              filters which define what is a duplicate for the user.
+  				  				-> N : files with the same name
+								-> S : files with the same size	 
+								-> C : files with the same content
+	
+
+
+    It is important to notice that we can not used all these parameter in the same time. 
+    Some ways to use the program:
+
+    2.1 Scan + find duplicates "in one time" : $> ./findd <option recursive> FOLDER_NAME <options about filter>  
+     		Example : $> ./findd -r /home -N
+
+
+    2.2 Make only a scan, saved into a file : $> ./findd <option recursive> FOLDER_NAME <option save a scan>
+		Example : $> ./findd ­r /home –out­scan=“scan.txt”  
+   	
+
+    2.3 Find duplicates from a file : $> ./findd <option precised saved scan> <options about filter>
+		Example : $> ./findd ­i existedFile.txt ­-NS 
+  
+
+If you need more information about options, you could refer you to the application man. 
+$> man findd 
+
+
+
+
+
+
+
+
+
+	
