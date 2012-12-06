@@ -8,8 +8,8 @@
 #include <iostream>
 
 typedef struct std::vector<findd::File> file_list;
-typedef struct std::vector<findd::File*> duplicate;
-typedef struct std::list<duplicate> duplicate_list; 
+typedef struct std::vector<findd::File> duplicate;
+typedef struct std::vector<duplicate> duplicate_list; 
 
 struct filter_t {
   filter_t () : compare_name(false), compare_size(false), compare_content(false) {}
@@ -27,15 +27,5 @@ struct env_t {
   filter_t filter;
   bool display_stats;
 };
-
-
-// void filter_files (file_list *fl, duplicate_list *dups) {
-//   using namespace std;
-//   file_list::const_iterator it;
-//   
-//   for (it = fl->begin(); it != fl->end(); ++it) {
-//     cout << (*it).name() << endl;
-//   }
-// }
 
 #endif

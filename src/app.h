@@ -41,8 +41,6 @@
 
 namespace findd {
   
-  class Ui;
-  
   class App {
   public:
   	App ();

@@ -35,15 +35,77 @@
 #ifndef FINDD_FILTER_H
 #define FINDD_FILTER_H
 
+#include "common.h"
+
 namespace findd {
-
-  enum FilterMode {
-    NAME = 'N',
-    SIZE = 'S',
-    CONTENT = 'C'
+    
+  enum Criteria {
+    NONE = 0,
+    NAME = 1,
+    SIZE = 2,
+    CONTENT = 4
   };
-
   
+  class Comparator {
+  public:
+    Comparator (Criteria mode) : _mode(mode) {}
+      
+    Comparator (bool cmp_name, bool cmp_size, bool cmp_content) {
+      _mode = NONE;
+      if (cmp_name)    _mode |= NAME;
+      if (cmp_size)    _mode |= SIZE;
+      if (cmp_content) _mode |= CONTENT;
+    }
+      
+    bool compare (const File &a, const File &b) const {
+      bool equals = false;
+        
+      if (is_enabled(NAME)) {
+        equals = equals || (a.name() == b.name());
+      }
+        
+      return equals;
+    }
+      
+    inline int mode () const {
+      return _mode;
+    } 
+  private:
+      
+    inline bool is_enabled (Criteria c) const {
+      return (c & _mode) == c;
+    }
+    
+    int _mode;
+  };
+    
+  class Engine {
+  public:
+    Engine () {}
+      
+    void search (file_list &files, const Comparator &comparator) {
+      while (files.size() > 1) {
+        duplicate dup;
+        File file = files.front();
+        files.erase(files.begin());
+        dup.push_back(file);
+      
+        file_list::iterator it = files.begin();
+        while (it != files.end()) {
+          if (comparator.compare(file, *it)) {
+            dup.push_back(*it);
+            files.erase(it);
+          }
+          ++it;
+        }
+        if (dup.size() > 1) {
+          _duplicates.push_back(dup);
+        }
+      }
+    }
+  private:
+    duplicate_list _duplicates;
+  };
 
 }
 

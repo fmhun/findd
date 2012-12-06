@@ -48,6 +48,8 @@ namespace findd {
   class File {
   public:
   	File (const fs::path &);
+    File (const File &);
+    
   	bool drop ();
     void compute_checksum ();
 	

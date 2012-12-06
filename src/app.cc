@@ -39,12 +39,17 @@
 
 #include "common.h"
 #include "scanner.h"
+#include "filter.h"
 #include "terminal.h"
 #include "utils/timer.h"
 #include "file.h"
 #include "storage.h"
 
 namespace findd {
+  
+  bool compare (const File &a, const File &b) {
+    return a.name() == b.name();
+  }
   
   using std::vector;
   using std::string;
@@ -77,7 +82,7 @@ namespace findd {
           storage.persist(files, _env.out_scan_file);
         }
         
-        cout << "size of file list : " << (sizeof(File) * files.size()) << " bytes" << endl;
+        //cout << "size of file list : " << (sizeof(File) * files.size()) << " bytes" << endl;
         cout << "scanned " << files.size() << " files (" << scanner.totalBytesScanned() << " bytes) in " << t.elapsed() << " seconds" << endl;
         
         if (_env.filter.compare_content) {
@@ -87,6 +92,19 @@ namespace findd {
             files[i].compute_checksum();
           }
         }
+        
+        Comparator comparator(_env.filter.compare_name, _env.filter.compare_size, _env.filter.compare_content);
+        Engine engine;
+    
+        engine.search(files, comparator);
+        
+        /* DISPLAYS DUPS */ 
+        // for (int i = 0; i < duplicates.size(); i++) {
+        //   for (int j = 0; j < duplicates[i].size(); j++) {
+        //     cout << " -> " << duplicates[i][j].absolute_path() << endl;
+        //   }
+        //   cout << "------------------------" << endl;
+        // }
       } else {
         //throw ArgumentException("no input directories to scan");
       }

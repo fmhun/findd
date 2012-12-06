@@ -48,6 +48,13 @@ namespace findd {
     _absolute_path = fs::canonical(p).string();
     _size = fs::file_size(p);
   }
+  
+  File::File (const File &f) {
+    _name = f._name;
+    _extension = f._extension;
+    _absolute_path = f._absolute_path;
+    _size = f._size;
+  }
 
   bool File::drop () {
     const fs::path p(_absolute_path);
