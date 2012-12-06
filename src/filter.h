@@ -82,7 +82,7 @@ namespace findd {
   class Engine {
   public:
     Engine () {}
-      
+    
     void search (file_list &files, const Comparator &comparator) {
       while (files.size() > 1) {
         duplicate dup;
@@ -101,6 +101,12 @@ namespace findd {
         if (dup.size() > 1) {
           _duplicates.push_back(dup);
         }
+      }
+    }
+    
+    void for_each_duplicate (void (*callback)(const duplicate &)) {
+      for (int i = 0; i < _duplicates.size(); i++) {
+        callback(_duplicates[i]);
       }
     }
     

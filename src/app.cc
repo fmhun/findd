@@ -47,6 +47,12 @@
 
 namespace findd {
   
+  namespace {
+    void ask_for_duplicate_removal (const duplicate &dup) {
+      std::cout << "dup " << dup.size() << std::endl;
+    }
+  }
+  
   bool compare (const File &a, const File &b) {
     return a.name() == b.name();
   }
@@ -108,7 +114,8 @@ namespace findd {
     Engine engine;
     
     engine.search(files, comparator);
-    cout << "found " << engine.duplicates().size() << " duplicates" << endl;
+
+    engine.for_each_duplicate(ask_for_duplicate_removal);
   }
    
   env_t & App::env () { return _env; }
