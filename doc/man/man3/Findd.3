@@ -1,51 +1,71 @@
-.TH FINDD 1 "September 26, 2012" "version 1.0"
+.TH FINDD 1 "December 20, 2012" "version 1.0"
 
 .SH NAME
 
 findd -- Duplicates searching tool
 
-.SH SYNOPSIS
-
-.B findd [-NSC] [-i PATH] [-o PATH]
-
 .SH DESCRIPTION
 
-.B This tool is awesome.
+.B This application is made for find duplicates on hard drive(s). Amazing M1 IMMT projet, isn't it ? 	
+
+.SH HOW USE THE APPLICATION
+
+.B Findd allows to find duplicate files in a specified folder. For doing there are two phases : 
+
+.B The first one consisted in indexing file from the folder specified by the user. The result could be saved.
+
+.B The second one consisted in find duplicates from the past operation results, or from a scan backup.
+
+
+.B Three ways to use the application :
+
+.B Make a scan and directly find duplicates (without saving)
+
+.B ./findd <option recursive> FOLDER_NAME <options about filter>  
+
+.B Make a scan and save the result into a file :
+
+.B ./findd <option recursive> FOLDER_NAME <option save a scan>
+
+.B Find duplicates from a previous saved scan
+
+.B ./findd <option precised saved scan> <options about filter>	
+
+.SH OPTIONS
+
+.B This application needs some options to work correctly 
 
 .B The options are as follows:
-.TP 30
--i PATH, --in-scan=PATH
-Get files from saved scan to increase performances.
+.TP 20
+-i PATH 
+Get files from previous saved scan (for next applying filter)  
 
-.TP 30
--o PATH, --out-scan=PATH.
+.TP 20
+--out-scan=PATH
 Output scan into a file in order to use the -i option the next time you apply a duplicates searching on the PATH directory.
 
-.TP 30
--s, --stats
+.TP 20
+-r --recursive
+Make a recursive scan, and "visit" underlying directories 
 
-.TP 30
--r, --recursive
+.TP 20
+-N --compare-name
+Filter parameter : if you decide yo define a duplicate as a couple of file which have the same name. Could be joined with compare-size and compare-content options
 
-.TP 30
--N, --compare-name
+.TP 20
+-S --compare-size
+Filter parameter : if you decide yo define a duplicate as a couple of file which have the same size. Could be joined with compare-name and compare-content options
 
-.TP 30
--S, --compare-size
-
-.TP 30
--C, --compare-content
-
-.TP 30
--h, --help
-
-.TP 30
--v, --version
+.TP 20
+-C --compare-content
+Filter parameter : if you decide yo define a duplicate as a couple of file which have the same content. Could be joined with compare-size and compare-name options 
 
 .SH AUTHORS
 
-.B Florian Mhun \<florian.mhun at gmail.com\>
+.B Bastien Nohant \<jerome.cornet@etu.univ-poitiers.fr\>
 
-.B Sara Ressam \<sara.ressam at gmail.com\>
+.B Florian Mhun \<florian.mhun@gmail.com\>
 
-.B Bastien Nohant \<bastien.nohant at gmail.com\>
+.B Sara Ressam \<sara.ressam@gmail.com\>
+
+.B Bastien Nouhant \<bastien.nouhant@gmail.com\>
