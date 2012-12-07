@@ -34,11 +34,13 @@
 
 #include "file.h"
 
-#include <string>
+#include <unistd.h>
 
-#include "utils/crypto.h"
+#include <string>
 #include <iostream>
 #include <fstream>
+
+#include "utils/crypto.h"
 
 namespace findd {
   
@@ -63,8 +65,7 @@ namespace findd {
   }
 
   bool File::drop () const {
-    const fs::path p(_absolute_path);
-  	return fs::remove(p);
+  	return ::unlink(_absolute_path.c_str());
   }
   
   void File::compute_checksum () {
