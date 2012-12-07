@@ -36,6 +36,7 @@
 
 #include <string>
 #include <iostream>
+#include <sstream>
 
 #include "common.h"
 #include "scanner.h"
@@ -48,8 +49,24 @@
 namespace findd {
   
   namespace {
-    void ask_for_duplicate_removal (const duplicate &dup) {
-      std::cout << "dup " << dup.size() << std::endl;
+    const char COL_RESET[] = "\x1b[0m";
+    const char RED[]     = "\x1b[31m";
+    const char GREEN[]   = "\x1b[32m";
+    const char YELLOW[]  = "\x1b[33m";
+    const char BLUE[]    = "\x1b[34m";
+    const char MAGENTA[] = "\x1b[35m";
+    const char CYAN[]    = "\x1b[36m";
+    
+    std::string colorize_filename (const std::string &str, const char* color) {
+      size_t found = str.find_last_of("/\\");
+      
+      std::stringstream colorized;
+      colorized << color << str.substr(found+1) << COL_RESET;
+      
+      std::string cstr(str);
+      cstr.replace(found+1, str.length()-1, colorized.str());
+      
+      return cstr;
     }
   }
   
@@ -90,13 +107,6 @@ namespace findd {
         //cout << "size of file list : " << (sizeof(File) * files.size()) << " bytes" << endl;
         cout << "scanned " << files.size() << " files (" << scanner.totalBytesScanned() << " bytes) in " << t.elapsed() << " seconds" << endl;
         
-        /* DISPLAYS DUPS */ 
-        // for (int i = 0; i < duplicates.size(); i++) {
-        //   for (int j = 0; j < duplicates[i].size(); j++) {
-        //     cout << " -> " << duplicates[i][j].absolute_path() << endl;
-        //   }
-        //   cout << "------------------------" << endl;
-        // }
       } else {
         //throw ArgumentException("no input directories to scan");
       }
@@ -114,8 +124,39 @@ namespace findd {
     Engine engine;
     
     engine.search(files, comparator);
+    
+    const duplicate_list &dups = engine.duplicates();
+    /* DISPLAYS DUPS */ 
+    for (int i = 0; i < dups.size(); i++) {
+      const duplicate &dup = dups[i];
+      std::cout << "duplicates : " << dup.size() << std::endl;
+      for (int j = 0; j < dup.size(); j++) {
+        const File &file = dup[j];
+        std::cout << " #"<<j<<" -> " << colorize_filename(file.absolute_path(), RED) << std::endl;
+      }
+      //if (!_env.no_removal)
+        ask_for_duplicate_removal(dup);
+      std::cout << "------------------------------------------------" << std::endl;
+    }
+  }
+  
+  void ask_for_duplicate_removal (const duplicate &d) const {
+    string answer;
+    cout << "enter number of the list of file that you want to remove : "; // 123
+    cin >> answer;
+    cin.clear();
+    cout << endl;
 
-    engine.for_each_duplicate(ask_for_duplicate_removal);
+    for (int i = 0; i < answer.length(); i++) {
+
+    }
+
+    if (answer == 'y') {
+      for (int i = 0; i < duplicate.size(); ++i) {
+        duplicate[i].drop();
+      }
+    }
+    
   }
    
   env_t & App::env () { return _env; }

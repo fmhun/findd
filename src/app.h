@@ -48,6 +48,7 @@ namespace findd {
     
   	void execute ();
   	env_t & env ();
+    void ask_for_duplicate_removal (const duplicate &) const;
   private:    
   	env_t _env;
   };
