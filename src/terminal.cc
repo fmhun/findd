@@ -132,8 +132,8 @@ namespace findd {
       
     po::options_description filtering("Filtering options");
     scanning.add_options()
-      ("hello", po::value<int>(), "opt")
       ("filter,f", po::value<filter_t>(&env.filter)->required(), "apply filter to search duplicates")
+      ("no-removal", po::bool_switch(&env.no_removal)->default_value(false), "do not ask for duplicates removal");
     ;
     
     _options->add(general).add(filtering).add(scanning);

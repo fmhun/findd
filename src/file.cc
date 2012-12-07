@@ -42,6 +42,8 @@
 
 namespace findd {
   
+  using utils::crypto::crc32;
+  
   File::File (const string &name, const string &extension, const string &absolute_path, unsigned int size) 
       : _name(name), _extension(extension), _absolute_path(absolute_path), _size(size) 
   {}
@@ -60,7 +62,7 @@ namespace findd {
     _size = f._size;
   }
 
-  bool File::drop () {
+  bool File::drop () const {
     const fs::path p(_absolute_path);
   	return fs::remove(p);
   }
@@ -75,7 +77,8 @@ namespace findd {
     rewind(f);
     fread(fcontent, sizeof(char), fsize, f);
     fclose(f);
-    _content_digest = findd::utils::crypto::crc32(fcontent, fsize);
+    
+    _content_digest = crc32(fcontent, fsize);
     delete [] fcontent;
   }
 

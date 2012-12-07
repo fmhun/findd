@@ -46,6 +46,49 @@
 #include "file.h"
 #include "storage.h"
 
+namespace {
+  const char COL_RESET[] = "\x1b[0m";
+  const char RED[]     = "\x1b[31m";
+  const char GREEN[]   = "\x1b[32m";
+  const char YELLOW[]  = "\x1b[33m";
+  const char BLUE[]    = "\x1b[34m";
+  const char MAGENTA[] = "\x1b[35m";
+  const char CYAN[]    = "\x1b[36m";
+    
+  std::string colorize_filename (const std::string &str, const char* color) {
+    size_t found = str.find_last_of("/\\");
+      
+    std::stringstream colorized;
+    colorized << color << str.substr(found+1) << COL_RESET;
+      
+    std::string cstr(str);
+    cstr.replace(found+1, str.length()-1, colorized.str());
+      
+    return cstr;
+  }
+  
+  std::vector<std::string> split(const std::string &s, char delim) {
+    std::vector<std::string> elems;
+    std::stringstream ss(s);
+    std::string item;
+    while(std::getline(ss, item, delim)) {
+      elems.push_back(item);
+    }
+    return elems;
+  }
+}
+
+/** 
+ * Overloading of ostream operator<< to print a duplicate
+ */
+std::ostream& operator<< (std::ostream &out, const duplicate &d) {
+  for (int i = 0; i < d.size(); i++) {
+    const findd::File &file = d[i];
+    out << " #" << i <<" -> " << colorize_filename(file.absolute_path(), RED) << std::endl;
+  }
+  return out;
+}
+
 namespace findd {
   
   const char *LINE_SEPARATOR = "----------------------------------------------------";
@@ -56,7 +99,7 @@ namespace findd {
   
   using std::vector;
   using std::string;
-  using std::cout; using std::cerr; using std::endl;
+  using std::cout; using std::cerr; using std::cin; using std::endl;
   using utils::Timer;
   
   App::App () {}
@@ -111,29 +154,28 @@ namespace findd {
     for (int i = 0; i < dups.size(); i++) {
       const duplicate &dup = dups[i];
       cout << dup << endl;
-      //if (!_env.no_removal)
+      if (!_env.no_removal)
         ask_for_duplicate_removal(dup);
     }
   }
   
   void App::ask_for_duplicate_removal (const duplicate &d) const {
-    // string answer;
-    // cout << "enter number of the list of file that you want to remove : "; // 123
-    // cin >> answer;
-    // cin.clear();
-    // cout << endl;
-    // 
-    // for (int i = 0; i < answer.length(); i++) {
-    // 
-    // }
-    // 
-    // if (answer == 'y') {
-    //   for (int i = 0; i < duplicate.size(); ++i) {
-    //     duplicate[i].drop();
-    //   }
-    // }
+    string answer;
+    cout << "enter the file numbers you want to remove separated by a comma : "; // 123
+    cin >> answer;
+    cout << endl;
+    
+    vector<string> files_to_del = split(answer, ',');
+    
+    for (int i = 0; i < files_to_del.size(); i++) {
+      unsigned int num;
+      std::stringstream ssnum(files_to_del[i]);
+      ssnum >> num;
+      if (num >= d.size()) continue;
+      d[num].drop();
+    }
     
   }
-   
+  
   env_t & App::env () { return _env; }
 }

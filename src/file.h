@@ -51,7 +51,7 @@ namespace findd {
     File (const fs::path &);
     File (const File &);
     
-  	bool drop ();
+  	bool drop () const;
     void compute_checksum ();
 	
   	string name () const;
