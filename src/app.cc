@@ -48,27 +48,7 @@
 
 namespace findd {
   
-  namespace {
-    const char COL_RESET[] = "\x1b[0m";
-    const char RED[]     = "\x1b[31m";
-    const char GREEN[]   = "\x1b[32m";
-    const char YELLOW[]  = "\x1b[33m";
-    const char BLUE[]    = "\x1b[34m";
-    const char MAGENTA[] = "\x1b[35m";
-    const char CYAN[]    = "\x1b[36m";
-    
-    std::string colorize_filename (const std::string &str, const char* color) {
-      size_t found = str.find_last_of("/\\");
-      
-      std::stringstream colorized;
-      colorized << color << str.substr(found+1) << COL_RESET;
-      
-      std::string cstr(str);
-      cstr.replace(found+1, str.length()-1, colorized.str());
-      
-      return cstr;
-    }
-  }
+  const char *LINE_SEPARATOR = "----------------------------------------------------";
   
   bool compare (const File &a, const File &b) {
     return a.name() == b.name();
@@ -105,7 +85,7 @@ namespace findd {
         }
         
         //cout << "size of file list : " << (sizeof(File) * files.size()) << " bytes" << endl;
-        cout << "scanned " << files.size() << " files (" << scanner.totalBytesScanned() << " bytes) in " << t.elapsed() << " seconds" << endl;
+        cout << endl << "Scanned " << files.size() << " files (" << scanner.totalBytesScanned() << " bytes) in " << t.elapsed() << " seconds" << endl;
         
       } else {
         //throw ArgumentException("no input directories to scan");
@@ -125,16 +105,14 @@ namespace findd {
     engine.search(files, comparator);
     
     const duplicate_list &dups = engine.duplicates();
+    cout << endl << LINE_SEPARATOR << endl << endl;
+    cout << "Found " << dups.size() << " duplicates :" << endl << endl;
+  
     for (int i = 0; i < dups.size(); i++) {
       const duplicate &dup = dups[i];
-      std::cout << "duplicates : " << dup.size() << std::endl;
-      for (int j = 0; j < dup.size(); j++) {
-        const File &file = dup[j];
-        std::cout << " #"<<j<<" -> " << colorize_filename(file.absolute_path(), RED) << std::endl;
-      }
+      cout << dup << endl;
       //if (!_env.no_removal)
         ask_for_duplicate_removal(dup);
-      std::cout << "------------------------------------------------" << std::endl;
     }
   }
   
