@@ -89,15 +89,16 @@ namespace findd {
         File file = files.front();
         files.erase(files.begin());
         dup.push_back(file);
-      
+        
         file_list::iterator it = files.begin();
-        while (it != files.end()) {
+        while (it < files.end()) {
           if (comparator.compare(file, *it)) {
             dup.push_back(*it);
             files.erase(it);
           }
           ++it;
         }
+        
         if (dup.size() > 1) {
           _duplicates.push_back(dup);
         }

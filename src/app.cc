@@ -122,11 +122,9 @@ namespace findd {
       
     Comparator comparator(_env.filter.compare_name, _env.filter.compare_size, _env.filter.compare_content);
     Engine engine;
-    
     engine.search(files, comparator);
     
     const duplicate_list &dups = engine.duplicates();
-    /* DISPLAYS DUPS */ 
     for (int i = 0; i < dups.size(); i++) {
       const duplicate &dup = dups[i];
       std::cout << "duplicates : " << dup.size() << std::endl;
@@ -140,22 +138,22 @@ namespace findd {
     }
   }
   
-  void ask_for_duplicate_removal (const duplicate &d) const {
-    string answer;
-    cout << "enter number of the list of file that you want to remove : "; // 123
-    cin >> answer;
-    cin.clear();
-    cout << endl;
-
-    for (int i = 0; i < answer.length(); i++) {
-
-    }
-
-    if (answer == 'y') {
-      for (int i = 0; i < duplicate.size(); ++i) {
-        duplicate[i].drop();
-      }
-    }
+  void App::ask_for_duplicate_removal (const duplicate &d) const {
+    // string answer;
+    // cout << "enter number of the list of file that you want to remove : "; // 123
+    // cin >> answer;
+    // cin.clear();
+    // cout << endl;
+    // 
+    // for (int i = 0; i < answer.length(); i++) {
+    // 
+    // }
+    // 
+    // if (answer == 'y') {
+    //   for (int i = 0; i < duplicate.size(); ++i) {
+    //     duplicate[i].drop();
+    //   }
+    // }
     
   }
    
