@@ -44,7 +44,7 @@
 
 namespace findd {
   
-  using utils::crypto::crc32;
+  using utils::crypto::md5;
   
   File::File (const string &name, const string &extension, const string &absolute_path, unsigned int size) 
       : _name(name), _extension(extension), _absolute_path(absolute_path), _size(size) 
@@ -70,16 +70,15 @@ namespace findd {
   
   void File::compute_checksum () {
     FILE* f = fopen(_absolute_path.c_str(), "r");
-    if (f == 0) std::cout << _name << std::endl;
     fseek(f, 0, SEEK_END);
     size_t fsize = ftell(f);
-
-    char* fcontent = new char[fsize];
+    
+    char *fcontent = new char[fsize];
     rewind(f);
     fread(fcontent, sizeof(char), fsize, f);
     fclose(f);
     
-    _content_digest = crc32(fcontent, fsize);
+    _content_digest = md5(fcontent, fsize);
     delete [] fcontent;
   }
 
@@ -95,7 +94,7 @@ namespace findd {
   	return _absolute_path;
   }
 
-  int File::content_digest () const {
+  string File::content_digest () const {
   	return _content_digest;
   }
 

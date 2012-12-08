@@ -32,6 +32,8 @@
 	THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
+#include <iostream>
+#include <fstream>
 #include <boost/program_options.hpp>
 
 #include "app.h"
@@ -42,12 +44,10 @@ using findd::App;
 using findd::Terminal;
 using findd::utils::Logger;
 
-Logger *L = Logger::instance();
-
-void bootstrap ();
+const char *LOG_FILE_PATH = "/usr/local/var/log/findd.log";
 
 int main (int argc, char ** argv) {
-  bootstrap();
+  Logger::instance()->register_stream(new std::ofstream(LOG_FILE_PATH));
   
   App app;
   Terminal cli;
@@ -57,13 +57,9 @@ int main (int argc, char ** argv) {
     cli.validate();
     app.execute();
   } catch (std::exception &e) {
-    Terminal::err(e.what());
+    std::cerr << e.what() << std::endl;
     return -1;
   }
   
   return 0;
-}
-
-void bootstrap () {
-  //L->register_stream(&std::clog);
 }

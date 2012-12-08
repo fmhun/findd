@@ -38,8 +38,6 @@
 #include <string> 
 #include <boost/filesystem.hpp>
 
-namespace pugi { class xml_node; }
-
 namespace findd {
   
   namespace fs = ::boost::filesystem;
@@ -57,13 +55,13 @@ namespace findd {
   	string name () const;
   	string extension () const;
     string absolute_path () const;
-  	int content_digest () const;
+  	string content_digest () const;
   	unsigned int size () const;
   private:
-  	std::string _name;
-    std::string _extension;
-  	std::string _absolute_path;
-  	int _content_digest;
+  	string _name;
+    string _extension;
+  	string _absolute_path;
+  	string _content_digest;
   	unsigned int _size;
   };
     

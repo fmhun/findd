@@ -43,9 +43,6 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include "app.h"
 #include "common.h"
-#include "utils/logger.h"
-
-extern findd::utils::Logger *L;
 
 using namespace boost;
 using std::logic_error;
@@ -115,7 +112,6 @@ namespace findd {
     _argc = argc;
     _argv = argv;
     
-    L->info("parse arguments");
     po::options_description general("General options");
     general.add_options()
       ("help,h", "produce help message")
