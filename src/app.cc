@@ -34,6 +34,8 @@
 
 #include "app.h"
 
+#include <cstdio>
+
 #include <string>
 #include <iostream>
 #include <sstream>
@@ -43,11 +45,12 @@
 #include "filter.h"
 #include "terminal.h"
 #include "utils/timer.h"
+#include "utils/logger.h"
 #include "file.h"
 #include "storage.h"
 
 namespace {
-  const char COL_RESET[] = "\x1b[0m";
+  const char RESET[] = "\x1b[0m";
   const char RED[]     = "\x1b[31m";
   const char GREEN[]   = "\x1b[32m";
   const char YELLOW[]  = "\x1b[33m";
@@ -59,7 +62,7 @@ namespace {
     size_t found = str.find_last_of("/\\");
       
     std::stringstream colorized;
-    colorized << color << str.substr(found+1) << COL_RESET;
+    colorized << color << str.substr(found+1) << RESET;
       
     std::string cstr(str);
     cstr.replace(found+1, str.length()-1, colorized.str());
@@ -89,61 +92,71 @@ std::ostream& operator<< (std::ostream &out, const duplicate &d) {
   return out;
 }
 
+
 namespace findd {
   
   const char *LINE_SEPARATOR = "----------------------------------------------------";
-  
-  bool compare (const File &a, const File &b) {
-    return a.name() == b.name();
-  }
   
   using std::vector;
   using std::string;
   using std::cout; using std::cerr; using std::cin; using std::endl;
   using utils::Timer;
+  using utils::Logger;
   
-  App::App () {}
+  App::App () {
+    _logger = Logger::instance();
+  }
   
   App::~App () {}
 
   void App::execute () {
     file_list files;
     Storage storage;
+    char logmsg[200];
     
     if (_env.in_scan_file.empty() == false) {
       files = storage.restore(_env.in_scan_file);
+      sprintf(logmsg, "restored scan from %s", _env.in_scan_file.c_str());
+      _logger->info(logmsg);
     } else {
       if (_env.directories.empty() == false) {
         Scanner scanner;
         Timer t; t.start();
         
+        _logger->info("starting scanning directories");
         for (unsigned int i = 0; i < _env.directories.size(); i++)
           scanner.scan(_env.directories[i], _env.recursive);
         t.stop();
         
         files = scanner.files();
+        sprintf(logmsg, "done scanning %i files",(int)files.size());
+        _logger->info(logmsg);
         
         if (_env.out_scan_file.empty() == false) {
           storage.persist(files, _env.out_scan_file);
+          sprintf(logmsg, "saved scan result to %s", _env.out_scan_file.c_str());
+          _logger->info(logmsg);
         }
         
-        //cout << "size of file list : " << (sizeof(File) * files.size()) << " bytes" << endl;
         cout << endl << "Scanned " << files.size() << " files (" << scanner.totalBytesScanned() << " bytes) in " << t.elapsed() << " seconds" << endl;
-        
       } else {
+        _logger->error("no files entry (directories or backup file) was specified");
         //throw ArgumentException("no input directories to scan");
       }
     }
     
     if (_env.filter.compare_content) {
-      cout << "processing files content..." << endl;
       #pragma omp parallel for
       for (int i = 0; i < files.size(); ++i) {
         files[i].compute_checksum();
       }
+      _logger->info("computed files content with md5");
     }
-      
+    
     Comparator comparator(_env.filter.compare_name, _env.filter.compare_size, _env.filter.compare_content);
+    sprintf(logmsg, "search duplicates with mode : %i", comparator.mode());
+    _logger->info(logmsg);
+    
     Engine engine;
     engine.search(files, comparator);
     
@@ -161,7 +174,7 @@ namespace findd {
   
   void App::ask_for_duplicate_removal (const duplicate &d) const {
     string answer;
-    cout << "enter the file numbers you want to remove separated by a comma : "; // 123
+    cout << "enter the file numbers you want to remove separated by a comma : ";
     cin >> answer;
     cout << endl;
     
@@ -173,6 +186,10 @@ namespace findd {
       ssnum >> num;
       if (num >= d.size()) continue;
       d[num].drop();
+      
+      char logmsg[200];
+      sprintf(logmsg, "removed file %s", d[num].absolute_path().c_str());
+      _logger->info(logmsg);
     }
     
   }
