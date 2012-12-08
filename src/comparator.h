@@ -32,13 +32,15 @@
 	THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#ifndef FINDD_FILTER_H
-#define FINDD_FILTER_H
+#ifndef FINDD_COMPARATOR_H
+#define FINDD_COMPARATOR_H
 
 #include "common.h"
 
 namespace findd {
-    
+  
+  class File;
+  
   enum Criteria {
     NONE = 0,
     NAME = 1,
@@ -48,76 +50,20 @@ namespace findd {
   
   class Comparator {
   public:
-    Comparator (Criteria mode) : _mode(mode) {}
+    Comparator (const filter_t &);
       
-    Comparator (bool cmp_name, bool cmp_size, bool cmp_content) {
-      _mode = NONE;
-      if (cmp_name)    _mode |= NAME;
-      if (cmp_size)    _mode |= SIZE;
-      if (cmp_content) _mode |= CONTENT;
-    }
-      
-    bool compare (const File &a, const File &b) const {
-      bool equals = false;
-        
-      if (is_enabled(NAME)) {
-        equals = equals || (a.name() == b.name());
-      }
-        
-      return equals;
-    }
-      
+    bool compare (const File &, const File &) const;
+    
     inline int mode () const {
       return _mode;
-    } 
-  private:
-      
+    }
+    
     inline bool is_enabled (Criteria c) const {
       return (c & _mode) == c;
     }
-    
+  private:
     int _mode;
   };
-    
-  class Engine {
-  public:
-    Engine () {}
-    
-    void search (file_list &files, const Comparator &comparator) {
-      while (files.size() > 1) {
-        duplicate dup;
-        File file = files.front();
-        files.erase(files.begin());
-        dup.push_back(file);
-        
-        file_list::iterator it = files.begin();
-        while (it < files.end()) {
-          if (comparator.compare(file, *it)) {
-            dup.push_back(*it);
-            files.erase(it);
-          }
-          ++it;
-        }
-        
-        if (dup.size() > 1) {
-          _duplicates.push_back(dup);
-        }
-      }
-    }
-    
-    void for_each_duplicate (void (*callback)(const duplicate &)) {
-      for (int i = 0; i < _duplicates.size(); i++) {
-        callback(_duplicates[i]);
-      }
-    }
-    
-    const duplicate_list &duplicates() const {
-      return _duplicates;
-    }
-  private:
-    duplicate_list _duplicates;
-  };
-
 }
 
 #endif

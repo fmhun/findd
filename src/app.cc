@@ -42,7 +42,8 @@
 
 #include "common.h"
 #include "scanner.h"
-#include "filter.h"
+#include "comparator.h"
+#include "engine.h"
 #include "terminal.h"
 #include "utils/timer.h"
 #include "utils/logger.h"
@@ -153,7 +154,7 @@ namespace findd {
       _logger->info("computed files content with md5");
     }
     
-    Comparator comparator(_env.filter.compare_name, _env.filter.compare_size, _env.filter.compare_content);
+    Comparator comparator(_env.filter);
     sprintf(logmsg, "search duplicates with mode : %i", comparator.mode());
     _logger->info(logmsg);
     

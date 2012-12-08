@@ -32,11 +32,37 @@
 	THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#include "filter.h"
+#include "engine.h"
+
+#include "comparator.h"
 
 namespace findd {
   
-  //Filter::Filter () : _compare_name(false), _compare_size(false), _compare_content(false) {}
-  
-  //Filter::~Filter () {}
+  Engine::Engine () {}
+    
+  void Engine::search (file_list &files, const Comparator &comparator) {
+    while (files.size() > 1) {
+      duplicate dup;
+      File file = files.front();
+      files.erase(files.begin());
+      dup.push_back(file);
+        
+      file_list::iterator it = files.begin();
+      while (it < files.end()) {
+        if (comparator.compare(file, *it)) {
+          dup.push_back(*it);
+          files.erase(it);
+        }
+        ++it;
+      }
+        
+      if (dup.size() > 1) {
+        _duplicates.push_back(dup);
+      }
+    }
+  }
+      
+  const duplicate_list &Engine::duplicates() const {
+    return _duplicates;
+  }
 }
