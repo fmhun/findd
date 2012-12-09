@@ -90,15 +90,13 @@ namespace {
 std::ostream& operator<< (std::ostream &out, const duplicate &d) {
   for (int i = 0; i < d.size(); i++) {
     const findd::File &file = d[i];
-    out << " #" << i <<" -> " << colorize_filename(file.absolute_path(), RED) << std::endl;
+    out << "#" << i+1 << " " << file.absolute_path() << std::endl;
   }
   return out;
 }
 
 
 namespace findd {
-  
-  const char *LINE_SEPARATOR = "----------------------------------------------------";
   
   using std::vector;
   using std::string;
@@ -146,7 +144,7 @@ namespace findd {
         sprintf(logmsg, "done scanning %i files",(int)files.size());
         _logger->info(logmsg);
         
-        cout << endl << "Scanned " << files.size() << " files (" << scanner.totalBytesScanned() << " bytes) in " << t.elapsed() << " seconds" << endl;
+        cout << "Scanned " << files.size() << " files (" << scanner.totalBytesScanned() << " bytes) in " << t.elapsed() << " seconds" << endl;
         
         // ------------------------------------------------------------------------
         // Save scan result
@@ -175,7 +173,6 @@ namespace findd {
     engine.search(files, comparator);
     
     const duplicate_list &dups = engine.duplicates();
-    cerr << endl << LINE_SEPARATOR << endl << endl;
     cerr << "Found " << dups.size() << " duplicates" << endl << endl;
     
     // print duplicates
@@ -187,9 +184,8 @@ namespace findd {
     }
     
     // Statistics 
-    long gain_avg;
-    cerr << (engine.getMaxGainOfBytes() + engine.getMinGainOfBytes())/2 << endl;
-    
+    long gain_avg = (engine.getMaxGainOfBytes() + engine.getMinGainOfBytes()) / 2;
+    cerr << "Average size of duplicates into the memory space : " << gain_avg << " bytes" << endl;
   }
   
   void App::ask_for_duplicate_removal (const duplicate &d) const {
