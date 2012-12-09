@@ -185,6 +185,11 @@ namespace findd {
       if (!_env.no_removal)
         ask_for_duplicate_removal(dup);
     }
+    
+    // Statistics 
+    long gain_avg;
+    cerr << (engine.getMaxGainOfBytes() + engine.getMinGainOfBytes())/2 << endl;
+    
   }
   
   void App::ask_for_duplicate_removal (const duplicate &d) const {

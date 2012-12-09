@@ -49,6 +49,9 @@ namespace findd {
     
     const duplicate_list &duplicates() const;
     
+    long getMaxGainOfBytes ();
+    long getMinGainOfBytes ();
+    
   private:
     duplicate_list _duplicates;
   };
