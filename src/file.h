@@ -55,7 +55,7 @@ namespace findd {
   	string name () const;
   	string extension () const;
     string absolute_path () const;
-  	string content_digest () const;
+  	string content_digest ();
   	unsigned int size () const;
   private:
   	string _name;

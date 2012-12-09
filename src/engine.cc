@@ -35,26 +35,46 @@
 #include "engine.h"
 
 #include <iostream>
+#include <string>
+    
+#include "file.h"
 
 #include "comparator.h"
 
 namespace findd {
   
+  namespace {
+    
+    bool sort_by_name (const File &a, const File &b) {
+      std::string nc_a = a.name(), nc_b = b.name();
+      for (int i = 0; i < nc_a.length(); i++) nc_a[i] = tolower(nc_a[i]);
+      for (int i = 0; i < nc_b.length(); i++) nc_b[i] = tolower(nc_b[i]);
+    
+      return nc_a <= nc_b;
+    }
+  
+    bool sort_by_size (const File &a, const File &b) {
+      return a.size() <= b.size();
+    }
+    
+  }
+  
   Engine::Engine () {}
   
-  void Engine::search (file_list &files, const Comparator &compare) {
-    files.sort(compare);
+  void Engine::search (file_list &files, const Comparator &cmp) {
+    
+    files.sort(cmp.is_enabled(SIZE) || cmp.is_enabled(CONTENT) ? sort_by_size : sort_by_name);
     
     file_list::iterator it = files.begin();
     
     for (;;) {
-      const File &current = *it++;
+      File &current = *it++;
       duplicate dup;
       dup.push_back(current);
       
       // NOTE : the order of parameters of the compare function returns the equality between the current
       //        file and the next one.
-      while (it != files.end() && compare(*it, current)) {
+      while (it != files.end() && cmp(current, *it)) {
         dup.push_back(*it++);
       }
       

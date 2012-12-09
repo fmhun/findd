@@ -94,7 +94,8 @@ namespace findd {
   	return _absolute_path;
   }
 
-  string File::content_digest () const {
+  string File::content_digest () {
+    if (_content_digest.empty()) compute_checksum();
   	return _content_digest;
   }
 

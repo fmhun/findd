@@ -47,23 +47,18 @@ namespace findd {
     if (filter.compare_content) _mode |= CONTENT;
   }
   
-  bool Comparator::operator () ( const File &a, const File &b ) const { 
-    std::string nc_a = a.name(), nc_b = b.name();
-    for (int i = 0; i < nc_a.length(); i++) nc_a[i] = tolower(nc_a[i]);
-    for (int i = 0; i < nc_b.length(); i++) nc_b[i] = tolower(nc_b[i]);
+  bool Comparator::operator() (File &a, File &b) const {         
+    bool equals = true;
     
-    return nc_a <= nc_b;
+    if (is_enabled(NAME))
+      equals = a.name() == b.name();
+    
+    if (equals && (is_enabled(SIZE) || is_enabled(CONTENT)))
+      equals = a.size() == b.size();
+    
+    if (equals && is_enabled(CONTENT))
+      equals = a.content_digest() == b.content_digest();
+    
+    return equals;
   }
-      
-  // bool Comparator::compare (const File &a, const File &b) const {
-  //   
-  //   // 
-  //   // bool equals = false;
-  //   //     
-  //   // if (is_enabled(NAME)) {
-  //   //   equals = equals || (a.name() == b.name());
-  //   // }
-  //   //     
-  //   // return equals;
-  // }  
 }

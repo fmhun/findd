@@ -52,7 +52,10 @@ namespace findd {
   public:
     Comparator (const filter_t &);
       
-    bool operator () ( const File &a, const File &b ) const;
+    bool operator() (File &a, File &b) const;
+    
+    bool compare_by_name (const File &a, const File &b) const;
+    bool compare_by_size (const File &a, const File &b) const;
     
     inline int mode () const {
       return _mode;
