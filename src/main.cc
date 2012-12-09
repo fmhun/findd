@@ -52,14 +52,15 @@ int main (int argc, char ** argv) {
   App app;
   Terminal cli;
   
-  try {
-    cli.parse(app.env(), argc, argv);
-    cli.validate();
-    app.execute();
-  } catch (std::exception &e) {
-    std::cerr << e.what() << std::endl;
-    return -1;
+  if (!cli.parse(app.env(), argc, argv)) {
+    return EXIT_FAILURE; 
   }
   
-  return 0;
+  try {
+    app.execute();
+  } catch (std::exception& e) {
+    std::cerr << e.what() << std::endl;
+  }
+  
+  return EXIT_SUCCESS;
 }

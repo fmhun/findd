@@ -34,31 +34,33 @@
 
 #include "engine.h"
 
+#include <iostream>
+
 #include "comparator.h"
 
 namespace findd {
   
   Engine::Engine () {}
+  
+  void Engine::search (file_list &files, const Comparator &compare) {
+    files.sort(compare);
     
-  void Engine::search (file_list &files, const Comparator &comparator) {
-    while (files.size() > 1) {
+    file_list::iterator it = files.begin();
+    
+    for (;;) {
+      const File &current = *it++;
       duplicate dup;
-      File file = files.front();
-      files.erase(files.begin());
-      dup.push_back(file);
-        
-      file_list::iterator it = files.begin();
-      while (it < files.end()) {
-        if (comparator.compare(file, *it)) {
-          dup.push_back(*it);
-          files.erase(it);
-        }
-        ++it;
+      dup.push_back(current);
+      
+      // NOTE : the order of parameters of the compare function returns the equality between the current
+      //        file and the next one.
+      while (it != files.end() && compare(*it, current)) {
+        dup.push_back(*it++);
       }
-        
-      if (dup.size() > 1) {
-        _duplicates.push_back(dup);
-      }
+      
+      if (dup.size() > 1) _duplicates.push_back(dup);
+      
+      if (it == files.end()) break;
     }
   }
       

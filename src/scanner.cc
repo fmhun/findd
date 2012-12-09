@@ -110,10 +110,10 @@ namespace findd {
   
   long Scanner::totalBytesScanned () const {
     long bytes = 0; int size = _files.size();
-    #pragma omp parallel for reduction(+:bytes)
-    for (int i = 0; i < size; i++) {
-      bytes += _files[i].size();
-    }
+    // #pragma omp parallel for reduction(+:bytes)
+    // for (int i = 0; i < size; i++) {
+    //   bytes += _files[i].size();
+    // }
     return bytes;
   }
   

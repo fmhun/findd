@@ -8,7 +8,7 @@
 #include <iostream>
 #include <sstream>
 
-typedef struct std::vector<findd::File> file_list;
+typedef struct std::list<findd::File> file_list;
 typedef struct std::vector<findd::File> duplicate;
 typedef struct std::vector<duplicate> duplicate_list; 
 

@@ -108,7 +108,7 @@ namespace findd {
     delete _options;
   }
   
-  void Terminal::parse (env_t &env, const int &argc, char **argv) {
+  bool Terminal::parse (env_t &env, const int &argc, char **argv) {
     _argc = argc;
     _argv = argv;
     
@@ -133,17 +133,16 @@ namespace findd {
     ;
     
     _options->add(general).add(filtering).add(scanning);
+    
+    
+    try {
+      po::store(po::parse_command_line(_argc, _argv, *_options), _flags);
       
-    po::store(po::parse_command_line(_argc, _argv, *_options), _flags);
-  }
-  
-  void Terminal::validate () throw(ValidationError) {
-    if (_flags.count("help")) {
-      out(help());
-    } else if (_flags.count("version")) {
-      out(version());
-    } else {
-      try {
+      if (_flags.count("help")) {
+        help();
+      } else if (_flags.count("version")) {
+        version();
+      } else {
         conflicting_options(_flags, "scan", "restore");
         conflicting_options(_flags, "restore", "save");
         conflicting_options(_flags, "filter", "nofilter");
@@ -151,40 +150,12 @@ namespace findd {
         option_dependency(_flags, "restore", "filter");
         
         po::notify(_flags);
-      
-      } catch (std::exception &e) { 
-        throw ValidationError(e.what()); 
       }
+    } catch (std::exception &e) { 
+      std::cerr << e.what() << std::endl;
+      return false;
     }
+    return true;
   }
-  
-  void Terminal::out (const std::string &msg) {
-    std::cout << msg << std::endl;
-  }
-  
-  void Terminal::err (const std::string &msg) {
-    std::cerr << msg << std::endl;    
-  }
-  
-  const std::string Terminal::help () const {
-    std::stringstream ss;
-    ss << "findd help :" << std::endl 
-       << std::endl
-       << usage() << std::endl
-       << *_options;
     
-    return ss.str();
-  }
-  
-  const std::string Terminal::version () const {
-    return "findd version 1.0.0, University of Poitiers © 2012";
-  }
-  
-  const std::string Terminal::usage () const {
-    std::stringstream ss;
-    ss << "usage: findd [--version] [--help] [--recursive] [[--scan <dir>...] | [--restore <path>]]" << std::endl
-       << "             [--save <path>] [--filter <mode>]";
-    
-    return ss.str();
-  }
 }

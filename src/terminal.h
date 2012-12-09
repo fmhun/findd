@@ -39,6 +39,7 @@
 #include <string>
 #include <sstream>
 #include <exception>
+#include <iostream>
     
 #include "common.h"
 
@@ -76,23 +77,29 @@ namespace findd {
   
   
   class App;
-  struct ent_t;
-    
+  
   class Terminal {
   public:
   	Terminal ();
     virtual ~Terminal ();
     
-    void parse (env_t &, const int &, char **);
-    void validate () throw(ValidationError);
+    bool parse (env_t &, const int &, char **);
     
-    static void out (const std::string &);
-    static void err (const std::string &);
+    inline void version () const {
+      std::cerr << "findd version 1.0.0, University of Poitiers © 2012" << std::endl;
+    }
+
+    inline void usage () const {
+      std::cout << "usage: findd [--version] [--help] [--recursive] [[--scan <dir>...] | [--restore <path>]]" << std::endl
+        << "             [--save <path>] [--filter <mode>]";
+    }
+    
+    inline void help () const {
+      std::cerr << "findd help :" << std::endl << std::endl;
+      usage();
+      std::cerr << *_options;
+    }    
   private:
-  	const std::string help () const;
-    const std::string version () const;
-    const std::string usage () const;
-    
     int _argc;
     char **_argv;
     boost::program_options::options_description *_options;

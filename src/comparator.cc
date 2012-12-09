@@ -34,6 +34,8 @@
 
 #include "comparator.h"
     
+#include <string>
+    
 #include "file.h"
 
 namespace findd {
@@ -44,14 +46,24 @@ namespace findd {
     if (filter.compare_size)    _mode |= SIZE;
     if (filter.compare_content) _mode |= CONTENT;
   }
+  
+  bool Comparator::operator () ( const File &a, const File &b ) const { 
+    std::string nc_a = a.name(), nc_b = b.name();
+    for (int i = 0; i < nc_a.length(); i++) nc_a[i] = tolower(nc_a[i]);
+    for (int i = 0; i < nc_b.length(); i++) nc_b[i] = tolower(nc_b[i]);
+    
+    return nc_a <= nc_b;
+  }
       
-  bool Comparator::compare (const File &a, const File &b) const {
-    bool equals = false;
-        
-    if (is_enabled(NAME)) {
-      equals = equals || (a.name() == b.name());
-    }
-        
-    return equals;
-  }  
+  // bool Comparator::compare (const File &a, const File &b) const {
+  //   
+  //   // 
+  //   // bool equals = false;
+  //   //     
+  //   // if (is_enabled(NAME)) {
+  //   //   equals = equals || (a.name() == b.name());
+  //   // }
+  //   //     
+  //   // return equals;
+  // }  
 }
