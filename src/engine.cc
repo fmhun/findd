@@ -87,4 +87,36 @@ namespace findd {
   const duplicate_list &Engine::duplicates() const {
     return _duplicates;
   }
+  
+  long Engine::getMaxGainOfBytes () {
+    long max_gain = 0;
+    for (int i = 0 ; i < _duplicates.size(); i++) {
+
+      size_t min_size_file = _duplicates[i][0].size();
+      for (int j = 0 ; j<_duplicates[i].size() ; j++) {
+        size_t file_size = _duplicates[i][j].size();
+        max_gain += file_size;
+        if (file_size < min_size_file) min_size_file = file_size;
+      }
+
+      max_gain -= min_size_file;
+    }
+    return max_gain;
+  }
+  
+  long Engine::getMinGainOfBytes () {
+    long min_gain = 0;
+    for (int i = 0 ; i < _duplicates.size(); i++) {
+
+      size_t max_size_file = _duplicates[i][0].size();
+      for (int j = 0 ; j<_duplicates[i].size() ; j++) {
+        size_t file_size = _duplicates[i][j].size();
+        min_gain += file_size;
+        if (file_size > max_size_file) max_size_file = file_size;
+      }
+
+      min_gain -= max_size_file;
+    }
+    return min_gain;
+  }
 }
