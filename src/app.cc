@@ -41,6 +41,7 @@
 #include <string>
 #include <iostream>
 #include <sstream>
+#include <exception>
 
 #include "common.h"
 #include "scanner.h"
@@ -60,6 +61,15 @@ namespace {
   const char BLUE[]    = "\x1b[34m";
   const char MAGENTA[] = "\x1b[35m";
   const char CYAN[]    = "\x1b[36m";
+    
+  std::string size_format (size_t size) {
+    std::stringstream ss;
+    ss << size;
+    
+    // 999 999
+    
+    return ss.str();
+  }
     
   std::string colorize_filename (const std::string &str, const char* color) {
     size_t found = str.find_last_of("/\\");
@@ -144,7 +154,7 @@ namespace findd {
         sprintf(logmsg, "done scanning %i files",(int)files.size());
         _logger->info(logmsg);
         
-        cout << "Scanned " << files.size() << " files (" << scanner.totalBytesScanned() << " bytes) in " << t.elapsed() << " seconds" << endl;
+        cerr << "Scanned " << files.size() << " files (" << scanner.totalBytesScanned() << " bytes) in " << t.elapsed() << " seconds" << endl;
         
         // ------------------------------------------------------------------------
         // Save scan result
@@ -157,7 +167,7 @@ namespace findd {
         }
       } else {
         _logger->error("no files entry (directories or backup file) was specified");
-        //throw ArgumentException("no input directories to scan");
+        throw std::logic_error("findd : no input parameter was specified to get files");
       }
     }
         
@@ -179,13 +189,13 @@ namespace findd {
     for (int i = 0; i < dups.size(); i++) {
       const duplicate &dup = dups[i];
       cout << dup << endl;
-      if (!_env.no_removal)
+      if (_env.remove)
         ask_for_duplicate_removal(dup);
     }
     
     // Statistics 
-    long gain_avg = (engine.getMaxGainOfBytes() + engine.getMinGainOfBytes()) / 2;
-    cerr << "Average size of duplicates into the memory space : " << gain_avg << " bytes" << endl;
+    size_t gain_avg = (engine.getMaxGainOfBytes() + engine.getMinGainOfBytes()) / 2;
+    cerr << "Average size of duplicates into the memory space : " << size_format(gain_avg) << " bytes" << endl;
   }
   
   void App::ask_for_duplicate_removal (const duplicate &d) const {

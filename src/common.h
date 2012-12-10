@@ -27,7 +27,7 @@ struct env_t {
   std::string out_scan_file;
   filter_t filter;
   bool display_stats;
-  bool no_removal;
+  bool remove;
 };
 
 #endif
