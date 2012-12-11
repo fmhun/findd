@@ -88,7 +88,7 @@ namespace findd {
     return _duplicates;
   }
   
-  long Engine::getMaxGainOfBytes () {
+  long Engine::get_max_gain_of_bytes () {
     long max_gain = 0;
     for (int i = 0 ; i < _duplicates.size(); i++) {
 
@@ -104,7 +104,7 @@ namespace findd {
     return max_gain;
   }
   
-  long Engine::getMinGainOfBytes () {
+  long Engine::get_min_gain_of_bytes () {
     long min_gain = 0;
     for (int i = 0 ; i < _duplicates.size(); i++) {
 
