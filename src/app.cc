@@ -194,7 +194,7 @@ namespace findd {
     }
     
     // Statistics 
-    size_t gain_avg = (engine.getMaxGainOfBytes() + engine.getMinGainOfBytes()) / 2;
+    size_t gain_avg = (engine.get_max_gain_of_bytes() + engine.get_min_gain_of_bytes()) / 2;
     cerr << "Average size of duplicates into the memory space : " << size_format(gain_avg) << " bytes" << endl;
   }
   
