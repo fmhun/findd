@@ -42,7 +42,7 @@ DEPS_LIB = -lboost_program_options -lboost_system -lboost_filesystem -lssl -lcry
 PROG_MAIN_SRC = main.cc
 
 TEST_DIR = unittest
-TEST_OBJS = filetest.o filelisttest.o duplicatetest.o filtertest.o scannertest.o configtest.o apptest.o commandlinetest.o
+TEST_OBJS = filetest.o 
 TEST_LIB = -lcppunit
 TEST_PROG_SRC = testrunner.cc
 
