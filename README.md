@@ -5,7 +5,6 @@
 
 The project depends on the following libraries :
 
-+ [gflags 2.0](http://code.google.com/p/gflags)
 + [boost 1.52.0](http://www.boost.org/)
 
 Check if these libraries are installed on your system, otherwise get a local copyon your machine and install each one.
