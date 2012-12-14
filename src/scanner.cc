@@ -82,10 +82,9 @@ namespace findd {
       }
       
       // Read dir content
-      chdir(dir.c_str());
       while((entry = readdir(dp)) != NULL) {
-        lstat(entry->d_name, &statbuf);
         string path = dir_concat(dir, string(entry->d_name));
+        lstat(path.c_str(), &statbuf);
         
         if (S_ISDIR(statbuf.st_mode)) {
           if (strcmp(".", entry->d_name) == 0 || strcmp("..", entry->d_name) == 0)
@@ -96,7 +95,6 @@ namespace findd {
           _total_bytes_scanned += _files.front().size();
         }
       }
-      chdir("..");
       closedir(dp);
     } while (dirs_to_scan.size() != 0 && recursive);
   }
