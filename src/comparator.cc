@@ -40,7 +40,7 @@
 
 namespace findd {
   
-  Comparator::Comparator (const filter_t &filter) {
+  Comparator::Comparator (const struct filter_t &filter) {
     _mode = NONE;
     if (filter.compare_name)    _mode |= NAME;
     if (filter.compare_size)    _mode |= SIZE;

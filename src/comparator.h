@@ -50,7 +50,7 @@ namespace findd {
   
   class Comparator {
   public:
-    Comparator (const filter_t &);
+    Comparator (const struct filter_t &);
       
     bool operator() (File &a, File &b) const;
     
