@@ -38,7 +38,7 @@
 #include <string>
 #include <vector>
 
-#include "common.h"
+#include "global.h"
 
 namespace findd {
   

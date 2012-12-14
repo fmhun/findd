@@ -37,7 +37,7 @@
 
 #include <string>
 
-#include "common.h"
+#include "global.h"
 
 namespace findd {
   

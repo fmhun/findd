@@ -44,7 +44,7 @@
 #include <stdlib.h>
 
 #include "file.h"
-#include "common.h"
+#include "global.h"
 #include "utils/filesystem.h"
 
 #include <iostream>

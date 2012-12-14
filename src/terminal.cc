@@ -42,7 +42,7 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <algorithm>
 
 #include "app.h"
-#include "common.h"
+#include "global.h"
 
 using namespace boost;
 using std::logic_error;

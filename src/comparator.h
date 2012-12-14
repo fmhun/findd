@@ -35,7 +35,7 @@
 #ifndef FINDD_COMPARATOR_H
 #define FINDD_COMPARATOR_H
 
-#include "common.h"
+#include "global.h"
 
 namespace findd {
   

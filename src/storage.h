@@ -4,7 +4,7 @@
 #include <string>
 #include "pugixml.hpp"
 
-#include "common.h"
+#include "global.h"
 
 namespace findd {
   

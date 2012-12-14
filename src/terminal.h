@@ -41,7 +41,7 @@
 #include <exception>
 #include <iostream>
     
-#include "common.h"
+#include "global.h"
 
 namespace findd {
   

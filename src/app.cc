@@ -43,7 +43,7 @@
 #include <sstream>
 #include <exception>
 
-#include "common.h"
+#include "global.h"
 #include "scanner.h"
 #include "comparator.h"
 #include "engine.h"
