@@ -86,14 +86,15 @@ namespace findd {
         string path = dir_concat(dir, string(entry->d_name));
         lstat(path.c_str(), &statbuf);
         
+        if (strcmp(".", entry->d_name) == 0 || strcmp("..", entry->d_name) == 0)
+          continue;
+        
+        if (!inc_hidden)
+          if (is_hidden(path)) continue;
+        
         if (S_ISDIR(statbuf.st_mode)) {
-          if (strcmp(".", entry->d_name) == 0 || strcmp("..", entry->d_name) == 0)
-            continue;
           dirs_to_scan.push_back(path);
         } else {
-          if (!inc_hidden) {
-            if (is_hidden(path)) continue; // ignore hidden file
-          }
           _files.push_back(File(path, statbuf.st_size));
           _total_bytes_scanned += _files.back().size();
         }

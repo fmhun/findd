@@ -41,8 +41,14 @@ namespace findd {
       return path.substr( path.find_last_of(SEPARATORS) + 1 );
     }
     
-    std::string extension (const std::string &fn) {
-      return fn.substr( fn.find_last_of(".") + 1 );
+    std::string extension (const std::string &path) {
+      std::string fn = filename(path);
+      if (fn[0] == '.')
+        return fn;
+      else {
+        std::string ext = fn.substr( fn.find_last_of(".") + 1 );
+        return fn == ext ? "" : ext;
+      }
     }
     
     bool is_hidden (const std::string &path) {
