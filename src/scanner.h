@@ -49,7 +49,7 @@ namespace findd {
   	Scanner ();
     ~Scanner ();
     
-    void scan (const std::string &, const bool = false);
+    void scan (const std::string &, const bool = false, const bool = false);
     void reset () const;
     
     long total_bytes_scanned () const;

@@ -124,6 +124,7 @@ namespace findd {
       ("scan,s", po::value< std::vector<std::string> >(&env.directories)->multitoken(), "list of directories to scan")
       ("restore,i", po::value<std::string>(&env.in_scan_file), "restore a scan from a backup")
       ("save,o", po::value<std::string>(&env.out_scan_file), "save scanned files")
+      ("include-hidden", po::bool_switch(&env.include_hidden)->default_value(false), "include hidden files for searching")
     ;
       
     po::options_description filtering("Filtering options");

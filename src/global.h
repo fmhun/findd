@@ -23,12 +23,12 @@ struct filter_t {
 
 struct env_t {
   bool recursive;
-  std::vector<std::string> directories;  
+  std::vector<std::string> directories;
   std::string in_scan_file;
   std::string out_scan_file;
-  struct filter_t filter;
-  bool display_stats;
+  filter_t filter;
   bool remove;
+  bool include_hidden;
 };
 
 #endif

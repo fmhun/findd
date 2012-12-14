@@ -111,9 +111,9 @@ namespace findd {
   App::~App () {}
 
   void App::execute () {
+    char logmsg[200];
     file_list files;
     Storage storage;
-    char logmsg[200];
     
     if (_env.in_scan_file.empty() == false) {
       
@@ -131,13 +131,12 @@ namespace findd {
         // ------------------------------------------------------------------------
         // Scan directories
         // ------------------------------------------------------------------------
-        
-        Scanner scanner;
         Timer t; t.start();
+        Scanner scanner;
         
         _logger->info("starting scanning directories");
         for (unsigned int i = 0; i < _env.directories.size(); i++)
-          scanner.scan(_env.directories[i], _env.recursive);
+          scanner.scan(_env.directories[i], _env.include_hidden, _env.recursive);
         t.stop();
         
         files = scanner.files();
@@ -160,7 +159,7 @@ namespace findd {
         throw std::logic_error("findd : no input parameter was specified to get files");
       }
     }
-        
+    
     // ------------------------------------------------------------------------
     // Search for duplicates
     // ------------------------------------------------------------------------
@@ -206,9 +205,8 @@ namespace findd {
       char logmsg[200];
       sprintf(logmsg, "removed file %s", d[num].path().c_str());
       _logger->info(logmsg);
-    }
-    
+    } 
   }
-  
+    
   env_t & App::env () { return _env; }
 }

@@ -55,7 +55,7 @@ namespace findd {
   
   Scanner::~Scanner () {}
   
-  void Scanner::scan (const std::string &directory, const bool recursive) {
+  void Scanner::scan (const std::string &directory, const bool inc_hidden, const bool recursive) {
     using namespace std;
     using namespace filesystem;
     
@@ -91,6 +91,9 @@ namespace findd {
             continue;
           dirs_to_scan.push_back(path);
         } else {
+          if (!inc_hidden) {
+            if (is_hidden(path)) continue; // ignore hidden file
+          }
           _files.push_back(File(path, statbuf.st_size));
           _total_bytes_scanned += _files.back().size();
         }

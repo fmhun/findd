@@ -41,7 +41,7 @@
 
 namespace findd {
   
-  namespace utils { class Logger; }
+  namespace utils { class Logger; }  
   
   class App {
   public:
@@ -49,9 +49,9 @@ namespace findd {
     virtual ~App ();
     
   	void execute ();
-  	env_t & env ();
+  	struct env_t & env ();
     void ask_for_duplicate_removal (const duplicate &) const;
-  private:    
+  private:
   	env_t _env;
     utils::Logger *_logger;
   };

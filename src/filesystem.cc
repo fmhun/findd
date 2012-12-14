@@ -45,14 +45,14 @@ namespace findd {
       return fn.substr( fn.find_last_of(".") + 1 );
     }
     
-    bool is_hidden (const std::string &fn) {
-      return 
+    bool is_hidden (const std::string &path) {
 #ifdef _WIN32
         // TODO : implement it for windows system
         // @see GetFileAttributes http://msdn.microsoft.com/en-us/library/aa364944%28VS.85%29.aspx
-        false;
+      return false;
 #else
-        filename(fn) == extension(fn);
+      std::string fn = filename(path);
+      return fn == extension(fn);
 #endif
     }
     
