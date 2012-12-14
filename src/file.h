@@ -45,7 +45,8 @@ namespace findd {
   
   class File {
   public:
-  	File (const string &name, const string &extension, const string &absolute_path, unsigned int size);
+    File (const string &path, const size_t size);
+  	File (const string &name, const string &extension, const string &absolute_path, size_t size);
     File (const fs::path &);
     File (const File &);
     
@@ -56,13 +57,13 @@ namespace findd {
   	string extension () const;
     string absolute_path () const;
   	string content_digest ();
-  	unsigned int size () const;
+  	size_t size () const;
   private:
   	string _name;
     string _extension;
   	string _absolute_path;
   	string _content_digest;
-  	unsigned int _size;
+  	size_t _size;
   };
     
 }

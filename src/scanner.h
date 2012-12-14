@@ -48,8 +48,11 @@ namespace findd {
   public:
   	Scanner ();
     ~Scanner ();
+    
     void scan (const std::string &, const bool = false);
-    long totalBytesScanned () const;
+    void reset () const;
+    
+    long total_bytes_scanned () const;
     
     const std::vector<std::string> &scanned_directories () const;
     file_list files () const;
@@ -58,6 +61,7 @@ namespace findd {
     
     file_list _files;
     std::vector<std::string> _scanned_directories;
+    long _total_bytes_scanned;
   };
 
 }

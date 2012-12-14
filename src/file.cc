@@ -46,7 +46,11 @@ namespace findd {
   
   using utils::crypto::md5;
   
-  File::File (const string &name, const string &extension, const string &absolute_path, unsigned int size) 
+  File::File (const string &path, const size_t size) {
+    _size = size;
+  }
+  
+  File::File (const string &name, const string &extension, const string &absolute_path, size_t size) 
       : _name(name), _extension(extension), _absolute_path(absolute_path), _size(size) 
   {}
   
@@ -99,7 +103,7 @@ namespace findd {
   	return _content_digest;
   }
 
-  unsigned int File::size () const {
+  size_t File::size () const {
   	return _size;
   }
   

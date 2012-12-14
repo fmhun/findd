@@ -11,6 +11,9 @@ namespace findd { namespace utils {
     bool exists (const std::string &);
     
     std::string trim_path (const std::string &);
+    
+    std::string dir_concat (const std::string &first, const std::string &second);
+    
   }
   
 }

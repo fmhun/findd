@@ -18,7 +18,7 @@ namespace findd {
       file.append_attribute("name")           = (*it).name().c_str();
       file.append_attribute("extension")      = (*it).extension().c_str();
       file.append_attribute("absolute-path")  = (*it).absolute_path().c_str();
-      file.append_attribute("size")           = (*it).size();
+      file.append_attribute("size")           = (int) (*it).size();
     }
     
     doc.save_file(path.c_str());

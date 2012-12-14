@@ -36,6 +36,13 @@
 
 #include <boost/filesystem.hpp>
 
+#include <unistd.h>
+#include <stdio.h>
+#include <dirent.h>
+#include <string.h>
+#include <sys/stat.h>
+#include <stdlib.h>
+
 #include "file.h"
 #include "common.h"
 #include "utils/filesystem.h"
@@ -44,53 +51,58 @@
 
 namespace findd {
   
-  Scanner::Scanner () {}
+  Scanner::Scanner () : _total_bytes_scanned(0) {}
   
   Scanner::~Scanner () {}
   
   void Scanner::scan (const std::string &directory, const bool recursive) {
-    using namespace boost::filesystem;
     using namespace std;
-    using utils::filesystem::trim_path;
+    using namespace utils::filesystem;
     
-    string sdir = trim_path(directory);
-    path *pdir = new path(sdir);
+    string dir = trim_path(directory);
     
-    if (is_already_scanned(sdir))
+    if (is_already_scanned(dir))
       return;
-        
-    if (!exists(*pdir) || !is_directory(*pdir)) {
-      return;
-    }
     
-    delete pdir;
-    list<string> dirs_to_scan;
-    dirs_to_scan.push_back(sdir);
+    std::list<string> dirs_to_scan;
+    dirs_to_scan.push_back(directory);
     
-    while (dirs_to_scan.size() != 0) {
-      path *dir = new path(dirs_to_scan.front());
+    do {
+      dir = dirs_to_scan.front();
       dirs_to_scan.pop_front();
+      _scanned_directories.push_back(dir);
       
-      _scanned_directories.push_back( trim_path(dir->string()) ); // register "dir" as scanned
+      DIR *dp;
+      struct dirent *entry;
+      struct stat statbuf;
       
-      // read "dir"
-      vector<path> contents;
-      copy(directory_iterator(*dir), directory_iterator(), back_inserter(contents));
-      delete dir;
+      if ((dp = opendir(dir.c_str())) == NULL) {
+        string error = "can not open "; error += dir;
+        throw std::logic_error(error);
+      }
       
-      // process files found from "dir"
-      for (int i = 0; i < contents.size(); ++i) {
-        const path &p = contents[i];
+      // Read dir content
+      chdir(dir.c_str());
+      while((entry = readdir(dp)) != NULL) {
+        lstat(entry->d_name, &statbuf);
+        string path = dir_concat(dir, string(entry->d_name));
         
-        if (is_directory(p) && recursive) {
-          dirs_to_scan.push_back(p.string());
-        } else if (is_regular_file(p)) {
-          _files.push_back(File(p));
+        if (S_ISDIR(statbuf.st_mode)) {
+          if (strcmp(".", entry->d_name) == 0 || strcmp("..", entry->d_name) == 0)
+            continue;
+          dirs_to_scan.push_back(path);
         } else {
-          // TODO : what should we do for elements which are not a directory and not a regular file.  
+          _files.push_back(File(path, statbuf.st_size));
+          _total_bytes_scanned += _files.front().size();
         }
       }
-    }
+      chdir("..");
+      closedir(dp);
+    } while (dirs_to_scan.size() != 0 && recursive);
+  }
+  
+  void Scanner::reset () const {
+    // TODO : reset the scanned directories and scanned files
   }
 
   const std::vector<std::string> &Scanner::scanned_directories () const {
@@ -108,13 +120,8 @@ namespace findd {
     return false;
   }
   
-  long Scanner::totalBytesScanned () const {
-    long bytes = 0; int size = _files.size();
-    file_list::const_iterator it;
-    for (it = _files.begin(); it != _files.end(); it++) {
-      bytes += (*it).size();
-    }
-    return bytes;
+  long Scanner::total_bytes_scanned () const {
+    return _total_bytes_scanned;
   }
   
 }
