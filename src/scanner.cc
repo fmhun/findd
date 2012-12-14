@@ -45,7 +45,7 @@
 
 #include "file.h"
 #include "global.h"
-#include "utils/filesystem.h"
+#include "filesystem.h"
 
 #include <iostream>
 
@@ -57,7 +57,7 @@ namespace findd {
   
   void Scanner::scan (const std::string &directory, const bool recursive) {
     using namespace std;
-    using namespace utils::filesystem;
+    using namespace filesystem;
     
     string dir = trim_path(directory);
     

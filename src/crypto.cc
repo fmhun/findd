@@ -1,8 +1,5 @@
 #include "crypto.h"
 
-// #include <boost/crc.hpp>
-// #include <boost/uuid/sha1.hpp>
-#include <sstream>
 #include <cstddef>
 
 #include <sys/types.h>
@@ -15,11 +12,11 @@
 
 #include <openssl/md5.h>
 
-namespace findd { namespace utils {
+namespace findd {
   
   namespace crypto {
     
-    std::string md5 (char *s, unsigned int size) {
+    std::string md5 (char *s, const size_t size) {
       unsigned char result[MD5_DIGEST_LENGTH];
       MD5((unsigned char*) s, size, result);
       
@@ -35,21 +32,6 @@ namespace findd { namespace utils {
       
       return std::string(str);
     }
-
-    // // Print the MD5 sum as hex-digits.
-    void print_md5_sum(unsigned char* md) {
-      int i;
-      for(i=0; i <MD5_DIGEST_LENGTH; i++) {
-              printf("%02x",md[i]);
-      }
-    }
-    // 
-    // // Get the size of the file by its file descriptor
-    // unsigned long get_size_by_fd(int fd) {
-    //     struct stat statbuf;
-    //     if(fstat(fd, &statbuf) < 0) exit(-1);
-    //     return statbuf.st_size;
-    // }
 
     // int main(int argc, char *argv[]) {
     //     int file_descript;
@@ -78,7 +60,5 @@ namespace findd { namespace utils {
     // }
     
   } // namespace crypto
-
-} // namespace utils
 
 } // namespace findd

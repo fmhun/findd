@@ -48,8 +48,7 @@
 #include "comparator.h"
 #include "engine.h"
 #include "terminal.h"
-#include "utils/timer.h"
-#include "utils/logger.h"
+#include "utils.h"
 #include "file.h"
 #include "storage.h"
 

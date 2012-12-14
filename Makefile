@@ -36,7 +36,7 @@ INCLUDES = -Ilib/pugixml/src
 CFLAGS = $(INCLUDES) -fopenmp
 
 SRC_DIR = src
-SRCOBJS = timer.o filesystem.o crypto.o logger.o storage.o file.o duplicate.o comparator.o engine.o scanner.o app.o terminal.o
+SRCOBJS = crypto.o filesystem.o utils.o storage.o file.o duplicate.o comparator.o engine.o scanner.o app.o terminal.o
 LIB_OBJS = pugixml.o
 DEPS_LIB = -lboost_program_options -lboost_system -lboost_filesystem -lssl -lcrypto
 PROG_MAIN_SRC = main.cc
@@ -66,9 +66,6 @@ $(PROG_MAIN_SRC:.cc=.o): $(SRC_DIR)/$(PROG_MAIN_SRC)
 $(TEST_PROG_SRC:.cc=.o): $(TEST_DIR)/$(TEST_PROG_SRC)
 	$(CXX) $(CFLAGS) -I$(SRC_DIR) -c $< -o $@
 
-%.o: $(SRC_DIR)/utils/%.cc $(SRC_DIR)/utils/%.h
-	$(CXX) $(CFLAGS) -c $< -o $@
-
 %.o: $(SRC_DIR)/%.cc $(SRC_DIR)/%.h
 	$(CXX) $(CFLAGS) -c $< -o $@
 
@@ -78,10 +75,10 @@ $(TEST_PROG_SRC:.cc=.o): $(TEST_DIR)/$(TEST_PROG_SRC)
 .PHONY: clean
 
 clean:
-	rm -rf *.o
+	rm -f *.o *~
 
 properclean: .PHONY
-	rm -rf findd test
+	rm -f findd test
 	
 doc: .PHONY
 	dioxygen

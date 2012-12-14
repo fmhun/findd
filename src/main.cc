@@ -38,7 +38,7 @@
 
 #include "app.h"
 #include "terminal.h"
-#include "utils/logger.h"
+#include "utils.h"
     
 using findd::App;
 using findd::Terminal;

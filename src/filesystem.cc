@@ -2,10 +2,10 @@
 
 #include <string>
 
-namespace findd { namespace utils {
+namespace findd {
   
   namespace filesystem {
-    
+
 #ifdef _WIN32
     
     const char SEPARATOR = '\\';
@@ -35,7 +35,6 @@ namespace findd { namespace utils {
       return first + SEPARATOR + second;
     }
     
-  }
-  
-}
-}
+  } // end namespace filesystem
+ 
+} // end namespace findd

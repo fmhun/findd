@@ -40,11 +40,9 @@
 #include <iostream>
 #include <fstream>
 
-#include "utils/crypto.h"
+#include "crypto.h"
 
 namespace findd {
-  
-  using utils::crypto::md5;
   
   File::File (const string &path, const size_t size) {
     _size = size;
@@ -82,7 +80,7 @@ namespace findd {
     fread(fcontent, sizeof(char), fsize, f);
     fclose(f);
     
-    _content_digest = md5(fcontent, fsize);
+    _content_digest = crypto::md5(fcontent, fsize);
     delete [] fcontent;
   }
 
