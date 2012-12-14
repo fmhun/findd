@@ -92,7 +92,7 @@ namespace findd {
           dirs_to_scan.push_back(path);
         } else {
           _files.push_back(File(path, statbuf.st_size));
-          _total_bytes_scanned += _files.front().size();
+          _total_bytes_scanned += _files.back().size();
         }
       }
       closedir(dp);
