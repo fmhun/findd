@@ -17,7 +17,7 @@ namespace findd {
       xml_node file = files.append_child("file");
       file.append_attribute("name")           = (*it).name().c_str();
       file.append_attribute("extension")      = (*it).extension().c_str();
-      file.append_attribute("absolute-path")  = (*it).absolute_path().c_str();
+      file.append_attribute("absolute-path")  = (*it).path().c_str();
       file.append_attribute("size")           = (int) (*it).size();
     }
     

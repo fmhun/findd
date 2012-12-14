@@ -39,39 +39,43 @@
 #include <string>
 #include <iostream>
 #include <fstream>
+#include <stdexcept>
 
 #include "crypto.h"
+#include "filesystem.h"
 
 namespace findd {
   
   File::File (const string &path, const size_t size) {
+    _path = path;
     _size = size;
+    _name = filesystem::filename(_path);
+    _extension = filesystem::extension(_path);
   }
   
-  File::File (const string &name, const string &extension, const string &absolute_path, size_t size) 
-      : _name(name), _extension(extension), _absolute_path(absolute_path), _size(size) 
+  File::File (const string &name, const string &extension, const string &path, size_t size) 
+      : _name(name), _extension(extension), _path(path), _size(size) 
   {}
-  
-  File::File (const fs::path &p) {
-    _name = p.filename().string();
-    _extension = p.extension().string();
-    _absolute_path = fs::canonical(p).string();
-    _size = fs::file_size(p);
-  }
   
   File::File (const File &f) {
     _name = f._name;
     _extension = f._extension;
-    _absolute_path = f._absolute_path;
+    _path = f._path;
     _size = f._size;
   }
 
   bool File::drop () const {
-  	return ::unlink(_absolute_path.c_str());
+  	return ::unlink(_path.c_str());
   }
   
   void File::compute_checksum () {
-    FILE* f = fopen(_absolute_path.c_str(), "r");
+    FILE* f = fopen(_path.c_str(), "r");
+    
+    if (f == 0) {
+      std::string error = "can not read content of ";
+      throw std::runtime_error(error + _path);
+    }
+    
     fseek(f, 0, SEEK_END);
     size_t fsize = ftell(f);
     
@@ -92,8 +96,8 @@ namespace findd {
   	return _extension;
   }
 
-  string File::absolute_path () const {
-  	return _absolute_path;
+  string File::path () const {
+  	return _path;
   }
 
   string File::content_digest () {

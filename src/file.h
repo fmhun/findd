@@ -35,19 +35,16 @@
 #ifndef FINDD_FILE_H
 #define FINDD_FILE_H
 
-#include <string> 
-#include <boost/filesystem.hpp>
+#include <string>
 
 namespace findd {
   
-  namespace fs = ::boost::filesystem;
   using std::string;
   
   class File {
   public:
     File (const string &path, const size_t size);
-  	File (const string &name, const string &extension, const string &absolute_path, size_t size);
-    File (const fs::path &);
+  	File (const string &name, const string &extension, const string &path, size_t size);
     File (const File &);
     
   	bool drop () const;
@@ -55,13 +52,13 @@ namespace findd {
 	
   	string name () const;
   	string extension () const;
-    string absolute_path () const;
+    string path () const;
   	string content_digest ();
   	size_t size () const;
   private:
   	string _name;
     string _extension;
-  	string _absolute_path;
+  	string _path;
   	string _content_digest;
   	size_t _size;
   };

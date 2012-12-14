@@ -90,7 +90,7 @@ namespace {
 std::ostream& operator<< (std::ostream &out, const duplicate &d) {
   for (int i = 0; i < d.size(); i++) {
     const findd::File &file = d[i];
-    out << "#" << i+1 << " " << file.absolute_path() << std::endl;
+    out << "#" << i+1 << " " << file.path() << std::endl;
   }
   return out;
 }
@@ -149,10 +149,10 @@ namespace findd {
         // ------------------------------------------------------------------------
         // Save scan result
         // ------------------------------------------------------------------------
-    
+        
         if (_env.out_scan_file.empty() == false) {
           storage.persist(files, _env.out_scan_file);
-          sprintf(logmsg, "saved scan result to %s", _env.out_scan_file.c_str());
+          sprintf(logmsg, "saved scan result into %s", _env.out_scan_file.c_str());
           _logger->info(logmsg);
         }
       } else {
@@ -204,7 +204,7 @@ namespace findd {
       d[num].drop();
       
       char logmsg[200];
-      sprintf(logmsg, "removed file %s", d[num].absolute_path().c_str());
+      sprintf(logmsg, "removed file %s", d[num].path().c_str());
       _logger->info(logmsg);
     }
     
