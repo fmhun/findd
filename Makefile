@@ -32,13 +32,13 @@
 
 CXX = g++
 LIB_DIR = lib
+SRC_DIR = src
 INCLUDES = -Ilib/pugixml/src
 CFLAGS = $(INCLUDES) -fopenmp
 
-SRC_DIR = src
-SRCOBJS = crypto.o filesystem.o utils.o storage.o file.o duplicate.o comparator.o engine.o scanner.o app.o terminal.o
-LIB_OBJS = pugixml.o
-DEPS_LIB = -lssl -lcrypto
+SRC_OBJS = crypto.o filesystem.o utils.o storage.o file.o duplicate.o comparator.o engine.o scanner.o app.o terminal.o
+DEPS_OBJS = pugixml.o
+LINK_LIBS = -lssl -lcrypto
 PROG_MAIN_SRC = main.cc
 
 TEST_DIR = unittest
@@ -46,10 +46,10 @@ TEST_OBJS = filetest.o
 TEST_LIB = -lcppunit
 TEST_PROG_SRC = testrunner.cc
 
-all: findd clean
+all: findd changelog clean
 
-findd: $(SRCOBJS) $(PROG_MAIN_SRC:.cc=.o) $(LIB_OBJS)
-	$(CXX) $(CFLAGS) $^ -o $@ $(DEPS_LIB) $(OMPFLAGS)
+findd: $(SRC_OBJS) $(DEPS_OBJS) $(PROG_MAIN_SRC:.cc=.o)
+	$(CXX) $(CFLAGS) $^ -o $@ $(LINK_LIBS) $(OMPFLAGS)
 
 pugixml.o: $(LIB_DIR)/pugixml/src/pugixml.cpp
 	$(CXX) -c $^ -o $@
@@ -57,7 +57,7 @@ pugixml.o: $(LIB_DIR)/pugixml/src/pugixml.cpp
 check: test
 	@./test
 
-test: $(SRCOBJS) $(TEST_OBJS) $(TEST_PROG_SRC:.cc=.o)
+test: $(SRC_OBJS) $(TEST_OBJS) $(TEST_PROG_SRC:.cc=.o)
 	$(CXX) $(CFLAGS) $^ -o $@ $(DEPS_LIB) $(TEST_LIB)
 
 $(PROG_MAIN_SRC:.cc=.o): $(SRC_DIR)/$(PROG_MAIN_SRC)
@@ -79,6 +79,9 @@ clean:
 
 properclean: .PHONY
 	rm -f findd test
-	
+
+changelog:
+	@git log --stat --name-only --date=short --abbrev-commit > ChangeLog
+
 doc: .PHONY
 	dioxygen
