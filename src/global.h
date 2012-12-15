@@ -8,27 +8,26 @@
 #include <sstream>
 
 #include "file.h"
+#include "comparator.h"
 
-typedef struct std::list<findd::File> file_list;
-typedef struct std::vector<findd::File> duplicate;
-typedef struct std::vector<duplicate> duplicate_list; 
+namespace findd {
 
-struct filter_t {
-  filter_t () : compare_name(false), compare_size(false), compare_content(false) {}
+  typedef struct std::list<findd::File> file_list;
+  typedef struct std::vector<findd::File> duplicate;
+  typedef struct std::vector<duplicate> duplicate_list; 
+
+  struct env_t {
+    env_t () : recursive(false), remove(false), include_hidden(false), in_scan_file(""), out_scan_file("") {}
   
-  bool compare_name;
-  bool compare_size;
-  bool compare_content;
-};
+    bool recursive;
+    std::vector<std::string> directories;
+    std::string in_scan_file;
+    std::string out_scan_file;
+    Comparator comparator;
+    bool remove;
+    bool include_hidden;
+  };
 
-struct env_t {
-  bool recursive;
-  std::vector<std::string> directories;
-  std::string in_scan_file;
-  std::string out_scan_file;
-  filter_t filter;
-  bool remove;
-  bool include_hidden;
-};
+}
 
 #endif

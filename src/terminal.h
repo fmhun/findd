@@ -35,76 +35,36 @@
 #ifndef FINDD_TERMINAL_H_
 #define FINDD_TERMINAL_H_
 
-#include <boost/program_options.hpp>
-#include <string>
-#include <sstream>
-#include <exception>
 #include <iostream>
     
 #include "global.h"
 
 namespace findd {
   
-  using std::exception;
+  namespace commandline {
   
-  class TerminalError : public std::exception {
-  public:
-    TerminalError (const std::string &msg) {
-      _msg = msg;
-    }
-    
-    virtual ~TerminalError () throw() {}
-    
-    const char* what () const throw() {
-      return (std::string("findd: ") + _msg).c_str();
-    }
-  protected:
-    std::string _msg;
-  };
+    using std::cout;
+    using std::cerr;
+    using std::endl;
   
-  class ValidationError : public TerminalError {
-  public:
-    ValidationError (const std::string &msg) : TerminalError(msg) {}
-    
-    virtual ~ValidationError () throw() {}
-    
-    const char* what () const throw() {
-      std::stringstream ss;
-      ss << "findd: " << _msg << std::endl << "usage: findd [-r] [-d ARGS | -b ARGS] [-f ARGS]";
-      return ss.str().c_str();
-    }
-  };
-  
-  
-  class App;
-  
-  class Terminal {
-  public:
-  	Terminal ();
-    virtual ~Terminal ();
-    
-    bool parse (env_t &, const int &, char **);
-    
-    inline void version () const {
+    inline void version () {
       std::cerr << "findd version 1.0.0, University of Poitiers © 2012" << std::endl;
     }
 
-    inline void usage () const {
-      std::cout << "usage: findd [--version] [--help] [--recursive] [[--scan <dir>...] | [--restore <path>]]" << std::endl
-        << "             [--save <path>] [--filter <mode>]";
+    inline void usage () {
+      std::cout << "usage: findd [--version] [--help] [--scan <DIR>...] [--recursive] [--include-hidden]" << std::endl
+        << "             [--restore <PATH>] [--save <PATH>]" << endl
+        << "             [--compare-name] [--compare-size] [--compare-content] [--remove]";
     }
     
-    inline void help () const {
+    inline void help () {
       std::cerr << "findd help :" << std::endl << std::endl;
       usage();
-      std::cerr << *_options;
-    }    
-  private:
-    int _argc;
-    char **_argv;
-    boost::program_options::options_description *_options;
-    boost::program_options::variables_map _flags;
-  };
+    }
+    
+    void parse_command_line (const int argc, char **argv, env_t *env);
+  
+  }
       
 }
 

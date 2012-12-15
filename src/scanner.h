@@ -39,7 +39,8 @@
 #include <vector>
 
 #include "global.h"
-
+    // TODO : ./findd -s ./
+    // #1 .//doc/generate/html/search/classes_66.js
 namespace findd {
   
   class File;

@@ -40,13 +40,8 @@
 
 namespace findd {
   
-  Comparator::Comparator (const struct filter_t &filter) {
-    _mode = NONE;
-    if (filter.compare_name)    _mode |= NAME;
-    if (filter.compare_size)    _mode |= SIZE;
-    if (filter.compare_content) _mode |= CONTENT;
-  }
-  
+  Comparator::Comparator () : _mode(NONE) {}
+
   bool Comparator::operator() (File &a, File &b) const {         
     bool equals = true;
     
@@ -60,5 +55,9 @@ namespace findd {
       equals = a.content_digest() == b.content_digest();
     
     return equals;
+  }
+  
+  void Comparator::enable (Criteria c) {
+    _mode |= c;
   }
 }

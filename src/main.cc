@@ -34,33 +34,30 @@
 
 #include <iostream>
 #include <fstream>
-#include <boost/program_options.hpp>
-
+#include <exception>
+    
 #include "app.h"
 #include "terminal.h"
 #include "utils.h"
-    
-using findd::App;
-using findd::Terminal;
-using findd::utils::Logger;
+
+using namespace findd::commandline;
 
 const char *LOG_FILE_PATH = "/usr/local/var/log/findd.log";
 
-int main (int argc, char ** argv) {
+int main (int argc, char ** argv) 
+try {
+  using findd::App;
+  using findd::utils::Logger;
+  
   Logger::instance()->register_stream(new std::ofstream(LOG_FILE_PATH));
-  
   App app;
-  Terminal cli;
   
-  if (!cli.parse(app.env(), argc, argv)) {
-    return EXIT_FAILURE; 
-  }
-  
-  try {
-    app.execute();
-  } catch (std::exception& e) {
-    std::cerr << e.what() << std::endl;
-  }
+  parse_command_line(argc, argv, &app.env());
+  app.execute();
   
   return EXIT_SUCCESS;
+} catch (std::exception &e) {
+  findd::utils::Logger::instance()->error(e.what());
+  std::cerr << "error: " << e.what() << std::endl;
+  usage(); exit(EXIT_FAILURE);
 }

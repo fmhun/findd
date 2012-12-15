@@ -41,11 +41,10 @@
 #include <string>
 #include <iostream>
 #include <sstream>
-#include <exception>
+#include <stdexcept>
 
 #include "global.h"
 #include "scanner.h"
-#include "comparator.h"
 #include "engine.h"
 #include "terminal.h"
 #include "utils.h"
@@ -87,7 +86,7 @@ namespace {
 /** 
  * Overloading of ostream operator<< to print a duplicate
  */
-std::ostream& operator<< (std::ostream &out, const duplicate &d) {
+std::ostream& operator<< (std::ostream &out, const findd::duplicate &d) {
   for (int i = 0; i < d.size(); i++) {
     const findd::File &file = d[i];
     out << "#" << i+1 << " " << file.path() << std::endl;
@@ -160,16 +159,17 @@ namespace findd {
       }
     }
     
+    if (_env.comparator.mode() == 0) return; // do not search duplicates without filter settings
+    
     // ------------------------------------------------------------------------
     // Search for duplicates
     // ------------------------------------------------------------------------
     
-    Comparator comparator(_env.filter);
-    sprintf(logmsg, "search duplicates with mode : %i", comparator.mode());
+    sprintf(logmsg, "search duplicates with mode : %i", _env.comparator.mode());
     _logger->info(logmsg);
     
     Engine engine;
-    engine.search(files, comparator);
+    engine.search(files, _env.comparator);
     
     const duplicate_list &dups = engine.duplicates();
     cerr << "Found " << dups.size() << " duplicates" << endl << endl;

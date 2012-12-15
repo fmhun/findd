@@ -38,7 +38,7 @@ CFLAGS = $(INCLUDES) -fopenmp
 SRC_DIR = src
 SRCOBJS = crypto.o filesystem.o utils.o storage.o file.o duplicate.o comparator.o engine.o scanner.o app.o terminal.o
 LIB_OBJS = pugixml.o
-DEPS_LIB = -lboost_program_options -lboost_system -lboost_filesystem -lssl -lcrypto
+DEPS_LIB = -lssl -lcrypto
 PROG_MAIN_SRC = main.cc
 
 TEST_DIR = unittest
