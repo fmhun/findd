@@ -62,6 +62,7 @@ namespace findd {
   Engine::Engine () {}
   
   void Engine::search (file_list &files, const Comparator &cmp) {
+    if (files.empty()) return;
     
     files.sort(cmp.is_enabled(SIZE) || cmp.is_enabled(CONTENT) ? sort_by_size : sort_by_name);
     
