@@ -53,7 +53,7 @@ namespace findd {
     
     void parse_command_line (const int argc, char **argv, env_t *env) {
       
-      char *short_options = "hvrNSCs:i:o:";
+      const char *short_options = "hvrNSCs:i:o:";
       
       static struct option long_options[] = 
       {
