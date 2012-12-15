@@ -1,16 +1,6 @@
 
 #Development
 
-## Install Dependancies
-
-The project depends on the following libraries :
-
-+ [gflags 2.0](http://code.google.com/p/gflags)
-+ [boost 1.52.0](http://www.boost.org/)
-
-Check if these libraries are installed on your system, otherwise get a local copyon your machine and install each one.
-Choose the easy build install for boost.
-
 ## Compiling
 
 Compile project source files :
@@ -42,4 +32,4 @@ For developer, you should respect these rules before submitting your changes :
 
 This software is under BSD license. View the LICENSE file for terms of use.
 
-Copyright © 2012 Florian Mhun, Sara Ressam, Jérôme Cornet, Bastien Nouhant.
+Copyright © 2012 Florian Mhun, Sara Ressam, Jérôme Cornet, Bastien Nouhant, from University of Poitier (FR).
