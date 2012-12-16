@@ -31,14 +31,16 @@
 # THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 CXX = g++
+CC = gcc
 LIB_DIR = lib
 SRC_DIR = src
-INCLUDES = -Ilib/pugixml/src
-CFLAGS = $(INCLUDES) -fopenmp
+LIB_INCLUDE_DIR = ./include
+INCLUDES = -I$(LIB_INCLUDE_DIR)
+CFLAGS = $(INCLUDES)
+OMPFLAGS = -fopenmp
 
 SRC_OBJS = crypto.o filesystem.o utils.o storage.o file.o duplicate.o comparator.o engine.o scanner.o app.o terminal.o
-DEPS_OBJS = pugixml.o
-LINK_LIBS = -lssl -lcrypto
+DEPS_OBJS = pugixml.o md5.o
 PROG_MAIN_SRC = main.cc
 
 TEST_DIR = unittest
@@ -49,11 +51,16 @@ TEST_PROG_SRC = testrunner.cc
 all: findd changelog clean
 
 findd: $(SRC_OBJS) $(DEPS_OBJS) $(PROG_MAIN_SRC:.cc=.o)
-	$(CXX) $(CFLAGS) $^ -o $@ $(LINK_LIBS) $(OMPFLAGS)
+	$(CXX) $(CFLAGS) $^ -o $@
 
 pugixml.o: $(LIB_DIR)/pugixml/src/pugixml.cpp
 	$(CXX) -c $^ -o $@
+	@cp $(LIB_DIR)/pugixml/src/pugiconfig.hpp $(LIB_DIR)/pugixml/src/pugixml.hpp $(LIB_INCLUDE_DIR)
 
+md5.o: $(LIB_DIR)/md5/md5c.c
+	$(CC) -c $^ -o $@
+	@cp $(LIB_DIR)/md5/md5.h $(LIB_INCLUDE_DIR)
+	
 check: test
 	@./test
 
