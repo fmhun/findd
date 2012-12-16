@@ -45,7 +45,7 @@ DEPS_OBJS = pugixml.o md5.o
 PROG_MAIN_SRC = main.cc
 
 TEST_DIR = unittest
-TEST_OBJS = filetest.o 
+TEST_OBJS = filetest.o filesystemtest.o
 TEST_LIB = -lcppunit
 TEST_PROG_SRC = testrunner.cc
 
@@ -86,20 +86,14 @@ install: all
 check: test
 	@./test
 
-test: $(SRC_OBJS) $(TEST_OBJS) $(TEST_PROG_SRC:.cc=.o)
-	$(CXX) $(CFLAGS) $^ -o $@ $(DEPS_LIB) $(TEST_LIB)
+test: $(SRC_OBJS) $(TEST_OBJS) $(DEPS_OBJS) $(TEST_PROG_SRC:.cc=.o)
+	$(CXX) $(CFLAGS) $^ -o $@ -I$(SRC_DIR) $(TEST_LIB)
 
 $(PROG_MAIN_SRC:.cc=.o): $(SRC_DIR)/$(PROG_MAIN_SRC)
 	$(CXX) $(CFLAGS) -c $< -o $@
 
 $(TEST_PROG_SRC:.cc=.o): $(TEST_DIR)/$(TEST_PROG_SRC)
 	$(CXX) $(CFLAGS) -I$(SRC_DIR) -c $< -o $@
-
-%-win32.o: $(SRC_DIR)/%.cc $(SRC_DIR)/%.h
-	$(MINGW32_CXX) $(CFLAGS) -c $< -o $@
-	
-%-win64.o: $(SRC_DIR)/%.cc $(SRC_DIR)/%.h
-	$(MINGW64_CXX) $(CFLAGS) -c $< -o $@
 
 %.o: $(SRC_DIR)/%.cc $(SRC_DIR)/%.h
 	$(CXX) $(CFLAGS) -c $< -o $@
