@@ -10,14 +10,24 @@ namespace findd {
     CPPUNIT_TEST_SUITE( FilesystemTest );
     CPPUNIT_TEST( testExists );
     CPPUNIT_TEST( testTrimPath );
+    CPPUNIT_TEST( testDirConcat );
+    CPPUNIT_TEST( testFileName );
+    CPPUNIT_TEST( testExtension );
+    CPPUNIT_TEST( testIsHidden );
+    CPPUNIT_TEST( testRealPath);
     CPPUNIT_TEST_SUITE_END();
-
+    
    public:
     void setUp ();
     void tearDown ();
 
     void testExists ();
     void testTrimPath ();
+    void testDirConcat ();
+    void testFileName ();
+    void testExtension ();
+    void testIsHidden ();
+    void testRealPath ();
   };
   
 }
