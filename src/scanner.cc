@@ -58,7 +58,7 @@ namespace findd {
     using namespace std;
     using namespace filesystem;
     
-    string dir = trim_path(directory);
+    string dir = trim_path(directory); 
     
     if (is_already_scanned(dir))
       return;
@@ -83,7 +83,7 @@ namespace findd {
       // Read dir content
       while((entry = readdir(dp)) != NULL) {
         string path = dir_concat(dir, string(entry->d_name));
-        lstat(path.c_str(), &statbuf);
+        stat(path.c_str(), &statbuf);
         
         if (strcmp(".", entry->d_name) == 0 || strcmp("..", entry->d_name) == 0)
           continue;

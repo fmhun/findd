@@ -45,6 +45,9 @@ namespace findd {
   
   namespace {
     
+    // TODO : improve design of comparator with inheriting. Children overwrites operator(File a, File b)
+    // class SortComparator extends Comparator
+    // class SearchComparator extends Comparator
     bool sort_by_name (const File &a, const File &b) {
       std::string nc_a = a.name(), nc_b = b.name();
       for (int i = 0; i < nc_a.length(); i++) nc_a[i] = tolower(nc_a[i]);

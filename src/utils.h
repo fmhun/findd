@@ -35,6 +35,7 @@
 #ifndef FINDD_UTILS_
 #define FINDD_UTILS_
 
+#include <sys/time.h>
 #include <iostream>
 #include <vector>
 #include <string>

@@ -32,6 +32,7 @@
 
 CXX = g++
 CC = gcc
+
 LIB_DIR = lib
 SRC_DIR = src
 LIB_INCLUDE_DIR = ./include
@@ -48,7 +49,13 @@ TEST_OBJS = filetest.o
 TEST_LIB = -lcppunit
 TEST_PROG_SRC = testrunner.cc
 
-all: findd changelog clean
+INSTALL = /usr/bin/install -c
+
+PREFIX = /usr/local
+BIN_PREFIX = 
+BIN_DIR = $(PREFIX)/bin
+
+all: findd changelog
 
 findd: $(SRC_OBJS) $(DEPS_OBJS) $(PROG_MAIN_SRC:.cc=.o)
 	$(CXX) $(CFLAGS) $^ -o $@
@@ -60,6 +67,21 @@ pugixml.o: $(LIB_DIR)/pugixml/src/pugixml.cpp
 md5.o: $(LIB_DIR)/md5/md5c.c
 	$(CC) -c $^ -o $@
 	@cp $(LIB_DIR)/md5/md5.h $(LIB_INCLUDE_DIR)
+
+dist: .PHONY
+	@mkdir -p dist
+	ARCH=32 MINGWCXX=/usr/local/mingw32/bin/i686-w64-mingw32-g++ MINGWCC=/usr/local/mingw32/bin/i686-w64-mingw32-gcc $(MAKE) dist-win
+	ARCH=32 MINGWCXX=/usr/local/mingw64/bin/x86_64-w64-mingw32-gcc MINGWCC=/usr/local/mingw64/bin/x86_64-w64-mingw32-gcc $(MAKE) dist-win
+	
+dist-win:
+	@mkdir -p dist/win$(ARCH)
+	$(MINGWCC) -c $(LIB_DIR)/md5/md5c.c -o md5-win$(ARCH).o
+	$(MINGWCXX) -c $(LIB_DIR)/pugixml/src/pugixml.cpp -o pugixml-win$(ARCH).o
+	$(MINGWCXX) $(CFLAGS) $(addprefix $(SRC_DIR)/,$(subst .o,.cc,$(SRC_OBJS))) $(SRC_DIR)/$(PROG_MAIN_SRC) md5-win$(ARCH).o pugixml-win$(ARCH).o -o dist/win$(ARCH)/findd.exe
+	@rm -f md5-win$(ARCH).o pugixml-win$(ARCH).o
+
+install: all
+	$(INSTALL) findd $(BIN_DIR)/$(BIN_PREFIX)findd
 	
 check: test
 	@./test
@@ -73,13 +95,19 @@ $(PROG_MAIN_SRC:.cc=.o): $(SRC_DIR)/$(PROG_MAIN_SRC)
 $(TEST_PROG_SRC:.cc=.o): $(TEST_DIR)/$(TEST_PROG_SRC)
 	$(CXX) $(CFLAGS) -I$(SRC_DIR) -c $< -o $@
 
+%-win32.o: $(SRC_DIR)/%.cc $(SRC_DIR)/%.h
+	$(MINGW32_CXX) $(CFLAGS) -c $< -o $@
+	
+%-win64.o: $(SRC_DIR)/%.cc $(SRC_DIR)/%.h
+	$(MINGW64_CXX) $(CFLAGS) -c $< -o $@
+
 %.o: $(SRC_DIR)/%.cc $(SRC_DIR)/%.h
 	$(CXX) $(CFLAGS) -c $< -o $@
 
 %.o: $(TEST_DIR)/%.cc $(TEST_DIR)/%.h
 	$(CXX) $(CFLAGS) -I$(SRC_DIR) -c $< -o $@
 
-.PHONY: clean
+.PHONY:
 
 clean:
 	rm -f *.o *~

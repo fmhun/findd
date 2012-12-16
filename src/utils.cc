@@ -3,7 +3,6 @@
 #include <cstddef>
 #include <cstring>
 #include <ctime>
-#include <sys/time.h>
 
 namespace findd {
   
