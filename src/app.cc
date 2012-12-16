@@ -41,15 +41,13 @@
 #include <string>
 #include <iostream>
 #include <sstream>
-#include <exception>
+#include <stdexcept>
 
-#include "common.h"
+#include "global.h"
 #include "scanner.h"
-#include "comparator.h"
 #include "engine.h"
 #include "terminal.h"
-#include "utils/timer.h"
-#include "utils/logger.h"
+#include "utils.h"
 #include "file.h"
 #include "storage.h"
 
@@ -61,16 +59,7 @@ namespace {
   const char BLUE[]    = "\x1b[34m";
   const char MAGENTA[] = "\x1b[35m";
   const char CYAN[]    = "\x1b[36m";
-    
-  std::string size_format (size_t size) {
-    std::stringstream ss;
-    ss << size;
-    
-    // 999 999
-    
-    return ss.str();
-  }
-    
+      
   std::string colorize_filename (const std::string &str, const char* color) {
     size_t found = str.find_last_of("/\\");
       
@@ -97,10 +86,10 @@ namespace {
 /** 
  * Overloading of ostream operator<< to print a duplicate
  */
-std::ostream& operator<< (std::ostream &out, const duplicate &d) {
+std::ostream& operator<< (std::ostream &out, const findd::duplicate &d) {
   for (int i = 0; i < d.size(); i++) {
     const findd::File &file = d[i];
-    out << "#" << i+1 << " " << file.absolute_path() << std::endl;
+    out << "#" << i+1 << " " << file.path() << std::endl;
   }
   return out;
 }
@@ -121,9 +110,9 @@ namespace findd {
   App::~App () {}
 
   void App::execute () {
+    char logmsg[200];
     file_list files;
     Storage storage;
-    char logmsg[200];
     
     if (_env.in_scan_file.empty() == false) {
       
@@ -141,28 +130,27 @@ namespace findd {
         // ------------------------------------------------------------------------
         // Scan directories
         // ------------------------------------------------------------------------
-        
-        Scanner scanner;
         Timer t; t.start();
+        Scanner scanner;
         
         _logger->info("starting scanning directories");
         for (unsigned int i = 0; i < _env.directories.size(); i++)
-          scanner.scan(_env.directories[i], _env.recursive);
+          scanner.scan(_env.directories[i], _env.include_hidden, _env.recursive);
         t.stop();
         
         files = scanner.files();
         sprintf(logmsg, "done scanning %i files",(int)files.size());
         _logger->info(logmsg);
         
-        cerr << "Scanned " << files.size() << " files (" << scanner.totalBytesScanned() << " bytes) in " << t.elapsed() << " seconds" << endl;
+        cerr << "Scanned " << files.size() << " files (" << scanner.total_bytes_scanned() << " bytes) in " << t.elapsed() << " seconds" << endl;
         
         // ------------------------------------------------------------------------
         // Save scan result
         // ------------------------------------------------------------------------
-    
+        
         if (_env.out_scan_file.empty() == false) {
           storage.persist(files, _env.out_scan_file);
-          sprintf(logmsg, "saved scan result to %s", _env.out_scan_file.c_str());
+          sprintf(logmsg, "saved scan result into %s", _env.out_scan_file.c_str());
           _logger->info(logmsg);
         }
       } else {
@@ -170,17 +158,18 @@ namespace findd {
         throw std::logic_error("findd : no input parameter was specified to get files");
       }
     }
-        
+    
+    if (_env.comparator.mode() == 0) return; // do not search duplicates without filter settings
+    
     // ------------------------------------------------------------------------
     // Search for duplicates
     // ------------------------------------------------------------------------
     
-    Comparator comparator(_env.filter);
-    sprintf(logmsg, "search duplicates with mode : %i", comparator.mode());
+    sprintf(logmsg, "search duplicates with mode : %i", _env.comparator.mode());
     _logger->info(logmsg);
     
     Engine engine;
-    engine.search(files, comparator);
+    engine.search(files, _env.comparator);
     
     const duplicate_list &dups = engine.duplicates();
     cerr << "Found " << dups.size() << " duplicates" << endl << endl;
@@ -194,8 +183,8 @@ namespace findd {
     }
     
     // Statistics 
-    size_t gain_avg = (engine.get_max_gain_of_bytes() + engine.get_min_gain_of_bytes()) / 2;
-    cerr << "Average size of duplicates into the memory space : " << size_format(gain_avg) << " bytes" << endl;
+    long gain_avg = (engine.get_min_gain_of_bytes() + engine.get_max_gain_of_bytes()) / 2;
+    cerr << "Average size of duplicates into the memory space : " << gain_avg << " bytes" << endl;
   }
   
   void App::ask_for_duplicate_removal (const duplicate &d) const {
@@ -214,11 +203,10 @@ namespace findd {
       d[num].drop();
       
       char logmsg[200];
-      sprintf(logmsg, "removed file %s", d[num].absolute_path().c_str());
+      sprintf(logmsg, "removed file %s", d[num].path().c_str());
       _logger->info(logmsg);
-    }
-    
+    } 
   }
-  
+    
   env_t & App::env () { return _env; }
 }

@@ -35,7 +35,7 @@
 #ifndef FINDD_ENGINE_H
 #define FINDD_ENGINE_H
 
-#include "common.h"
+#include "global.h"
 
 namespace findd {
   

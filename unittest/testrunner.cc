@@ -1,24 +1,11 @@
-// ui
-#include "commandlinetest.h"
-#include "configtest.h"
-
-// scanning
-#include "filetest.h"
-#include "filelisttest.h"
-#include "scannertest.h"
-
-// filtering
-#include "duplicatetest.h"
-#include "filtertest.h"
-
-#include "apptest.h"
-
 #include <cppunit/BriefTestProgressListener.h>
 #include <cppunit/CompilerOutputter.h>
 #include <cppunit/extensions/TestFactoryRegistry.h>
 #include <cppunit/TestResult.h>
 #include <cppunit/TestResultCollector.h>
 #include <cppunit/TestRunner.h>
+
+#include <iostream>
 
 int main () {
   CPPUNIT_NS::TestResult controller;

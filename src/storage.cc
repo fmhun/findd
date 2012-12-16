@@ -1,5 +1,8 @@
 #include "storage.h"
+
 #include <iostream>
+#include <stdexcept>
+
 namespace findd {
   
   Storage::Storage () {}
@@ -17,8 +20,8 @@ namespace findd {
       xml_node file = files.append_child("file");
       file.append_attribute("name")           = (*it).name().c_str();
       file.append_attribute("extension")      = (*it).extension().c_str();
-      file.append_attribute("absolute-path")  = (*it).absolute_path().c_str();
-      file.append_attribute("size")           = (*it).size();
+      file.append_attribute("absolute-path")  = (*it).path().c_str();
+      file.append_attribute("size")           = (int) (*it).size();
     }
     
     doc.save_file(path.c_str());
@@ -32,7 +35,7 @@ namespace findd {
     xml_parse_result result = doc.load_file(path.c_str());
     
     if (!result) {
-      throw 1;
+      throw std::runtime_error("invalid backup");
     }
     
     xml_node files = doc.child("files");

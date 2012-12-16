@@ -1,14 +1,17 @@
+#Installation
+
+For linux and darwin platforms, just run the following commands :
+
+	$ make
+	$ make install
+
+The final executable is installed into `/usr/local/bin`, then test the installation by running :
+
+	$ findd -h
+
+For windows user, run `make dist` and copy 32 bits or 64 bits executable from `dist` directory in your preferred location.
 
 #Development
-
-## Install Dependancies
-
-The project depends on the following libraries :
-
-+ [boost 1.52.0](http://www.boost.org/)
-
-Check if these libraries are installed on your system, otherwise get a local copyon your machine and install each one.
-Choose the easy build install for boost.
 
 ## Compiling
 
@@ -16,7 +19,7 @@ Compile project source files :
 
 	$ make findd
 
-The final executable will be generated in the root directory as `findd`.
+The executable will be generated in the root directory as `findd`.
 
 ## Run test
 
@@ -41,4 +44,4 @@ For developer, you should respect these rules before submitting your changes :
 
 This software is under BSD license. View the LICENSE file for terms of use.
 
-Copyright © 2012 Florian Mhun, Sara Ressam, Jérôme Cornet, Bastien Nouhant.
+Copyright © 2012 Florian Mhun, Sara Ressam, Jérôme Cornet, Bastien Nouhant, from University of Poitier (FR).

@@ -35,8 +35,6 @@
 #ifndef FINDD_COMPARATOR_H
 #define FINDD_COMPARATOR_H
 
-#include "common.h"
-
 namespace findd {
   
   class File;
@@ -50,13 +48,12 @@ namespace findd {
   
   class Comparator {
   public:
-    Comparator (const filter_t &);
+    Comparator ();
       
     bool operator() (File &a, File &b) const;
     
-    bool compare_by_name (const File &a, const File &b) const;
-    bool compare_by_size (const File &a, const File &b) const;
-    
+    void enable (Criteria);
+        
     inline int mode () const {
       return _mode;
     }
