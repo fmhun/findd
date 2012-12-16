@@ -18,12 +18,12 @@ namespace findd {
     std::string md5 (char *s, const size_t len) {
       MD5_CTX context;
       unsigned char digest[MD5_DIGEST_LENGTH];
-
+      
       MD5Init (&context);
       MD5Update (&context, (POINTER)s, len);
       MD5Final (digest, &context);
-
-      char str[MD5_DIGEST_LENGTH*2];
+      
+      char str[(MD5_DIGEST_LENGTH+1)*2];
       char hexbyte[3];
       sprintf(hexbyte, "%02x", digest[0]);
       strcpy(str, hexbyte);
