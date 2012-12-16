@@ -27,6 +27,7 @@ namespace findd {
     
     std::string folder (const std::string &);
     
+    std::string real_path (const std::string &);
   }
 
 }

@@ -58,13 +58,13 @@ namespace findd {
     using namespace std;
     using namespace filesystem;
     
-    string dir = trim_path(directory); 
+    string dir = trim_path(real_path(directory)); 
     
     if (is_already_scanned(dir))
       return;
     
     std::list<string> dirs_to_scan;
-    dirs_to_scan.push_back(directory);
+    dirs_to_scan.push_back(dir);
     
     do {
       dir = dirs_to_scan.front();

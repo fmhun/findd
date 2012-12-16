@@ -1,5 +1,6 @@
 #include "filesystem.h"
 
+#include <cstdlib>
 #include <string>
 
 namespace findd {
@@ -64,6 +65,11 @@ namespace findd {
     
     std::string folder (const std::string &path) {
       return path.substr( 0, path.find_last_of(SEPARATORS) );
+    }
+    
+    std::string real_path (const std::string &path) {
+      char resolved[1000];
+      return realpath(path.c_str(), resolved); 
     }
     
   } // end namespace filesystem
