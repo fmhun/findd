@@ -102,8 +102,10 @@ namespace findd {
     } while (dirs_to_scan.size() != 0 && recursive);
   }
   
-  void Scanner::reset () const {
-    // TODO : reset the scanned directories and scanned files
+  void Scanner::reset () {
+    _total_bytes_scanned = 0;
+    _scanned_directories.clear();
+    _files.clear();
   }
 
   const std::vector<std::string> &Scanner::scanned_directories () const {

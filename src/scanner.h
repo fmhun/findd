@@ -50,7 +50,7 @@ namespace findd {
     ~Scanner ();
     
     void scan (const std::string &, const bool = false, const bool = false);
-    void reset () const;
+    void reset ();
     
     long total_bytes_scanned () const;
     
