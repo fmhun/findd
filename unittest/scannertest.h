@@ -4,28 +4,42 @@
 #include <cppunit/TestFixture.h>
 #include <cppunit/extensions/HelperMacros.h>
 
-class Scanner;
+namespace findd {
+  
+  class Scanner;
 
-class ScannerTest : public CppUnit::TestFixture {
-	CPPUNIT_TEST_SUITE( ScannerTest );
-  CPPUNIT_TEST( testScanWithDirectoryThatNotExists );
-  CPPUNIT_TEST( testScanTheSameDirectoryWhichExistsManyTime );
-	CPPUNIT_TEST( testScanWithADirectoryWhichContainsOnlyFiles );
-  CPPUNIT_TEST( testScanWithADirectoryThatContainsAnOtherDirectory );
-  CPPUNIT_TEST( testRecursiveScanWithADirectoryThatContainsAnOtherDirectory );
-  CPPUNIT_TEST_SUITE_END();
+  class ScannerTest : public CppUnit::TestFixture {
+  	CPPUNIT_TEST_SUITE( ScannerTest );
+    CPPUNIT_TEST( testScanWithNotExistingDirectory );
+    CPPUNIT_TEST( testScanWithEmptyDirectory );
+    CPPUNIT_TEST( testScanNotEmptyDirectory );
+    CPPUNIT_TEST( testReset );
+    CPPUNIT_TEST( testScanRecusiveWithNotEmptyDirectory );
+    CPPUNIT_TEST( testScanWithNotEmptyDirectoryIncludingHiddenFiles );
+    CPPUNIT_TEST( testScanRecursiveWithNotEmptyDirectoryIncludingHiddenFiles );
+    CPPUNIT_TEST( testScanManyDirectories );
+    CPPUNIT_TEST( testScanRecursiveManyDirectories );
+    CPPUNIT_TEST( testScanRecursiveManyDirectoriesButAlreadyScanned );
+    CPPUNIT_TEST_SUITE_END();
 
-public:
-	void setUp ();
-	void tearDown ();
+  public:
+  	void setUp ();
+  	void tearDown ();
 
-  void testScanWithDirectoryThatNotExists ();
-  void testScanTheSameDirectoryWhichExistsManyTime ();
-  void testScanWithADirectoryWhichContainsOnlyFiles ();
-  void testScanWithADirectoryThatContainsAnOtherDirectory ();
-  void testRecursiveScanWithADirectoryThatContainsAnOtherDirectory ();
-private:
-  Scanner *_scanner;
-};
+    void testScanWithNotExistingDirectory ();
+    void testScanWithEmptyDirectory ();
+    void testScanNotEmptyDirectory ();
+    void testReset ();
+    void testScanRecusiveWithNotEmptyDirectory ();
+    void testScanWithNotEmptyDirectoryIncludingHiddenFiles ();
+    void testScanRecursiveWithNotEmptyDirectoryIncludingHiddenFiles ();
+    void testScanManyDirectories ();
+    void testScanRecursiveManyDirectories ();
+    void testScanRecursiveManyDirectoriesButAlreadyScanned ();
+  private:
+    Scanner *_scanner;
+  };
+  
+}
 
 #endif // FINDD_SCANNERTEST_H_
