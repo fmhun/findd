@@ -1,0 +1,1 @@
+file_a.txt == test_sub_dir/file_c.txt

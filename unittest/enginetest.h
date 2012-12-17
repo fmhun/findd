@@ -12,7 +12,13 @@ namespace findd {
   class EngineTest : public CppUnit::TestFixture {
     CPPUNIT_TEST_SUITE( EngineTest );
     CPPUNIT_TEST( testSearchOnEmptyFileList );
-    CPPUNIT_TEST( testSearchOnNotEmptyFileListWithNameComparator );
+    CPPUNIT_TEST( testSearchWithNameComparator );
+    CPPUNIT_TEST( testSearchWithSizeComparator );
+    CPPUNIT_TEST( testSearchWithContentComparator );
+    CPPUNIT_TEST( testSearchWithNameAndSizeComparator );
+    CPPUNIT_TEST( testSearchWithNameAndContentComparator );
+    CPPUNIT_TEST( testSearchWithSizeAndContentComparator );
+    CPPUNIT_TEST( testSearchWithNameAndSizeAndContentComparator );
     CPPUNIT_TEST_SUITE_END();
     
    public:
@@ -20,7 +26,13 @@ namespace findd {
     void tearDown ();
     
     void testSearchOnEmptyFileList ();
-    void testSearchOnNotEmptyFileListWithNameComparator ();
+    void testSearchWithNameComparator ();
+    void testSearchWithSizeComparator ();
+    void testSearchWithContentComparator ();
+    void testSearchWithNameAndSizeComparator ();
+    void testSearchWithNameAndContentComparator ();
+    void testSearchWithSizeAndContentComparator ();
+    void testSearchWithNameAndSizeAndContentComparator ();
   private:
     Engine *_engine;
     Comparator *_comparator;
