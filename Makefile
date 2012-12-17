@@ -46,7 +46,7 @@ DEPS_OBJS = pugixml.o md5.o
 PROG_MAIN_SRC = main.cc
 
 TEST_DIR = unittest
-TEST_OBJS = filetest.o filesystemtest.o scannertest.o enginetest.o
+TEST_OBJS = filetest.o filesystemtest.o scannertest.o enginetest.o comparatortest.o
 TEST_LIB = -lcppunit
 TEST_PROG_SRC = testrunner.cc
 
