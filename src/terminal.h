@@ -48,18 +48,41 @@ namespace findd {
     using std::endl;
   
     inline void version () {
-      std::cerr << "findd version 1.0.0, University of Poitiers © 2012" << std::endl;
+      cerr << "findd version 1.0.0, University of Poitiers © 2012" << endl;
     }
 
     inline void usage () {
-      std::cout << "usage: findd [--version] [--help] [--scan <DIR>...] [--recursive] [--include-hidden]" << std::endl
-        << "             [--restore <PATH>] [--save <PATH>]" << endl
-        << "             [--compare-name] [--compare-size] [--compare-content] [--remove]";
+      cerr << "usage: findd --scan <DIRS> [--recursive] [--include-hidden] [--save <PATH>] [-NSC] [--remove]" << endl
+           << "       findd --restore <PATH> [--save <PATH>] [-NSC] [--remove]" << endl;
     }
     
     inline void help () {
-      std::cerr << "findd help :" << std::endl << std::endl;
+      cerr << "findd help :" << endl << endl;
       usage();
+      cerr << endl << "Options" << endl
+           << endl
+           << "\t--version, -v :" << endl
+           << "\t\tPrint what version you use." << endl << endl
+           << "\t--help, -h :" << endl
+           << "\t\tPrint the help message." << endl << endl
+           << "\t--scan <DIRS>, -s :" << endl
+           << "\t\tSpecify directories to scan separated by colon symbol (:). Ex : --scan /foo/bar:/bar/foo." << endl << endl
+           << "\t--recursive, -r :" << endl
+           << "\t\tScan recusively the directories you specified with --scan option." << endl << endl
+           << "\t--include-hidden :" << endl
+           << "\t\tInclude hidden files when you scan directories." << endl << endl
+           << "\t--restore <PATH>, -i :" << endl
+           << "\t\tfind duplicates from a file previously saved by the program." << endl << endl
+           << "\t--save <PATH>, -o :" << endl
+           << "\t\tStore the result of the file list built from input parameters as xml. Use it to store a scan result." << endl << endl
+           << "\t--remove :" << endl
+           << "\t\tEnable dialog to delete duplicates." << endl << endl
+           << "\t--compare-name, -N :" << endl
+           << "\t\tsearch duplicates by name" << endl << endl
+           << "\t--compare-size, -S :" << endl
+           << "\t\tsearch duplicates by size." << endl << endl
+           << "\t--compare-content, -C :" << endl
+           << "\t\tsearch duplicates by content" << endl << endl;
     }
     
     void parse_command_line (const int argc, char **argv, env_t *env);

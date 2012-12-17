@@ -56,7 +56,7 @@ PREFIX = /usr/local
 BIN_PREFIX = 
 BIN_DIR = $(PREFIX)/bin
 
-all: findd changelog
+all: findd doc
 
 findd: $(SRC_OBJS) $(DEPS_OBJS) $(PROG_MAIN_SRC:.cc=.o)
 	$(CXX) $(CFLAGS) $^ -o $@
@@ -83,6 +83,7 @@ dist-win:
 
 install: all
 	$(INSTALL) findd $(BIN_DIR)/$(BIN_PREFIX)findd
+	sudo cp doc/man/man3/findd.3 /usr/share/man/man3/
 	
 check: test
 	@./test
@@ -110,8 +111,7 @@ clean:
 properclean: .PHONY
 	rm -f findd test
 
-changelog:
-	@git log --stat --name-only --date=short --abbrev-commit > ChangeLog
-
 doc: .PHONY
-	dioxygen
+	@groff doc/man/man3/Findd.3 -man -Tascii > GUIDE.txt
+	@doxygen
+	@git log --stat --name-only --date=short --abbrev-commit > ChangeLog

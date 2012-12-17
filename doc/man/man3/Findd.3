@@ -1,71 +1,70 @@
-.TH FINDD 1 "December 20, 2012" "version 1.0"
+.TH FINDD 1 "December 17, 2012" "version 1.0"
 
 .SH NAME
+findd -- duplicates searching tool
 
-findd -- Duplicates searching tool
+.SH SYNOPSIS
+
+findd --scan <DIRS> [--recursive] [--include-hidden] [--save <PATH>] [-NSC] [--remove]
+
+findd --restore <PATH> [--save <PATH>] [-NSC] [--remove] 
 
 .SH DESCRIPTION
 
-.B This application is made for find duplicates on hard drive(s). Amazing M1 IMMT projet, isn't it ? 	
-
-.SH HOW USE THE APPLICATION
-
-.B Findd allows to find duplicate files in a specified folder. For doing there are two phases : 
-
-.B The first one consisted in indexing file from the folder specified by the user. The result could be saved.
-
-.B The second one consisted in find duplicates from the past operation results, or from a scan backup.
-
-
-.B Three ways to use the application :
-
-.B Make a scan and directly find duplicates (without saving)
-
-.B ./findd <option recursive> FOLDER_NAME <options about filter>  
-
-.B Make a scan and save the result into a file :
-
-.B ./findd <option recursive> FOLDER_NAME <option save a scan>
-
-.B Find duplicates from a previous saved scan
-
-.B ./findd <option precised saved scan> <options about filter>	
+.B Simple tool that help you searching duplicates on hard drive(s).
 
 .SH OPTIONS
 
-.B This application needs some options to work correctly 
+.TP 25	
+--version, -v
+Print what version you use.
 
-.B The options are as follows:
-.TP 20
--i PATH 
-Get files from previous saved scan (for next applying filter)  
+.TP 25
+--help, -h
+Print the help message.
 
-.TP 20
---out-scan=PATH
-Output scan into a file in order to use the -i option the next time you apply a duplicates searching on the PATH directory.
+.TP 25
+--scan <DIRS>, -s
+Specify directories to scan separated by colon symbol (:). Ex : --scan /foo/bar:/bar/foo.
 
-.TP 20
--r --recursive
-Make a recursive scan, and "visit" underlying directories 
+.TP 25
+--recursive, -r
+Scan recusively the directories you specified with --scan option.
 
-.TP 20
--N --compare-name
-Filter parameter : if you decide yo define a duplicate as a couple of file which have the same name. Could be joined with compare-size and compare-content options
+.TP 25
+--include-hidden
+Include hidden files when you scan directories.
 
-.TP 20
--S --compare-size
-Filter parameter : if you decide yo define a duplicate as a couple of file which have the same size. Could be joined with compare-name and compare-content options
+.TP 25
+--restore <PATH>, -i
+find duplicates from a file previously saved by the program.
 
-.TP 20
--C --compare-content
-Filter parameter : if you decide yo define a duplicate as a couple of file which have the same content. Could be joined with compare-size and compare-name options 
+.TP 25
+--save <PATH>, -o
+Store the result of the file list built from input parameters as xml. Use it to store a scan result.
+
+.TP 25
+--remove
+Enable dialog to delete duplicates 
+
+.TP 25
+--compare-name, -N
+search duplicates by name
+
+.TP 25
+--compare-size, -S
+search duplicates by size
+
+.TP 25
+--compare-content, -C
+search duplicates by content
 
 .SH AUTHORS
 
-.B Bastien Nohant \<jerome.cornet@etu.univ-poitiers.fr\>
+Florian Mhun \<florian.mhun@gmail.com\>
 
-.B Florian Mhun \<florian.mhun@gmail.com\>
+Sara Ressam \<sara.ressam@gmail.com\>
 
-.B Sara Ressam \<sara.ressam@gmail.com\>
+Bastien Nouhant \<bastien.nouhant@gmail.com\>
 
-.B Bastien Nouhant \<bastien.nouhant@gmail.com\>
+Jerome Cornet \<jerome.cornet@gmail.com\>
