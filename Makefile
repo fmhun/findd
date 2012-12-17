@@ -56,7 +56,7 @@ PREFIX = /usr/local
 BIN_PREFIX = 
 BIN_DIR = $(PREFIX)/bin
 
-all: findd doc
+all: findd
 
 findd: $(SRC_OBJS) $(DEPS_OBJS) $(PROG_MAIN_SRC:.cc=.o)
 	$(CXX) $(CFLAGS) $^ -o $@
