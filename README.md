@@ -21,15 +21,11 @@ Compile project source files :
 
 The executable will be generated in the root directory as `findd`.
 
-## Run test
+## Run tests
 
-First, compile test files which are located in the `unittest/` directory :
+Test files are located into `unittest/` directory. Run the test suites with :
 
-	$ make test
-
-Then, run the generated executable and check if all tests succeed :
-
-	$ ./test
+	$ make check
 
 # Code
 
