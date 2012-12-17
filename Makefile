@@ -41,7 +41,7 @@ INCLUDES = -I$(LIB_INCLUDE_DIR)
 CFLAGS = $(INCLUDES)
 OMPFLAGS = -fopenmp
 
-SRC_OBJS = crypto.o filesystem.o utils.o storage.o file.o duplicate.o comparator.o engine.o scanner.o app.o terminal.o
+SRC_OBJS = crypto.o filesystem.o utils.o storage.o file.o comparator.o engine.o scanner.o app.o terminal.o
 DEPS_OBJS = pugixml.o md5.o
 PROG_MAIN_SRC = main.cc
 
