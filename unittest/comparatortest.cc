@@ -80,20 +80,26 @@ void ComparatorTest::testComparaisionByNameAndSize () {
 void ComparatorTest::testComparaisionByNameAndContent () {
   _comparator->enable(NAME);
   _comparator->enable(CONTENT);
-  File f1(real_path("unittest/fixtures/test_not_empty_dir/test_files_with_same_content/file_a.txt"), 1);
-  File f2(real_path("unittest/fixtures/test_not_empty_dir/test_files_with_same_name/file_a.txt"), 1);
-  File f3(real_path("unittest/fixtures/test_not_empty_dir/test_files_with_same_content/file_b.txt"), 2);
-  
+  File f1(real_path("unittest/fixtures/test_not_empty_dir/test_files_with_same_name_and_content/file_a.txt"), 1);
+  File f2(real_path("unittest/fixtures/test_not_empty_dir/test_files_with_same_name_and_content/file_a.txt"), 1);
 
   CPPUNIT_ASSERT( (*_comparator)(f1, f2) == true );
-  CPPUNIT_ASSERT( (*_comparator)(f1, f3) == false );
-  CPPUNIT_ASSERT( (*_comparator)(f1, f4) == false );
 }
 
 void ComparatorTest::testComparaisionBySizeAndContent () {
-  
+  _comparator->enable(SIZE);
+  _comparator->enable(CONTENT);
+  File f1(real_path("unittest/fixtures/test_not_empty_dir/test_files_with_same_size_and_content/file_a.txt"), 1);
+  File f2(real_path("unittest/fixtures/test_not_empty_dir/test_files_with_same_size_and_content/file_a.txt"), 1);
+
+  CPPUNIT_ASSERT( (*_comparator)(f1, f2) == true );
 }
 
 void ComparatorTest::testComparaisionByNameAndSizeAndContent () {
-  
+  _comparator->enable(SIZE);
+  _comparator->enable(CONTENT);
+  File f1(real_path("unittest/fixtures/test_not_empty_dir/test_files_with_same_name_and_size_and_content/file_a.txt"), 1);
+  File f2(real_path("unittest/fixtures/test_not_empty_dir/test_files_with_same_name_and_size_and_content/file_a.txt"), 1);
+
+  CPPUNIT_ASSERT( (*_comparator)(f1, f2) == true );
 }
