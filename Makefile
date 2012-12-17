@@ -46,7 +46,7 @@ DEPS_OBJS = pugixml.o md5.o
 PROG_MAIN_SRC = main.cc
 
 TEST_DIR = unittest
-TEST_OBJS = filetest.o filesystemtest.o
+TEST_OBJS = filetest.o filesystemtest.o scannertest.o
 TEST_LIB = -lcppunit
 TEST_PROG_SRC = testrunner.cc
 
@@ -72,7 +72,7 @@ md5.o: $(LIB_DIR)/md5/md5c.c
 dist: .PHONY
 	@mkdir -p dist
 	ARCH=32 MINGWCXX=/usr/local/mingw32/bin/i686-w64-mingw32-g++ MINGWCC=/usr/local/mingw32/bin/i686-w64-mingw32-gcc $(MAKE) dist-win
-	ARCH=32 MINGWCXX=/usr/local/mingw64/bin/x86_64-w64-mingw32-gcc MINGWCC=/usr/local/mingw64/bin/x86_64-w64-mingw32-gcc $(MAKE) dist-win
+	ARCH=64 MINGWCXX=/usr/local/mingw64/bin/x86_64-w64-mingw32-g++ MINGWCC=/usr/local/mingw64/bin/x86_64-w64-mingw32-gcc $(MAKE) dist-win
 	
 dist-win:
 	@mkdir -p dist/win$(ARCH)

@@ -1,6 +1,10 @@
 #include "filesystem.h"
 
+#ifndef _WIN32
 #include <cstdlib>
+#else
+#include "win/realpath.h"
+#endif
 #include <string>
 
 namespace findd {
