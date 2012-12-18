@@ -21,6 +21,8 @@ Compile project source files :
 
 The executable will be generated in the root directory as `findd`.
 
+Windows user can compile the project using [MinGw](http://www.mingw.org/wiki/Getting_Started), then running `make` command will output a win32 compatible executable.
+
 ## Run tests
 
 Test files are located into `unittest/` directory. Run the test suites with :
