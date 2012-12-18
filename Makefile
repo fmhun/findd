@@ -39,7 +39,6 @@ SRC_DIR = src
 LIB_INCLUDE_DIR = ./include
 INCLUDES = -I$(LIB_INCLUDE_DIR)
 CFLAGS = $(INCLUDES)
-OMPFLAGS = -fopenmp
 
 SRC_OBJS = crypto.o filesystem.o utils.o storage.o file.o comparator.o engine.o scanner.o app.o terminal.o
 DEPS_OBJS = pugixml.o md5.o
@@ -63,11 +62,13 @@ findd: $(SRC_OBJS) $(DEPS_OBJS) $(PROG_MAIN_SRC:.cc=.o)
 
 pugixml.o: $(LIB_DIR)/pugixml/src/pugixml.cpp
 	$(CXX) -c $^ -o $@
-	@cp $(LIB_DIR)/pugixml/src/pugiconfig.hpp $(LIB_DIR)/pugixml/src/pugixml.hpp $(LIB_INCLUDE_DIR)
 
 md5.o: $(LIB_DIR)/md5/md5c.c
 	$(CC) -c $^ -o $@
-	@cp $(LIB_DIR)/md5/md5.h $(LIB_INCLUDE_DIR)
+
+include: .PHONY
+	cp $(LIB_DIR)/pugixml/src/pugiconfig.hpp $(LIB_DIR)/pugixml/src/pugixml.hpp $(LIB_INCLUDE_DIR)
+	cp $(LIB_DIR)/md5/md5.h $(LIB_INCLUDE_DIR)
 
 dist: .PHONY
 	@mkdir -p dist
