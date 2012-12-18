@@ -73,13 +73,12 @@ include: .PHONY
 dist: .PHONY
 	@mkdir -p dist
 	ARCH=32 MINGWCXX=/usr/local/mingw32/bin/i686-w64-mingw32-g++ MINGWCC=/usr/local/mingw32/bin/i686-w64-mingw32-gcc $(MAKE) dist-win
-	ARCH=64 MINGWCXX=/usr/local/mingw64/bin/x86_64-w64-mingw32-g++ MINGWCC=/usr/local/mingw64/bin/x86_64-w64-mingw32-gcc $(MAKE) dist-win
 	
 dist-win:
 	@mkdir -p dist/win$(ARCH)
 	$(MINGWCC) -c $(LIB_DIR)/md5/md5c.c -o md5-win$(ARCH).o
 	$(MINGWCXX) -c $(LIB_DIR)/pugixml/src/pugixml.cpp -o pugixml-win$(ARCH).o
-	$(MINGWCXX) $(CFLAGS) $(addprefix $(SRC_DIR)/,$(subst .o,.cc,$(SRC_OBJS))) $(SRC_DIR)/$(PROG_MAIN_SRC) md5-win$(ARCH).o pugixml-win$(ARCH).o -o dist/win$(ARCH)/findd.exe
+	$(MINGWCXX) -static-libgcc -static-libstdc++ $(CFLAGS) $(addprefix $(SRC_DIR)/,$(subst .o,.cc,$(SRC_OBJS))) $(SRC_DIR)/$(PROG_MAIN_SRC) md5-win$(ARCH).o pugixml-win$(ARCH).o -o dist/win$(ARCH)/findd.exe
 	@rm -f md5-win$(ARCH).o pugixml-win$(ARCH).o
 
 install: all
