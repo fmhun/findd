@@ -54,10 +54,12 @@ namespace findd {
   
   Scanner::~Scanner () {}
   
-  void Scanner::scan (const std::string &directory, const bool inc_hidden, const bool recursive) {
+  void Scanner::scan (const std::string &directory, 
+                      const bool inc_hidden, 
+                      const bool recursive) {
     using namespace std;
     using namespace filesystem;
-    
+
     string dir = trim_path(real_path(directory)); 
     
     if (is_already_scanned(dir))
@@ -81,10 +83,13 @@ namespace findd {
       }
       
       // Read dir content
-      while((entry = readdir(dp)) != NULL) {
+      while ((entry = readdir(dp)) != NULL) {
         string path = dir_concat(dir, string(entry->d_name));
+#ifndef _WIN32
+        lstat(path.c_str(), &statbuf);
+#else
         stat(path.c_str(), &statbuf);
-        
+#endif
         if (strcmp(".", entry->d_name) == 0 || strcmp("..", entry->d_name) == 0)
           continue;
         
@@ -93,7 +98,17 @@ namespace findd {
         
         if (S_ISDIR(statbuf.st_mode)) {
           dirs_to_scan.push_back(path);
-        } else {
+        } else if (S_ISLNK(statbuf.st_mode)) {
+          // TODO : Follow symbolic links
+          // char buf[1024];
+          // ssize_t len;
+          // cout << path;
+          // if ((len = readlink(path.c_str(), buf, sizeof(buf)-1)) != -1) {
+          //   buf[len] = '\0';
+          //   cout << " -> " <<buf;
+          // }
+          // cout << endl;
+        } else if (S_ISREG(statbuf.st_mode)) {
           _files.push_back(File(path, statbuf.st_size));
           _total_bytes_scanned += _files.back().size();
         }

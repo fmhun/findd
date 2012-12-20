@@ -102,8 +102,9 @@ namespace findd {
     }
     
     std::string real_path (const std::string &path) {
-      char resolved[1000];
-      return realpath(path.c_str(), resolved); 
+      char resolved[1024];
+      realpath(path.c_str(), resolved);
+      return resolved; 
     }
     
   } // end namespace filesystem

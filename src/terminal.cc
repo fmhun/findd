@@ -128,17 +128,18 @@ namespace findd {
           env->out_scan_file = optarg;
           break;
         case '?':
-          cout << "option inconnue" << endl;
+          usage();
           exit(EXIT_FAILURE);
           break;
-        case 0: // never reached
-          cout << "option format long" << endl;
+        default:
           break;
         }
       }
       
       // analyse options semantic
-      if (!env->directories.empty() && !env->in_scan_file.empty())
+      if (env->directories.empty() && env->in_scan_file.empty())
+        throw std::logic_error("missing option --scan or --restore");
+      else if (!env->directories.empty() && !env->in_scan_file.empty())
         throw std::logic_error("--scan and --restore options can not be used together");
       else if (!env->in_scan_file.empty() && env->comparator.mode() == 0)
         throw std::logic_error("--restore option requires one filter criteria at least [-NSC]");

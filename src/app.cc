@@ -103,9 +103,7 @@ namespace findd {
   using utils::Timer;
   using utils::Logger;
   
-  App::App () {
-    _logger = Logger::instance();
-  }
+  App::App () {}
   
   App::~App () {}
 
@@ -113,6 +111,7 @@ namespace findd {
     char logmsg[200];
     file_list files;
     Storage storage;
+    Logger *logger = Logger::instance();
     
     if (_env.in_scan_file.empty() == false) {
       
@@ -122,7 +121,7 @@ namespace findd {
       
       files = storage.restore(_env.in_scan_file);
       sprintf(logmsg, "restored scan from %s", _env.in_scan_file.c_str());
-      _logger->info(logmsg);
+      logger->info(logmsg);
     } else {
       
       if (_env.directories.empty() == false) {
@@ -133,14 +132,14 @@ namespace findd {
         Timer t; t.start();
         Scanner scanner;
         
-        _logger->info("starting scanning directories");
+        logger->info("starting scanning directories");
         for (unsigned int i = 0; i < _env.directories.size(); i++)
           scanner.scan(_env.directories[i], _env.include_hidden, _env.recursive);
         t.stop();
         
         files = scanner.files();
         sprintf(logmsg, "done scanning %i files",(int)files.size());
-        _logger->info(logmsg);
+        logger->info(logmsg);
         
         cerr << "Scanned " << files.size() << " files (" << scanner.total_bytes_scanned() << " bytes) in " << t.elapsed() << " seconds" << endl;
         
@@ -151,10 +150,10 @@ namespace findd {
         if (_env.out_scan_file.empty() == false) {
           storage.persist(files, _env.out_scan_file);
           sprintf(logmsg, "saved scan result into %s", _env.out_scan_file.c_str());
-          _logger->info(logmsg);
+          logger->info(logmsg);
         }
       } else {
-        _logger->error("no files entry (directories or backup file) was specified");
+        logger->error("no files entry (directories or backup file) was specified");
         throw std::logic_error("findd : no input parameter was specified to get files");
       }
     }
@@ -166,7 +165,7 @@ namespace findd {
     // ------------------------------------------------------------------------
     
     sprintf(logmsg, "search duplicates with mode : %i", _env.comparator.mode());
-    _logger->info(logmsg);
+    logger->info(logmsg);
     
     Engine engine;
     engine.search(files, _env.comparator);
@@ -188,6 +187,7 @@ namespace findd {
   }
   
   void App::ask_for_duplicate_removal (const duplicate &d) const {
+    Logger *logger = Logger::instance();
     string answer;
     cerr << "enter the file numbers you want to remove separated by a comma : ";
     cin >> answer;
@@ -204,7 +204,7 @@ namespace findd {
       
       char logmsg[200];
       sprintf(logmsg, "removed file %s", d[num].path().c_str());
-      _logger->info(logmsg);
+      logger->info(logmsg);
     } 
   }
     

@@ -68,9 +68,11 @@ namespace findd {
            << "\t--scan <DIRS>, -s :" << endl
            << "\t\tSpecify directories to scan separated by colon symbol (:). Ex : --scan /foo/bar:/bar/foo." << endl << endl
            << "\t--recursive, -r :" << endl
-           << "\t\tScan recusively the directories you specified with --scan option." << endl << endl
+           << "\t\tScan directories contained into directories you specified for --scan." << endl << endl
            << "\t--include-hidden :" << endl
            << "\t\tInclude hidden files when you scan directories." << endl << endl
+           << "\t--follow-symlink :" << endl
+           << "\t\tFollow symbolic links. It requires that the -r option is set." << endl << endl
            << "\t--restore <PATH>, -i :" << endl
            << "\t\tfind duplicates from a file previously saved by the program." << endl << endl
            << "\t--save <PATH>, -o :" << endl
