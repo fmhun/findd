@@ -56,7 +56,7 @@ namespace findd {
     
     void parse_command_line (const int argc, char **argv, env_t *env) {
       
-      const char *short_options = "hvrNSCs:i:o:";
+      const char *short_options = "hvrfNSCs:i:o:";
       
       static struct option long_options[] = 
       {
@@ -65,6 +65,7 @@ namespace findd {
         
         // scan option
         {"recursive", no_argument, 0, 'r'},
+        {"force", no_argument, 0, 'f'},
         {"include-hidden", no_argument, (int*)&env->include_hidden, 1},
         
         // scan params
@@ -108,6 +109,9 @@ namespace findd {
           break;
         case 'r':
           env->recursive = true;
+          break;
+        case 'f':
+          env->force = true;
           break;
         case 'N':
           env->comparator.enable(NAME);

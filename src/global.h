@@ -51,7 +51,9 @@ namespace findd {
   typedef struct std::vector<duplicate> duplicate_list; 
 
   struct env_t {
-    env_t () : recursive(false), remove(false), include_hidden(false), in_scan_file(""), out_scan_file("") {}
+    env_t () : recursive(false), remove(false), force(false),
+      include_hidden(false), in_scan_file(""), out_scan_file("") 
+    {}
   
     bool recursive;
     std::vector<std::string> directories;
@@ -60,6 +62,7 @@ namespace findd {
     Comparator comparator;
     bool remove;
     bool include_hidden;
+    bool force;
   };
 
 }

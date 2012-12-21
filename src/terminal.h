@@ -52,7 +52,7 @@ namespace findd {
     }
 
     inline void usage () {
-      cerr << "usage: findd --scan <DIRS> [--recursive] [--include-hidden] [--save <PATH>] [-NSC] [--remove]" << endl
+      cerr << "usage: findd --scan <DIRS> [--force] [--recursive] [--include-hidden] [--save <PATH>] [-NSC] [--remove]" << endl
            << "       findd --restore <PATH> [--save <PATH>] [-NSC] [--remove]" << endl;
     }
     
@@ -67,6 +67,8 @@ namespace findd {
            << "\t\tPrint the help message." << endl << endl
            << "\t--scan <DIRS>, -s :" << endl
            << "\t\tSpecify directories to scan separated by colon symbol (:). Ex : --scan /foo/bar:/bar/foo." << endl << endl
+           << "\t--force, -f :" << endl
+           << "\t\tForce process to continue if errors occur." << endl << endl
            << "\t--recursive, -r :" << endl
            << "\t\tScan directories contained into directories you specified for --scan." << endl << endl
            << "\t--include-hidden :" << endl

@@ -57,7 +57,8 @@ namespace findd {
   
   void Scanner::scan (const std::string &directory, 
                       const bool inc_hidden, 
-                      const bool recursive) {
+                      const bool recursive,
+                      const bool force) {
     using namespace std;
     using namespace filesystem;
 
@@ -80,7 +81,12 @@ namespace findd {
       
       if ((dp = opendir(dir.c_str())) == NULL) {
         string error = dir; error += " : "; error += strerror(errno);
-        throw std::logic_error(error);
+        if (!force)
+          throw std::logic_error(error);
+        else {
+          cerr << "WARNING : " << error << endl; 
+          continue;
+        }
       }
       
       // Read dir content

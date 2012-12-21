@@ -134,7 +134,7 @@ namespace findd {
         
         logger->info("starting scanning directories");
         for (unsigned int i = 0; i < _env.directories.size(); i++)
-          scanner.scan(_env.directories[i], _env.include_hidden, _env.recursive);
+          scanner.scan(_env.directories[i], _env.include_hidden, _env.recursive, _env.force);
         t.stop();
         
         files = scanner.files();
