@@ -49,6 +49,9 @@ namespace findd {
     using std::cerr;
     using std::endl;
     
+#ifdef _WIN32
+    const char *DIR_ARG_SEPARATOR = ";";
+#endif
     const char *DIR_ARG_SEPARATOR = ":";
     
     void parse_command_line (const int argc, char **argv, env_t *env) {
@@ -77,6 +80,7 @@ namespace findd {
         {"compare-size", no_argument, 0, 'S'},
         {"compare-content", no_argument, 0, 'C'},
         
+          // TODO : verbosity
         {0,0,0,0}
       };
       

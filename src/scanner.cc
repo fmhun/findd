@@ -40,6 +40,7 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <string.h>
 #include <sys/stat.h>
 #include <stdlib.h>
+#include <errno.h>
 #include <stdexcept>
 
 #include "file.h"
@@ -78,7 +79,7 @@ namespace findd {
       struct stat statbuf;
       
       if ((dp = opendir(dir.c_str())) == NULL) {
-        string error = "can not open "; error += dir;
+        string error = dir; error += " : "; error += strerror(errno);
         throw std::logic_error(error);
       }
       
@@ -98,6 +99,7 @@ namespace findd {
         
         if (S_ISDIR(statbuf.st_mode)) {
           dirs_to_scan.push_back(path);
+#ifndef _WIN32
         } else if (S_ISLNK(statbuf.st_mode)) {
           // TODO : Follow symbolic links
           // char buf[1024];
@@ -108,6 +110,7 @@ namespace findd {
           //   cout << " -> " <<buf;
           // }
           // cout << endl;
+#endif
         } else if (S_ISREG(statbuf.st_mode)) {
           _files.push_back(File(path, statbuf.st_size));
           _total_bytes_scanned += _files.back().size();
