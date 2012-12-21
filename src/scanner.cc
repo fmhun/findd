@@ -81,7 +81,7 @@ namespace findd {
       
       if ((dp = opendir(dir.c_str())) == NULL) {
         string error = dir; error += " : "; error += strerror(errno);
-        if (!force)
+        if (!force || errno == ENOENT || errno == ENOTDIR)
           throw std::logic_error(error);
         else {
           cerr << "WARNING : " << error << endl; 
