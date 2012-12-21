@@ -51,9 +51,10 @@ namespace findd {
     
 #ifdef _WIN32
     const char *DIR_ARG_SEPARATOR = ";";
-#endif
+#else
     const char *DIR_ARG_SEPARATOR = ":";
-    
+#endif
+        
     void parse_command_line (const int argc, char **argv, env_t *env) {
       
       const char *short_options = "hvrfNSCs:i:o:";
