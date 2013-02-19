@@ -1,6 +1,6 @@
 #Installation
 
-For linux and darwin platforms, just run the following commands :
+For unix platforms, just run the following commands :
 
 	$ make
 	$ make install
@@ -21,7 +21,7 @@ Compile project source files :
 
 The executable will be generated in the root directory as `findd`.
 
-Windows user can compile the project using [MinGw](http://www.mingw.org/wiki/Getting_Started), then running `make` command will output a win32 compatible executable.
+Windows users can compile the project using [MinGw](http://www.mingw.org/wiki/Getting_Started), then running `make` command will output a win32 compatible executable.
 
 ## Run tests
 
@@ -31,7 +31,7 @@ Test files are located into `unittest/` directory. Run the test suites with :
 
 # Code
 
-For developer, you should respect these rules before submitting your changes :
+For developers, you should respect the following rules before submitting your changes :
 
 + Don't push your code if it doesn't compile. 
 + Use 2 spaces for indentation (no tabs).
@@ -42,4 +42,4 @@ For developer, you should respect these rules before submitting your changes :
 
 This software is under BSD license. View the LICENSE file for terms of use.
 
-Copyright © 2012 Florian Mhun, Sara Ressam, Jérôme Cornet, Bastien Nouhant, from University of Poitier (FR).
+Copyright © 2012 Florian Mhun, Sara Ressam, Jérôme Cornet, Bastien Nouhant, from University of Poitiers (FR).
